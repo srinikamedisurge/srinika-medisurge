@@ -345,7 +345,7 @@ function renderHomePage() {
           ${homeDoctors.slice(0, 3).map(doc => `
             <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
               <div>
-                <div class="w-full h-52 rounded-2xl overflow-hidden mb-4 bg-slate-100">
+                <div class="w-full aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-slate-100">
                   <img src="/${doc.image}" alt="${doc.name} - ${doc.specialty}" width="340" height="260" class="w-full h-full object-cover object-top transition duration-500 group-hover:scale-105" loading="lazy">
                 </div>
                 <div class="flex flex-wrap gap-1 mb-2">
@@ -371,11 +371,11 @@ function renderHomePage() {
         </div>
 
         <!-- Second Row: Centered 2 Cards on Desktop -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto mt-6 lg:mt-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl lg:max-w-[760px] mx-auto mt-6 lg:mt-8">
           ${homeDoctors.slice(3, 5).map(doc => `
             <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
               <div>
-                <div class="w-full h-52 rounded-2xl overflow-hidden mb-4 bg-slate-100">
+                <div class="w-full aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-slate-100">
                   <img src="/${doc.image}" alt="${doc.name} - ${doc.specialty}" width="340" height="260" class="w-full h-full object-cover object-top transition duration-500 group-hover:scale-105" loading="lazy">
                 </div>
                 <div class="flex flex-wrap gap-1 mb-2">

@@ -391,7 +391,7 @@
     <div class="py-12 sm:py-20 bg-slate-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         
-        <!-- INTERACTIVE COST ESTIMATOR (Moved from homepage & Bug Fixed) -->
+        <!-- INTERACTIVE COST ESTIMATOR -->
         <div id="calculator" class="max-w-3xl mx-auto bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-xl">
           <div class="text-center mb-8">
             <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
@@ -411,20 +411,26 @@
                 Select Medical Service *
               </label>
               <select id="calc-service" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-sky-500 outline-none font-medium text-slate-800">
-                <option value="wound-dressing-basic">Basic Surgical Wound Dressing (₹399)</option>
-                <option value="wound-dressing-complex">Complex Diabetic / Bed Sore Dressing (₹699)</option>
-                <option value="catheter-insertion">Urinary Catheterization (Foley/Silicone) (₹599)</option>
-                <option value="ryles-tube">Ryle's Tube / NG Feeding Tube Insertion (₹699)</option>
-                <option value="iv-infusion">IV Fluid Infusion / Drip Administration (₹449)</option>
-                <option value="im-injection">IM / SC Injection & Vitals Check (₹299)</option>
+                <option value="wound-dressing-small">Surgical Wound Dressing (Small) (₹500)</option>
+                <option value="wound-dressing-medium">Surgical Wound Dressing (Medium) (₹1,000)</option>
+                <option value="wound-dressing-large">Surgical Wound Dressing (Large) (₹1,500)</option>
+                <option value="catheter-insertion">Urinary Catheterization (Foley/Silicone) (₹999)</option>
+                <option value="ryles-tube">Ryle's Tube / NG Feeding Tube Insertion (₹999)</option>
+                <option value="drain-out">Surgical Drain Out / Drainage Care (₹999)</option>
+                <option value="nebulization">Nebulization & Demonstration (₹500)</option>
+                <option value="enema-pr">Enema PR Insertion (₹600)</option>
+                <option value="tracheostomy-care">Tracheostomy Care & Suctioning (₹300)</option>
+                <option value="tracheostomy-change">Tracheostomy Tube Change (₹2,000)</option>
+                <option value="tracheostomy-out">Tracheostomy Out (Decannulation) (₹2,000)</option>
+                <option value="iv-injection">IV Injection Administration (₹399)</option>
+                <option value="im-injection">IM / SC Injection Administration (₹299)</option>
+                <option value="nurse-morning">Nursing Duty - Morning Shift (7h) (₹999)</option>
+                <option value="nurse-evening">Nursing Duty - Evening Shift (7h) (₹999)</option>
+                <option value="nurse-night">Nursing Duty - Night Shift (10h) (₹1,299)</option>
+                <option value="diaper-urine">Diaper Change & Urine Empty (₹500)</option>
                 <option value="consultation-online">Online Doctor Video Consultation (₹500)</option>
                 <option value="consultation-doorstep">Doctor Consultation At Door Step (Within 5km) (₹2,000)</option>
                 <option value="physiotherapy-doorstep">Physiotherapy At Door Step Session (₹600)</option>
-                <option value="patient-care-12h">12-Hour Patient Care / Attendant (₹999)</option>
-                <option value="patient-care-24h">24-Hour Patient Care / Attendant (₹1,799)</option>
-                <option value="bipap-setup">BiPAP Machine & Critical Respiratory Support (₹1,200)</option>
-                <option value="nebulization">Nebulization Therapy Session (₹350)</option>
-                <option value="vitals-ecg">Full Vitals & Sugar / ECG Checkup (₹499)</option>
               </select>
             </div>
 
@@ -457,7 +463,7 @@
             <div class="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div>
                 <span class="text-xs text-slate-400 uppercase font-bold block">Estimated Amount</span>
-                <span id="calc-total-display" class="text-3xl sm:text-4xl font-black text-brand-700">₹399</span>
+                <span id="calc-total-display" class="text-3xl sm:text-4xl font-black text-brand-700">₹500</span>
                 <span class="text-[11px] text-slate-500 block">Includes sterile disposable consumables</span>
               </div>
 
@@ -496,13 +502,241 @@
               <thead>
                 <tr class="bg-slate-100 text-slate-700 text-xs uppercase tracking-wider">
                   <th class="p-3.5 font-bold border border-slate-200">Service Category</th>
-                  <th class="p-3.5 font-bold border border-slate-200">Service Name</th>
+                  <th class="p-3.5 font-bold border border-slate-200">Service / Rental Name</th>
                   <th class="p-3.5 font-bold border border-slate-200">Fee (INR)</th>
                   <th class="p-3.5 font-bold border border-slate-200">What's Included</th>
                   <th class="p-3.5 font-bold border border-slate-200">Action</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-200 text-xs sm:text-sm">
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Surgical Dressing</td>
+                    <td class="p-3.5 font-bold text-slate-900">Surgical Wound Dressing (Small)</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹500 / session</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Hospital-grade sterile dressing, stitch care, and antiseptic cleaning for minor wounds/stitches.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=Surgical%20Wound%20Dressing%20(Small)" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Surgical Dressing</td>
+                    <td class="p-3.5 font-bold text-slate-900">Surgical Wound Dressing (Medium)</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹1,000 / session</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Sterile dressing pack for post-operative incisions, laparotomy, or medium open wounds.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=Surgical%20Wound%20Dressing%20(Medium)" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Surgical Dressing</td>
+                    <td class="p-3.5 font-bold text-slate-900">Surgical Wound Dressing (Large)</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹1,500 / session</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Advanced sterile dressing for deep bed sores (Grade 3-4), diabetic ulcers, and extensive surgical sites.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=Surgical%20Wound%20Dressing%20(Large)" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Catheter Care</td>
+                    <td class="p-3.5 font-bold text-slate-900">Urinary Catheterization (Foley / Silicone)</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹999 / procedure</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Aseptic Foley or 100% silicone catheter insertion/change with 2% Lignocaine jelly and sterile urobag.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=Urinary%20Catheterization%20(Foley%20%2F%20Silicone)" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Catheter Care</td>
+                    <td class="p-3.5 font-bold text-slate-900">Ryle's Tube / NG Feeding Tube Insertion</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹999 / procedure</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Sterile nasogastric tube insertion, placement confirmation by auscultation, and feeding demonstration.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=Ryle's%20Tube%20%2F%20NG%20Feeding%20Tube%20Insertion" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Surgical Care</td>
+                    <td class="p-3.5 font-bold text-slate-900">Surgical Drain Out / Drainage Care</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹999 / procedure</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Sterile drain emptying, measuring fluid, bulb recharge, and sterile dressing at drain exit site.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=Surgical%20Drain%20Out%20%2F%20Drainage%20Care" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Respiratory Care</td>
+                    <td class="p-3.5 font-bold text-slate-900">Nebulization & Demonstration</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹500 (One-time)</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Compressor nebulizer setup, bronchodilator respule administration, and chest recovery guidance.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=Nebulization%20%26%20Demonstration" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Nursing Procedures</td>
+                    <td class="p-3.5 font-bold text-slate-900">Enema PR Insertion & Bowel Care</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹600 / procedure</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Gentle PR enema administration, relief of fecal impaction, and post-procedure hygiene.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=Enema%20PR%20Insertion%20%26%20Bowel%20Care" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Tracheostomy Care</td>
+                    <td class="p-3.5 font-bold text-slate-900">Tracheostomy Care & Suctioning</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹300 / session</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Inner cannula cleaning, sterile airway suctioning, stoma skin dressing, and tie change.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=Tracheostomy%20Care%20%26%20Suctioning" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Tracheostomy Care</td>
+                    <td class="p-3.5 font-bold text-slate-900">Tracheostomy Tube Change</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹2,000 / procedure</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Sterile tracheostomy tube replacement by experienced clinical staff under medical protocol.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=Tracheostomy%20Tube%20Change" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Tracheostomy Care</td>
+                    <td class="p-3.5 font-bold text-slate-900">Tracheostomy Out (Decannulation)</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹2,000 / procedure</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Clinical tube removal, stoma occlusion dressing, and post-decannulation respiratory monitoring.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=Tracheostomy%20Out%20(Decannulation)" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Injections & IV</td>
+                    <td class="p-3.5 font-bold text-slate-900">IV Injection Administration</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹399 / visit</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Painless IV cannulation and intravenous drug administration with sterile disposable syringe.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=IV%20Injection%20Administration" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Injections & IV</td>
+                    <td class="p-3.5 font-bold text-slate-900">IM / SC Injection Administration</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹299 / visit</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Intramuscular or subcutaneous injection with vital signs check.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=IM%20%2F%20SC%20Injection%20Administration" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Injections & IV</td>
+                    <td class="p-3.5 font-bold text-slate-900">IV Fluid Infusion Therapy</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">As per patient need</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Normal Saline (NS), Ringer Lactate (RL), or D5 infusion with continuous flow-rate monitoring.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=IV%20Fluid%20Infusion%20Therapy" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Nursing Shifts</td>
+                    <td class="p-3.5 font-bold text-slate-900">Nursing Duty - Morning Shift (7 Hours)</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹999 / shift</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">7-hour morning day shift certified GNM/B.Sc nurse: vitals, medicine, IV, feeding, and recovery care.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=Nursing%20Duty%20-%20Morning%20Shift%20(7%20Hours)" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Nursing Shifts</td>
+                    <td class="p-3.5 font-bold text-slate-900">Nursing Duty - Evening Shift (7 Hours)</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹999 / shift</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">7-hour evening day shift certified nurse for vital monitoring, oral/IV medications, and patient comfort.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=Nursing%20Duty%20-%20Evening%20Shift%20(7%20Hours)" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Nursing Shifts</td>
+                    <td class="p-3.5 font-bold text-slate-900">Nursing Duty - Night Shift (10 Hours)</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹1,299 / shift</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">10-hour dedicated night nursing care for critical, elderly, or post-surgical monitoring.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=Nursing%20Duty%20-%20Night%20Shift%20(10%20Hours)" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Attendant & Hygiene</td>
+                    <td class="p-3.5 font-bold text-slate-900">Diaper Change & Urine Bag Emptying</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹500 / session</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Bedside sponge bath, gentle diaper change, skin rash cream application, and urine bag empty.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=Diaper%20Change%20%26%20Urine%20Bag%20Emptying" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Doctor Consultation</td>
+                    <td class="p-3.5 font-bold text-slate-900">Doctor Home Visit (Within 5km)</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹2,000 / visit</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Comprehensive physical checkup, diagnosis, vital evaluation & prescription at home.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=Doctor%20Home%20Visit%20(Within%205km)" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
                 
                   <tr class="hover:bg-slate-50/80 transition">
                     <td class="p-3.5 font-semibold text-slate-500 text-xs">Doctor Consultation</td>
@@ -517,168 +751,108 @@
                   </tr>
                 
                   <tr class="hover:bg-slate-50/80 transition">
-                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Doctor Consultation</td>
-                    <td class="p-3.5 font-bold text-slate-900">Doctor Consultation At Door Step (Within 5km)</td>
-                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹2,000 / visit</td>
-                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Comprehensive physical checkup, diagnosis, vital evaluation & prescription at home.</td>
-                    <td class="p-3.5 whitespace-nowrap">
-                      <a href="/book/?service=Doctor%20Consultation%20At%20Door%20Step%20(Within%205km)" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
-                        Book
-                      </a>
-                    </td>
-                  </tr>
-                
-                  <tr class="hover:bg-slate-50/80 transition">
                     <td class="p-3.5 font-semibold text-slate-500 text-xs">Physiotherapy</td>
-                    <td class="p-3.5 font-bold text-slate-900">Physiotherapy At Door Step Session</td>
+                    <td class="p-3.5 font-bold text-slate-900">Physiotherapy at Doorstep Session</td>
                     <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹600 / session</td>
                     <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Targeted 45-60 min neuro/ortho rehab by certified BPT/MPT therapist with electrotherapy.</td>
                     <td class="p-3.5 whitespace-nowrap">
-                      <a href="/book/?service=Physiotherapy%20At%20Door%20Step%20Session" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                      <a href="/book/?service=Physiotherapy%20at%20Doorstep%20Session" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
                         Book
                       </a>
                     </td>
                   </tr>
                 
                   <tr class="hover:bg-slate-50/80 transition">
-                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Nursing & Attendant</td>
-                    <td class="p-3.5 font-bold text-slate-900">12-Hour Patient Care / Attendant (Day or Night)</td>
-                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹999 / shift</td>
-                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Bedside assistance, mobility, feeding, hygiene, diaper change, and oral medicine support.</td>
-                    <td class="p-3.5 whitespace-nowrap">
-                      <a href="/book/?service=12-Hour%20Patient%20Care%20%2F%20Attendant%20(Day%20or%20Night)" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
-                        Book
-                      </a>
-                    </td>
-                  </tr>
-                
-                  <tr class="hover:bg-slate-50/80 transition">
-                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Nursing & Attendant</td>
-                    <td class="p-3.5 font-bold text-slate-900">24-Hour Patient Care / Attendant (Live-in)</td>
-                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹1,799 / 24h</td>
-                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Continuous round-the-clock bedside attendant care for bedridden or elderly patients.</td>
-                    <td class="p-3.5 whitespace-nowrap">
-                      <a href="/book/?service=24-Hour%20Patient%20Care%20%2F%20Attendant%20(Live-in)" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
-                        Book
-                      </a>
-                    </td>
-                  </tr>
-                
-                  <tr class="hover:bg-slate-50/80 transition">
-                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Surgical Dressing</td>
-                    <td class="p-3.5 font-bold text-slate-900">Basic Surgical Wound Dressing</td>
-                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹399 / session</td>
-                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Hospital-grade sterile dressing, stitch care, and antiseptic cleaning with disposable kit.</td>
-                    <td class="p-3.5 whitespace-nowrap">
-                      <a href="/book/?service=Basic%20Surgical%20Wound%20Dressing" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
-                        Book
-                      </a>
-                    </td>
-                  </tr>
-                
-                  <tr class="hover:bg-slate-50/80 transition">
-                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Surgical Dressing</td>
-                    <td class="p-3.5 font-bold text-slate-900">Complex Diabetic Ulcer / Bed Sore Dressing</td>
-                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹699 / session</td>
-                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Advanced collagen/foam dressing for Grade 1-4 pressure sores and non-healing ulcers.</td>
-                    <td class="p-3.5 whitespace-nowrap">
-                      <a href="/book/?service=Complex%20Diabetic%20Ulcer%20%2F%20Bed%20Sore%20Dressing" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
-                        Book
-                      </a>
-                    </td>
-                  </tr>
-                
-                  <tr class="hover:bg-slate-50/80 transition">
-                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Catheter Care</td>
-                    <td class="p-3.5 font-bold text-slate-900">Urinary Catheterization (Foley / Silicone)</td>
-                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹599 / procedure</td>
-                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Painless aseptic insertion/change with 2% Lignocaine jelly, sterile tray, and urobag.</td>
-                    <td class="p-3.5 whitespace-nowrap">
-                      <a href="/book/?service=Urinary%20Catheterization%20(Foley%20%2F%20Silicone)" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
-                        Book
-                      </a>
-                    </td>
-                  </tr>
-                
-                  <tr class="hover:bg-slate-50/80 transition">
-                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Catheter Care</td>
-                    <td class="p-3.5 font-bold text-slate-900">Ryle's Tube / NG Feeding Tube Insertion</td>
-                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹699 / procedure</td>
-                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Sterile nasogastric tube insertion, stethoscope placement confirmation, and feeding demo.</td>
-                    <td class="p-3.5 whitespace-nowrap">
-                      <a href="/book/?service=Ryle's%20Tube%20%2F%20NG%20Feeding%20Tube%20Insertion" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
-                        Book
-                      </a>
-                    </td>
-                  </tr>
-                
-                  <tr class="hover:bg-slate-50/80 transition">
-                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Injections & IV</td>
-                    <td class="p-3.5 font-bold text-slate-900">IV Fluid Infusion / Drip Administration</td>
-                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹449 / infusion</td>
-                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Aseptic IV cannulation with heparin lock, Normal Saline/RL infusion, and vital monitoring.</td>
-                    <td class="p-3.5 whitespace-nowrap">
-                      <a href="/book/?service=IV%20Fluid%20Infusion%20%2F%20Drip%20Administration" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
-                        Book
-                      </a>
-                    </td>
-                  </tr>
-                
-                  <tr class="hover:bg-slate-50/80 transition">
-                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Injections & IV</td>
-                    <td class="p-3.5 font-bold text-slate-900">IM / SC Injection & Vitals Check</td>
-                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹299 / visit</td>
-                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Sterile intramuscular or subcutaneous injection with disposable syringe and vitals check.</td>
-                    <td class="p-3.5 whitespace-nowrap">
-                      <a href="/book/?service=IM%20%2F%20SC%20Injection%20%26%20Vitals%20Check" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
-                        Book
-                      </a>
-                    </td>
-                  </tr>
-                
-                  <tr class="hover:bg-slate-50/80 transition">
-                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Critical Care</td>
-                    <td class="p-3.5 font-bold text-slate-900">BiPAP Machine & Critical Respiratory Setup</td>
-                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹1,200 / setup</td>
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Equipment Rental</td>
+                    <td class="p-3.5 font-bold text-slate-900">BiPAP Machine Support</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹750 / Day + Conveyance</td>
                     <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Dual-pressure titration, mask fitting, humidifier maintenance, and continuous SpO2 check.</td>
                     <td class="p-3.5 whitespace-nowrap">
-                      <a href="/book/?service=BiPAP%20Machine%20%26%20Critical%20Respiratory%20Setup" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                      <a href="/book/?service=BiPAP%20Machine%20Support" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
                         Book
                       </a>
                     </td>
                   </tr>
                 
                   <tr class="hover:bg-slate-50/80 transition">
-                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Critical Care</td>
-                    <td class="p-3.5 font-bold text-slate-900">Nebulization Therapy Session</td>
-                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹350 / session</td>
-                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">High-power compressor nebulization with bronchodilator respules and chest clearance.</td>
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Equipment Rental</td>
+                    <td class="p-3.5 font-bold text-slate-900">Oxygen Concentrator (5 Litre)</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹500 / Day + Conveyance</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Continuous 5L medical-grade oxygen output (93% ± 3%) with nasal cannula and humidifier.</td>
                     <td class="p-3.5 whitespace-nowrap">
-                      <a href="/book/?service=Nebulization%20Therapy%20Session" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                      <a href="/book/?service=Oxygen%20Concentrator%20(5%20Litre)" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
                         Book
                       </a>
                     </td>
                   </tr>
                 
                   <tr class="hover:bg-slate-50/80 transition">
-                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Diagnostics</td>
-                    <td class="p-3.5 font-bold text-slate-900">Full Vitals & Blood Sugar / Digital ECG Check</td>
-                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹499 / checkup</td>
-                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">12-lead digital ECG tracing, Blood Pressure, Pulse, SpO2, Temperature & Sugar profile.</td>
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Equipment Rental</td>
+                    <td class="p-3.5 font-bold text-slate-900">B-Type Oxygen Cylinder & Regulator</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹2,000 / Month + Conveyance</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Emergency portable medical oxygen cylinder with double gauge regulator and flowmeter.</td>
                     <td class="p-3.5 whitespace-nowrap">
-                      <a href="/book/?service=Full%20Vitals%20%26%20Blood%20Sugar%20%2F%20Digital%20ECG%20Check" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                      <a href="/book/?service=B-Type%20Oxygen%20Cylinder%20%26%20Regulator" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
                         Book
                       </a>
                     </td>
                   </tr>
                 
                   <tr class="hover:bg-slate-50/80 transition">
-                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Diagnostics</td>
-                    <td class="p-3.5 font-bold text-slate-900">Diagnostic Sample Collection at Home</td>
-                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">From ₹299 + test MRP</td>
-                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Sterile blood/urine collection by trained phlebotomist; prompt digital reports on WhatsApp.</td>
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Equipment Rental</td>
+                    <td class="p-3.5 font-bold text-slate-900">Vital Monitor (Multi-Para Bedside)</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹300 / Day + Conveyance</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Continuous ECG, Pulse, NIBP Blood Pressure, SpO2, and Body Temperature tracking.</td>
                     <td class="p-3.5 whitespace-nowrap">
-                      <a href="/book/?service=Diagnostic%20Sample%20Collection%20at%20Home" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                      <a href="/book/?service=Vital%20Monitor%20(Multi-Para%20Bedside)" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Equipment Rental</td>
+                    <td class="p-3.5 font-bold text-slate-900">Medical Suction Machine</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹150 / Day + Conveyance</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Airway secretion clearance for tracheostomy, stroke, and bedridden patients.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=Medical%20Suction%20Machine" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Equipment Rental</td>
+                    <td class="p-3.5 font-bold text-slate-900">Hospital Patient Bed</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹200 / Day + Conveyance</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Adjustable backrest elevation, safety side railings, and hospital-grade mattress.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=Hospital%20Patient%20Bed" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Equipment Rental</td>
+                    <td class="p-3.5 font-bold text-slate-900">Infusion Pump / Syringe Pump</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹300 / Day + Conveyance</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Micro-controlled precise volumetric drug delivery with safety occlusion alarms.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=Infusion%20Pump%20%2F%20Syringe%20Pump" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                
+                  <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5 font-semibold text-slate-500 text-xs">Equipment Rental</td>
+                    <td class="p-3.5 font-bold text-slate-900">ICU Ventilator Machine Support</td>
+                    <td class="p-3.5 font-black text-brand-700 whitespace-nowrap">₹3,000 / Day + Conveyance</td>
+                    <td class="p-3.5 text-slate-600 text-xs leading-relaxed max-w-xs">Life-support invasive & non-invasive mechanical ventilation under physician oversight.</td>
+                    <td class="p-3.5 whitespace-nowrap">
+                      <a href="/book/?service=ICU%20Ventilator%20Machine%20Support" class="text-xs bg-sky-50 hover:bg-sky-600 text-sky-700 hover:text-white font-bold py-1.5 px-3 rounded-lg border border-sky-200 transition">
                         Book
                       </a>
                     </td>
