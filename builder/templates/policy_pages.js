@@ -1,4 +1,5 @@
 const CONFIG = require('../../site.config.js');
+const { P } = require('../data/price_lines.js');
 
 function renderPrivacyPolicy() {
   return `
@@ -107,7 +108,7 @@ function renderRefundPolicy() {
             At <strong>${CONFIG.brandName}</strong>, we strive to deliver compassionate, prompt, and reliable medical care. We understand that medical schedules and patient conditions can change rapidly. Our refund and cancellation policy is outlined below.
           </p>
 
-          <h2 class="text-lg font-bold text-slate-900 mt-6">1. Online Doctor Video Consultation (₹500 Fee)</h2>
+          <h2 class="text-lg font-bold text-slate-900 mt-6">1. Online Doctor Video Consultation (${P('consult-online')} Fee)</h2>
           <ul class="list-disc pl-5 space-y-2">
             <li><strong>Cancellation by Patient:</strong> If you cancel your online consultation at least 30 minutes before the scheduled time slot, a 100% full refund will be processed to your original payment method.</li>
             <li><strong>Doctor Unavailability:</strong> If our doctor is unable to connect due to an unforeseen emergency, you may choose to reschedule or receive an immediate 100% refund.</li>

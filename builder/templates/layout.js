@@ -1,4 +1,5 @@
 const CONFIG = require('../../site.config.js');
+const { P } = require('../data/price_lines.js');
 
 function renderBreadcrumbSchema(items) {
   if (!items || items.length === 0) return '';
@@ -364,7 +365,7 @@ function renderMasterLayout({
                   <i class="fa-solid fa-list-ul mr-2 text-sky-500"></i> All Doorstep Services
                 </a>
                 <a href="/services/online-doctor-consultation/" class="block px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-sky-50 hover:text-sky-600">
-                  <i class="fa-solid fa-video mr-2 text-sky-500"></i> Online Consultation (₹500)
+                  <i class="fa-solid fa-video mr-2 text-sky-500"></i> Online Consultation (${P('consult-online')})
                 </a>
                 <a href="/equipment/" class="block px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-sky-50 hover:text-sky-600 border-t border-slate-100">
                   <i class="fa-solid fa-lungs mr-2 text-rose-500"></i> Medical Equipment (BiPAP)
@@ -521,17 +522,17 @@ function renderMasterLayout({
             Doorstep Services
           </p>
           <ul class="space-y-2 text-xs">
-            <li><a href="/services/doctor-home-visit-lucknow/" class="hover:text-sky-400 transition">Doctor Home Visit (₹2,000)</a></li>
-            <li><a href="/services/online-doctor-consultation/" class="hover:text-sky-400 transition">Online Doctor Consultation (₹500)</a></li>
-            <li><a href="/services/home-nursing-lucknow/" class="hover:text-sky-400 transition">Home Nursing Procedures (From ₹299)</a></li>
-            <li><a href="/services/patient-attendant-lucknow/" class="hover:text-sky-400 transition">12-Hr / 24-Hr Patient Attendant (From ₹999)</a></li>
-            <li><a href="/services/wound-dressing-at-home-lucknow/" class="hover:text-sky-400 transition">Surgical Wound Dressing (₹399)</a></li>
-            <li><a href="/services/urinary-catheterization-at-home-lucknow/" class="hover:text-sky-400 transition">Urinary Catheterization (₹599)</a></li>
-            <li><a href="/services/ng-tube-insertion-at-home-lucknow/" class="hover:text-sky-400 transition">Ryle's / NG Tube Insertion (₹699)</a></li>
-            <li><a href="/services/iv-drip-injection-at-home-lucknow/" class="hover:text-sky-400 transition">IV Drips & Injections (From ₹299)</a></li>
-            <li><a href="/services/physiotherapy-at-home-lucknow/" class="hover:text-sky-400 transition">Physiotherapy at Home (₹600)</a></li>
-            <li><a href="/services/bipap-oxygen-support-at-home-lucknow/" class="hover:text-sky-400 transition">BiPAP & Oxygen Support (₹1,200)</a></li>
-            <li><a href="/services/nebulization-vitals-ecg-at-home/" class="hover:text-sky-400 transition">Nebulization Therapy (₹350)</a></li>
+            <li><a href="/services/doctor-home-visit-lucknow/" class="hover:text-sky-400 transition">Doctor Home Visit (${P('consult-doorstep')})</a></li>
+            <li><a href="/services/online-doctor-consultation/" class="hover:text-sky-400 transition">Online Doctor Consultation (${P('consult-online')})</a></li>
+            <li><a href="/services/home-nursing-lucknow/" class="hover:text-sky-400 transition">Home Nursing Procedures (From ${P('im-injection')})</a></li>
+            <li><a href="/services/patient-attendant-lucknow/" class="hover:text-sky-400 transition">12-Hr / 24-Hr Patient Attendant (From ${P('patient-care-12h')})</a></li>
+            <li><a href="/services/wound-dressing-at-home-lucknow/" class="hover:text-sky-400 transition">Surgical Wound Dressing (From ${P('wound-dressing-small')})</a></li>
+            <li><a href="/services/urinary-catheterization-at-home-lucknow/" class="hover:text-sky-400 transition">Urinary Catheterization (${P('catheter-insertion')})</a></li>
+            <li><a href="/services/ng-tube-insertion-at-home-lucknow/" class="hover:text-sky-400 transition">Ryle's / NG Tube Insertion (${P('ryles-tube')})</a></li>
+            <li><a href="/services/iv-drip-injection-at-home-lucknow/" class="hover:text-sky-400 transition">IV Drips & Injections (From ${P('im-injection')})</a></li>
+            <li><a href="/services/physiotherapy-at-home-lucknow/" class="hover:text-sky-400 transition">Physiotherapy at Home (${P('physiotherapy-doorstep')})</a></li>
+            <li><a href="/services/bipap-oxygen-support-at-home-lucknow/" class="hover:text-sky-400 transition">BiPAP & Oxygen Support (${P('bipap-setup')})</a></li>
+            <li><a href="/services/nebulization-vitals-ecg-at-home/" class="hover:text-sky-400 transition">Nebulization Therapy (${P('nebulization')})</a></li>
             <li><a href="/services/" class="text-sky-400 font-bold hover:underline pt-1 inline-block">View All Services →</a></li>
           </ul>
         </div>
@@ -643,6 +644,7 @@ function renderMasterLayout({
   </div>
 
   <!-- Core JavaScript -->
+  <script src="/assets/js/price-lines.js" defer></script>
   <script src="/assets/js/main.js" defer></script>
 </body>
 </html>`;

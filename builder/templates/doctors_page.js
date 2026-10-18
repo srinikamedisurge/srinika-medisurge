@@ -1,4 +1,5 @@
 const CONFIG = require('../../site.config.js');
+const { P } = require('../data/price_lines.js');
 const DOCTORS = require('../data/doctors.js');
 
 function renderDoctorsPage() {
@@ -95,7 +96,7 @@ function renderDoctorsPage() {
               <tbody class="divide-y divide-slate-200 text-xs sm:text-sm">
                 <tr>
                   <td class="p-3 font-semibold text-slate-800">Online Doctor Video Consultation</td>
-                  <td class="p-3 font-black text-emerald-600">₹500 flat</td>
+                  <td class="p-3 font-black text-emerald-600">${P('consult-online')} flat</td>
                   <td class="p-3 text-slate-600">Direct Video / Tele-Call with Dr. Piyush Saxena or Specialists; digital prescription on WhatsApp</td>
                   <td class="p-3"><a href="/book/?service=Online%20Doctor%20Consultation" class="text-sky-600 font-bold hover:underline">Book ₹500</a></td>
                 </tr>
@@ -113,7 +114,7 @@ function renderDoctorsPage() {
                 </tr>
                 <tr>
                   <td class="p-3 font-semibold text-slate-800">Certified Nurse Procedure Visit</td>
-                  <td class="p-3 font-black text-slate-900">From ₹299</td>
+                  <td class="p-3 font-black text-slate-900">From ${P('im-injection')}</td>
                   <td class="p-3 text-slate-600">Catheterization, IV drips, injections, wound dressing under Dr. Piyush Saxena's clinical oversight</td>
                   <td class="p-3"><a href="/services/" class="text-sky-600 font-bold hover:underline">View All</a></td>
                 </tr>

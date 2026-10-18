@@ -1,4 +1,5 @@
 const CONFIG = require('../../site.config.js');
+const { pricify } = require('../data/price_lines.js');
 const SERVICES = require('../data/services.js');
 const DOCTORS = require('../data/doctors.js');
 const AREAS = require('../data/areas.js');
@@ -86,7 +87,7 @@ function renderSitemapPage() {
               <a href="/services/${srv.slug}/" class="p-4 rounded-2xl bg-slate-50 hover:bg-teal-50/60 border border-slate-100 hover:border-teal-200 transition group flex flex-col justify-between">
                 <div>
                   <div class="flex items-center justify-between gap-2 mb-1">
-                    <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">${srv.price}</span>
+                    <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">${pricify(srv.price, srv.slug)}</span>
                     <i class="fa-solid fa-arrow-right text-[11px] text-slate-400 group-hover:text-teal-600 transition"></i>
                   </div>
                   <h3 class="text-sm font-bold text-slate-900 group-hover:text-teal-700 transition">${srv.shortTitle || srv.title}</h3>

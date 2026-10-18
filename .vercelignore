@@ -20,3 +20,10 @@ site.config.js
 site.config.json
 package.json
 package-lock.json
+
+# Firebase / rules (not for public hosting)
+firestore.rules
+firebase.json
+android-partner/
+android-app/
+android-release/

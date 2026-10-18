@@ -319,7 +319,7 @@ const AREAS = [
       },
       {
         q: "What is the fee for home wound dressing in Alambagh?",
-        a: "Basic surgical dressings start from ₹399, and complex diabetic ulcer or bed sore dressings start from ₹699."
+        a: "Surgical dressing charges depend on wound size (small, medium or large / bed sore). Please see our pricing page for the current rates."
       }
     ]
   },

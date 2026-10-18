@@ -1,4 +1,5 @@
 const CONFIG = require('../../site.config.js');
+const { P } = require('../data/price_lines.js');
 
 function renderBookPage() {
   return `
@@ -11,7 +12,7 @@ function renderBookPage() {
           Book Doorstep Care or Online Doctor Consultation
         </h1>
         <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-          Select your required service below. For doorstep care in Lucknow, we dispatch within 30-45 minutes. For online consultation, connect directly via video/tele-call for ₹500.
+          Select your required service below. For doorstep care in Lucknow, we dispatch within 30-45 minutes. For online consultation, connect directly via video/tele-call for ${P('consult-online')}.
         </p>
       </div>
     </div>
@@ -45,9 +46,9 @@ function renderBookPage() {
                   <i class="fa-solid fa-video text-xs"></i>
                 </div>
                 <div>
-                  <strong class="font-bold text-slate-900 block">Online Tele-Consultation (₹500 Fee)</strong>
+                  <strong class="font-bold text-slate-900 block">Online Tele-Consultation (${P('consult-online')} Fee)</strong>
                   <span class="text-slate-600 text-xs leading-relaxed">
-                    Connect directly via video or tele-call. Pay ₹500 securely via Razorpay (UPI, Debit/Credit Cards, NetBanking) to generate your confirmed invoice & instant doctor slot.
+                    Connect directly via video or tele-call. Pay ${P('consult-online')} securely via Razorpay (UPI, Debit/Credit Cards, NetBanking) to generate your confirmed invoice & instant doctor slot.
                   </span>
                 </div>
               </div>
@@ -98,7 +99,7 @@ function renderBookPage() {
                 <!-- Payment clarity notice -->
                 <p class="text-[11px] text-slate-500 mt-1.5 flex items-center gap-1.5">
                   <i class="fa-solid fa-circle-info text-sky-500"></i>
-                  <span><strong>Online Consultation (₹500)</strong> is paid upfront securely via Razorpay. All <strong>doorstep visits and nursing procedures</strong> are confirmed directly on WhatsApp/call first, with payment after service confirmation.</span>
+                  <span><strong>Online Consultation (${P('consult-online')})</strong> is paid upfront securely via Razorpay. All <strong>doorstep visits and nursing procedures</strong> are confirmed directly on WhatsApp/call first, with payment after service confirmation.</span>
                 </p>
               </div>
 
@@ -152,7 +153,7 @@ function renderBookPage() {
                 <i class="fa-solid fa-arrow-left"></i> Edit Details
               </button>
               <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-                Step 2: Payment (₹500)
+                Step 2: Payment (${P('consult-online')})
               </span>
             </div>
 
@@ -164,7 +165,7 @@ function renderBookPage() {
                 <p id="pay-patient-summary" class="text-xs text-slate-500 mt-0.5">Patient Details Confirmed</p>
               </div>
               <div class="text-right">
-                <span class="text-2xl font-black text-brand-700">₹500</span>
+                <span class="text-2xl font-black text-brand-700">${P('consult-online')}</span>
                 <span class="text-[10px] text-emerald-600 font-bold block uppercase">Zero Fee</span>
               </div>
             </div>
@@ -186,7 +187,7 @@ function renderBookPage() {
 
               <button onclick="launchRazorpayPayment()" type="button" class="w-full py-4 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black text-sm sm:text-base shadow-lg transition flex items-center justify-center gap-2">
                 <i class="fa-solid fa-lock text-sm"></i>
-                <span>Pay ₹500 via Razorpay Secure</span>
+                <span>Pay ${P('consult-online')} via Razorpay Secure</span>
               </button>
 
               <div class="flex items-center justify-center gap-4 pt-2 text-[11px] text-slate-400">
@@ -269,7 +270,7 @@ function renderBookPage() {
               <div class="bg-slate-50 rounded-xl p-3 border border-slate-200">
                 <div class="flex items-center justify-between text-xs mb-1">
                   <span class="font-semibold text-slate-700">Online Doctor Consultation (Tele-call / Video)</span>
-                  <span class="font-bold text-slate-800">₹500.00</span>
+                  <span class="font-bold text-slate-800">${P('consult-online','dec')}</span>
                 </div>
                 <div class="flex items-center justify-between text-[11px] text-slate-500 pt-1 border-t border-slate-200/60">
                   <span>Payment Mode: <strong id="inv-payment-mode" class="text-emerald-700">-</strong></span>
@@ -277,7 +278,7 @@ function renderBookPage() {
                 </div>
                 <div class="flex items-center justify-between text-sm font-black text-slate-900 pt-2 mt-2 border-t border-slate-200">
                   <span>Total Paid:</span>
-                  <span class="text-brand-700 text-base">₹500.00</span>
+                  <span class="text-brand-700 text-base">${P('consult-online','dec')}</span>
                 </div>
               </div>
             </div>

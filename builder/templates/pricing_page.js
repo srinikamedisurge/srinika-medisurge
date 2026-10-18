@@ -1,39 +1,40 @@
 const CONFIG = require('../../site.config.js');
+const { P } = require('../data/price_lines.js');
 
 function renderPricingPage() {
   const priceCatalogList = [
     // Procedures
-    { name: "Surgical Wound Dressing (Small)", price: "₹500 / session", category: "Surgical Dressing", details: "Hospital-grade sterile dressing, stitch care, and antiseptic cleaning for minor wounds/stitches." },
-    { name: "Surgical Wound Dressing (Medium)", price: "₹1,000 / session", category: "Surgical Dressing", details: "Sterile dressing pack for post-operative incisions, laparotomy, or medium open wounds." },
-    { name: "Surgical Wound Dressing (Large)", price: "₹1,500 / session", category: "Surgical Dressing", details: "Advanced sterile dressing for deep bed sores (Grade 3-4), diabetic ulcers, and extensive surgical sites." },
-    { name: "Urinary Catheterization (Foley / Silicone)", price: "₹999 / procedure", category: "Catheter Care", details: "Aseptic Foley or 100% silicone catheter insertion/change with 2% Lignocaine jelly and sterile urobag." },
-    { name: "Ryle's Tube / NG Feeding Tube Insertion", price: "₹999 / procedure", category: "Catheter Care", details: "Sterile nasogastric tube insertion, placement confirmation by auscultation, and feeding demonstration." },
-    { name: "Surgical Drain Out / Drainage Care", price: "₹999 / procedure", category: "Surgical Care", details: "Sterile drain emptying, measuring fluid, bulb recharge, and sterile dressing at drain exit site." },
-    { name: "Nebulization & Demonstration", price: "₹500 (One-time)", category: "Respiratory Care", details: "Compressor nebulizer setup, bronchodilator respule administration, and chest recovery guidance." },
-    { name: "Enema PR Insertion & Bowel Care", price: "₹600 / procedure", category: "Nursing Procedures", details: "Gentle PR enema administration, relief of fecal impaction, and post-procedure hygiene." },
-    { name: "Tracheostomy Care & Suctioning", price: "₹300 / session", category: "Tracheostomy Care", details: "Inner cannula cleaning, sterile airway suctioning, stoma skin dressing, and tie change." },
-    { name: "Tracheostomy Tube Change", price: "₹2,000 / procedure", category: "Tracheostomy Care", details: "Sterile tracheostomy tube replacement by experienced clinical staff under medical protocol." },
-    { name: "Tracheostomy Out (Decannulation)", price: "₹2,000 / procedure", category: "Tracheostomy Care", details: "Clinical tube removal, stoma occlusion dressing, and post-decannulation respiratory monitoring." },
-    { name: "IV Injection Administration", price: "₹399 / visit", category: "Injections & IV", details: "Painless IV cannulation and intravenous drug administration with sterile disposable syringe." },
-    { name: "IM / SC Injection Administration", price: "₹299 / visit", category: "Injections & IV", details: "Intramuscular or subcutaneous injection with vital signs check." },
+    { name: "Surgical Wound Dressing (Small)", price: P("wound-dressing-small") + " / session", category: "Surgical Dressing", details: "Hospital-grade sterile dressing, stitch care, and antiseptic cleaning for minor wounds/stitches." },
+    { name: "Surgical Wound Dressing (Medium)", price: P("wound-dressing-medium") + " / session", category: "Surgical Dressing", details: "Sterile dressing pack for post-operative incisions, laparotomy, or medium open wounds." },
+    { name: "Surgical Wound Dressing (Large)", price: P("wound-dressing-large") + " / session", category: "Surgical Dressing", details: "Advanced sterile dressing for deep bed sores (Grade 3-4), diabetic ulcers, and extensive surgical sites." },
+    { name: "Urinary Catheterization (Foley / Silicone)", price: P("catheter-insertion") + " / procedure", category: "Catheter Care", details: "Aseptic Foley or 100% silicone catheter insertion/change with 2% Lignocaine jelly and sterile urobag." },
+    { name: "Ryle's Tube / NG Feeding Tube Insertion", price: P("ryles-tube") + " / procedure", category: "Catheter Care", details: "Sterile nasogastric tube insertion, placement confirmation by auscultation, and feeding demonstration." },
+    { name: "Surgical Drain Out / Drainage Care", price: P("drain-out") + " / procedure", category: "Surgical Care", details: "Sterile drain emptying, measuring fluid, bulb recharge, and sterile dressing at drain exit site." },
+    { name: "Nebulization & Demonstration", price: P("nebulization") + " (One-time)", category: "Respiratory Care", details: "Compressor nebulizer setup, bronchodilator respule administration, and chest recovery guidance." },
+    { name: "Enema PR Insertion & Bowel Care", price: P("enema-pr") + " / procedure", category: "Nursing Procedures", details: "Gentle PR enema administration, relief of fecal impaction, and post-procedure hygiene." },
+    { name: "Tracheostomy Care & Suctioning", price: P("tracheostomy-care") + " / session", category: "Tracheostomy Care", details: "Inner cannula cleaning, sterile airway suctioning, stoma skin dressing, and tie change." },
+    { name: "Tracheostomy Tube Change", price: P("tracheostomy-change") + " / procedure", category: "Tracheostomy Care", details: "Sterile tracheostomy tube replacement by experienced clinical staff under medical protocol." },
+    { name: "Tracheostomy Out (Decannulation)", price: P("tracheostomy-out") + " / procedure", category: "Tracheostomy Care", details: "Clinical tube removal, stoma occlusion dressing, and post-decannulation respiratory monitoring." },
+    { name: "IV Injection Administration", price: P("iv-injection") + " / visit", category: "Injections & IV", details: "Painless IV cannulation and intravenous drug administration with sterile disposable syringe." },
+    { name: "IM / SC Injection Administration", price: P("im-injection") + " / visit", category: "Injections & IV", details: "Intramuscular or subcutaneous injection with vital signs check." },
     { name: "IV Fluid Infusion Therapy", price: "As per patient need", category: "Injections & IV", details: "Normal Saline (NS), Ringer Lactate (RL), or D5 infusion with continuous flow-rate monitoring." },
-    { name: "Nursing Duty - Morning Shift (7 Hours)", price: "₹999 / shift", category: "Nursing Shifts", details: "7-hour morning day shift certified GNM/B.Sc nurse: vitals, medicine, IV, feeding, and recovery care." },
-    { name: "Nursing Duty - Evening Shift (7 Hours)", price: "₹999 / shift", category: "Nursing Shifts", details: "7-hour evening day shift certified nurse for vital monitoring, oral/IV medications, and patient comfort." },
-    { name: "Nursing Duty - Night Shift (10 Hours)", price: "₹1,299 / shift", category: "Nursing Shifts", details: "10-hour dedicated night nursing care for critical, elderly, or post-surgical monitoring." },
-    { name: "Diaper Change & Urine Bag Emptying", price: "₹500 / session", category: "Attendant & Hygiene", details: "Bedside sponge bath, gentle diaper change, skin rash cream application, and urine bag empty." },
-    { name: "Doctor Home Visit (Within 5km)", price: "₹2,000 / visit", category: "Doctor Consultation", details: "Comprehensive physical checkup, diagnosis, vital evaluation & prescription at home." },
-    { name: "Online Doctor Video Consultation", price: "₹500 / consult", category: "Doctor Consultation", details: "Direct Video/Audio call with Dr. Piyush Saxena or Specialists; WhatsApp digital prescription." },
-    { name: "Physiotherapy at Doorstep Session", price: "₹600 / session", category: "Physiotherapy", details: "Targeted 45-60 min neuro/ortho rehab by certified BPT/MPT therapist with electrotherapy." },
+    { name: "Nursing Duty - Morning Shift (7 Hours)", price: P("nurse-morning") + " / shift", category: "Nursing Shifts", details: "7-hour morning day shift certified GNM/B.Sc nurse: vitals, medicine, IV, feeding, and recovery care." },
+    { name: "Nursing Duty - Evening Shift (7 Hours)", price: P("nurse-evening") + " / shift", category: "Nursing Shifts", details: "7-hour evening day shift certified nurse for vital monitoring, oral/IV medications, and patient comfort." },
+    { name: "Nursing Duty - Night Shift (10 Hours)", price: P("nurse-night") + " / shift", category: "Nursing Shifts", details: "10-hour dedicated night nursing care for critical, elderly, or post-surgical monitoring." },
+    { name: "Diaper Change & Urine Bag Emptying", price: P("diaper-urine") + " / session", category: "Attendant & Hygiene", details: "Bedside sponge bath, gentle diaper change, skin rash cream application, and urine bag empty." },
+    { name: "Doctor Home Visit (Within 5km)", price: P("consult-doorstep") + " / visit", category: "Doctor Consultation", details: "Comprehensive physical checkup, diagnosis, vital evaluation & prescription at home." },
+    { name: "Online Doctor Video Consultation", price: P("consult-online") + " / consult", category: "Doctor Consultation", details: "Direct Video/Audio call with Dr. Piyush Saxena or Specialists; WhatsApp digital prescription." },
+    { name: "Physiotherapy at Doorstep Session", price: P("physiotherapy-doorstep") + " / session", category: "Physiotherapy", details: "Targeted 45-60 min neuro/ortho rehab by certified BPT/MPT therapist with electrotherapy." },
 
     // Medical Equipment Rentals
-    { name: "BiPAP Machine Support", price: "₹750 / Day + Conveyance", category: "Equipment Rental", details: "Dual-pressure titration, mask fitting, humidifier maintenance, and continuous SpO2 check." },
-    { name: "Oxygen Concentrator (5 Litre)", price: "₹500 / Day + Conveyance", category: "Equipment Rental", details: "Continuous 5L medical-grade oxygen output (93% ± 3%) with nasal cannula and humidifier." },
-    { name: "B-Type Oxygen Cylinder & Regulator", price: "₹2,000 / Month + Conveyance", category: "Equipment Rental", details: "Emergency portable medical oxygen cylinder with double gauge regulator and flowmeter." },
-    { name: "Vital Monitor (Multi-Para Bedside)", price: "₹300 / Day + Conveyance", category: "Equipment Rental", details: "Continuous ECG, Pulse, NIBP Blood Pressure, SpO2, and Body Temperature tracking." },
-    { name: "Medical Suction Machine", price: "₹150 / Day + Conveyance", category: "Equipment Rental", details: "Airway secretion clearance for tracheostomy, stroke, and bedridden patients." },
-    { name: "Hospital Patient Bed", price: "₹200 / Day + Conveyance", category: "Equipment Rental", details: "Adjustable backrest elevation, safety side railings, and hospital-grade mattress." },
-    { name: "Infusion Pump / Syringe Pump", price: "₹300 / Day + Conveyance", category: "Equipment Rental", details: "Micro-controlled precise volumetric drug delivery with safety occlusion alarms." },
-    { name: "ICU Ventilator Machine Support", price: "₹3,000 / Day + Conveyance", category: "Equipment Rental", details: "Life-support invasive & non-invasive mechanical ventilation under physician oversight." }
+    { name: "BiPAP Machine Support", price: P("eq-bipap-daily") + " / Day + Conveyance", category: "Equipment Rental", details: "Dual-pressure titration, mask fitting, humidifier maintenance, and continuous SpO2 check." },
+    { name: "Oxygen Concentrator (5 Litre)", price: P("eq-o2-concentrator-daily") + " / Day + Conveyance", category: "Equipment Rental", details: "Continuous 5L medical-grade oxygen output (93% ± 3%) with nasal cannula and humidifier." },
+    { name: "B-Type Oxygen Cylinder & Regulator", price: P("eq-o2-cylinder-monthly") + " / Month + Conveyance", category: "Equipment Rental", details: "Emergency portable medical oxygen cylinder with double gauge regulator and flowmeter." },
+    { name: "Vital Monitor (Multi-Para Bedside)", price: P("eq-vital-monitor-daily") + " / Day + Conveyance", category: "Equipment Rental", details: "Continuous ECG, Pulse, NIBP Blood Pressure, SpO2, and Body Temperature tracking." },
+    { name: "Medical Suction Machine", price: P("eq-suction-daily") + " / Day + Conveyance", category: "Equipment Rental", details: "Airway secretion clearance for tracheostomy, stroke, and bedridden patients." },
+    { name: "Hospital Patient Bed", price: P("eq-bed-daily") + " / Day + Conveyance", category: "Equipment Rental", details: "Adjustable backrest elevation, safety side railings, and hospital-grade mattress." },
+    { name: "Infusion Pump / Syringe Pump", price: P("eq-infusion-pump-daily") + " / Day + Conveyance", category: "Equipment Rental", details: "Micro-controlled precise volumetric drug delivery with safety occlusion alarms." },
+    { name: "ICU Ventilator Machine Support", price: P("eq-ventilator-daily") + " / Day + Conveyance", category: "Equipment Rental", details: "Life-support invasive & non-invasive mechanical ventilation under physician oversight." }
   ];
 
   return `
@@ -118,7 +119,7 @@ function renderPricingPage() {
             <div class="flex items-center gap-2.5 p-3.5 bg-amber-50 rounded-xl border border-amber-200">
               <input type="checkbox" id="calc-urgent" class="w-4 h-4 text-sky-600 rounded focus:ring-sky-500">
               <label for="calc-urgent" class="text-xs font-bold text-amber-950 cursor-pointer">
-                Urgent Priority Dispatch (+₹150 for fastest arrival within 20-30 minutes)
+                Urgent Priority Dispatch (+${P('urgent-fee')} for fastest arrival within 20-30 minutes)
               </label>
             </div>
 

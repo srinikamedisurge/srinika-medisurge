@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>Srinika Admin Panel</title>
+  <link rel="icon" href="/favicon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body { background: #f1f5f9; }
+    .tab-btn.active { background: #0c4a6e; color: #fff; }
+    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 1rem; }
+    input, select { outline: none; }
+    input:focus, select:focus { box-shadow: 0 0 0 2px #0ea5e9; }
+    .changed { background: #fffbeb; border-color: #f59e0b; }
+  </style>
+</head>
+<body class="text-slate-900 font-sans antialiased">
+
+  <!-- LOGIN -->
+  <div id="login" class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-sky-950 to-slate-950">
+    <div class="w-full max-w-sm bg-white rounded-3xl p-6 shadow-2xl text-center space-y-4">
+      <img src="/assets/images/logo.png" alt="Srinika" class="h-14 mx-auto">
+      <div>
+        <h1 class="text-lg font-extrabold">Srinika Admin Panel</h1>
+        <p class="text-xs text-slate-500">Owner access only. Sign in with the owner's Google account.</p>
+      </div>
+      <div id="login-error" class="hidden p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs font-semibold text-rose-700 text-left"></div>
+      <button id="login-btn" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2">
+        <i class="fa-brands fa-google text-rose-400"></i> Continue with Google
+      </button>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <div id="app" class="hidden max-w-6xl mx-auto p-3 sm:p-5 space-y-4">
+    <header class="flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <img src="/assets/images/logo.png" alt="" class="h-10">
+        <div class="min-w-0">
+          <h1 class="font-extrabold leading-tight">Srinika Admin</h1>
+          <p id="who" class="text-[11px] text-slate-500 truncate"></p>
+        </div>
+      </div>
+      <button id="logout-btn" class="px-3 py-2 text-xs font-bold bg-white border border-slate-200 rounded-xl hover:bg-slate-50"><i class="fa-solid fa-right-from-bracket mr-1"></i>Sign out</button>
+    </header>
+
+    <nav class="flex gap-1.5 overflow-x-auto text-sm">
+      <button class="tab-btn active px-4 py-2 rounded-xl font-bold bg-white border border-slate-200 whitespace-nowrap" data-tab="overview"><i class="fa-solid fa-gauge mr-1.5"></i>Overview</button>
+      <button class="tab-btn px-4 py-2 rounded-xl font-bold bg-white border border-slate-200 whitespace-nowrap" data-tab="payments"><i class="fa-solid fa-indian-rupee-sign mr-1.5"></i>Payments</button>
+      <button class="tab-btn px-4 py-2 rounded-xl font-bold bg-white border border-slate-200 whitespace-nowrap" data-tab="prices"><i class="fa-solid fa-tags mr-1.5"></i>Prices</button>
+      <button class="tab-btn px-4 py-2 rounded-xl font-bold bg-white border border-slate-200 whitespace-nowrap" data-tab="staff"><i class="fa-solid fa-user-doctor mr-1.5"></i>Staff</button>
+    </nav>
+
+    <section id="tab-overview"></section>
+    <section id="tab-payments" class="hidden"></section>
+    <section id="tab-prices" class="hidden"></section>
+    <section id="tab-staff" class="hidden"></section>
+  </div>
+
+  <!-- Staff modal -->
+  <div id="staff-modal" class="hidden fixed inset-0 z-50 bg-black/50 items-center justify-center p-4">
+    <form id="staff-form" class="bg-white rounded-2xl w-full max-w-md p-5 space-y-3 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between">
+        <h3 id="staff-modal-title" class="font-extrabold">Add staff</h3>
+        <button type="button" id="staff-modal-close" class="w-8 h-8 rounded-full bg-slate-100"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <input type="hidden" id="sf-id">
+      <label class="block text-xs font-bold text-slate-600">Full name *<input id="sf-name" required class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm"></label>
+      <label class="block text-xs font-bold text-slate-600">Google email (they sign in with this)<input id="sf-email" type="email" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm"></label>
+      <div class="grid grid-cols-2 gap-2">
+        <label class="block text-xs font-bold text-slate-600">Role *
+          <select id="sf-role" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm bg-white">
+            <option value="doctor">Doctor</option><option value="nurse">Nurse</option><option value="physio">Physiotherapist</option><option value="attendant">Attendant</option>
+          </select></label>
+        <label class="block text-xs font-bold text-slate-600">Mobile *<input id="sf-phone" type="tel" required class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm"></label>
+      </div>
+      <label class="block text-xs font-bold text-slate-600">Degrees / designation<input id="sf-designation" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm"></label>
+      <label class="block text-xs font-bold text-slate-600">Specialty<input id="sf-specialty" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm"></label>
+      <label class="block text-xs font-bold text-slate-600">Registration no.<input id="sf-regno" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm"></label>
+      <button type="submit" class="w-full py-3 bg-sky-700 hover:bg-sky-800 text-white rounded-xl font-bold text-sm">Save</button>
+    </form>
+  </div>
+
+  <div id="toast" class="fixed left-1/2 -translate-x-1/2 top-4 z-[60] bg-slate-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-lg opacity-0 transition-opacity pointer-events-none max-w-[90%] text-center"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="/assets/js/price-lines.js"></script>
+  <script src="/admin/admin.js"></script>
+</body>
+</html>

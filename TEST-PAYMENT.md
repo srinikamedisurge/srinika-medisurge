@@ -35,7 +35,7 @@ Follow these steps to safely run a live ₹1 test payment without disrupting pat
    - Pay using your preferred UPI app (Google Pay, PhonePe, Paytm) or card.
 3. **Verify All 3 Post-Payment Events**:
    - [x] **Event A (Digital Invoice)**: The screen immediately switches to the confirmed invoice modal displaying `#SRN-2610-XXXX`, your name, phone, doctor, timestamp, and the exact Razorpay `pay_...` ID.
-   - [x] **Event B (Google Sheet Sync)**: Open the connected Google Sheet associated with the webhook. A new row will be recorded with timestamp, patient name, phone, service, amount, payment mode, and transaction ID.
+   - [x] **Event B (Partner app sync)**: Open the Srinika Partner app as owner. A new visit appears instantly with the patient details, service, and the Razorpay payment ID marked "Paid online - verify".
    - [x] **Event C (WhatsApp Alert)**: Click the **Notify Doctor** button. It will open WhatsApp with a prefilled message addressed to the clinic containing the booking ID and verified payment ID.
 4. **Instant Refund**:
    - Log into your [Razorpay Dashboard](https://dashboard.razorpay.com/).

@@ -1,4 +1,5 @@
 const CONFIG = require('../../site.config.js');
+const { pricify } = require('../data/price_lines.js');
 const SERVICES = require('../data/services.js');
 const AREAS = require('../data/areas.js');
 
@@ -84,7 +85,7 @@ function renderServicesOverview() {
                 <div class="flex items-center justify-between mb-4">
                   <div>
                     <span class="text-[10px] text-slate-400 block uppercase font-bold">Estimated Pricing</span>
-                    <span class="text-base font-bold text-slate-900">${service.price}</span>
+                    <span class="text-base font-bold text-slate-900">${pricify(service.price, service.slug)}</span>
                   </div>
                   <div class="text-right">
                     <span class="text-[10px] text-slate-400 block uppercase font-bold">Avg Duration</span>
@@ -147,7 +148,7 @@ function renderServiceDetailPage(service) {
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 bg-white rounded-2xl border border-slate-200 shadow-sm text-xs">
           <div>
             <span class="text-slate-400 uppercase font-bold block text-[10px]">Transparent Fee</span>
-            <strong class="text-sm font-extrabold text-slate-900">${service.price}</strong>
+            <strong class="text-sm font-extrabold text-slate-900">${pricify(service.price, service.slug)}</strong>
           </div>
           <div>
             <span class="text-slate-400 uppercase font-bold block text-[10px]">Doorstep Response</span>
@@ -253,8 +254,8 @@ function renderServiceDetailPage(service) {
               <i class="fa-solid fa-indian-rupee-sign text-sky-600"></i>
               <span>Transparent Pricing Guarantee</span>
             </h3>
-            <p class="text-2xl font-black text-brand-700">${service.price}</p>
-            <p class="text-xs text-slate-600 leading-relaxed">${service.priceNote}</p>
+            <p class="text-2xl font-black text-brand-700">${pricify(service.price, service.slug)}</p>
+            <p class="text-xs text-slate-600 leading-relaxed">${pricify(service.priceNote, service.slug)}</p>
             <p class="text-[11px] text-slate-500 font-medium">Payment accepted via Cash, UPI (GPay/PhonePe/Paytm), or Razorpay online.</p>
           </div>
 
@@ -301,7 +302,7 @@ function renderServiceDetailPage(service) {
               ${relatedServicesList.map(rel => `
                 <a href="/services/${rel.slug}/" class="p-4 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-300 transition block group">
                   <span class="text-xs font-bold text-slate-900 group-hover:text-sky-600 block mb-1">${rel.title}</span>
-                  <span class="text-[11px] text-slate-500 block">${rel.price}</span>
+                  <span class="text-[11px] text-slate-500 block">${pricify(rel.price, rel.slug)}</span>
                 </a>
               `).join('')}
             </div>

@@ -1,0 +1,131 @@
+rules_version = '2';
+
+// Srinika Medisurge - Firestore security rules (free Spark plan, no backend)
+//
+//  tasks      : patients (website / patient app, not signed in) may CREATE a pending
+//               booking and READ one booking by its unguessable id (live status).
+//               Only signed-in staff can list/update. Doctors see only their own visits.
+//  staffAuth  : {email} -> { staffId, name, role, ... }  written by the owner only.
+//  staff      : team directory, owner-managed, readable by staff.
+//  prescriptions / feedback : staff-only reads; feedback is create-only for the public.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function owner() { return 'srinika.medisurge@gmail.com'; }
+    // Google sign-in only: the email must be verified by Google, so it cannot be impersonated.
+    function signedIn() { return request.auth != null && request.auth.token.email != null && request.auth.token.email_verified == true; }
+    function isOwner() { return signedIn() && request.auth.token.email.lower() == owner(); }
+    function staffDoc() {
+      return get(/databases/$(database)/documents/staffAuth/$(request.auth.token.email.lower()));
+    }
+    function isStaff() {
+      return signedIn() && (isOwner() ||
+        (exists(/databases/$(database)/documents/staffAuth/$(request.auth.token.email.lower()))
+          && staffDoc().data.active == true));
+    }
+    function myStaffId() { return isOwner() ? 'dr-piyush-saxena' : staffDoc().data.staffId; }
+    function str(v, max) { return v is string && v.size() <= max; }
+
+    // ---------- Bookings / visits ----------
+    match /tasks/{taskId} {
+      // Patient-side status lookup: only by exact (random 20 char) id, never listable.
+      allow get: if true;
+
+      // Owner sees everything; a doctor/nurse only the visits assigned to them
+      // (their app must query with where('assignedTo','==', staffId)).
+      allow list: if isOwner() || (isStaff() && resource.data.assignedTo == myStaffId());
+
+      // Public booking creation: always starts pending + unassigned, strict shape.
+      allow create: if validPublicBooking(request.resource.data)
+                    || (isStaff() && request.resource.data.assignedTo == myStaffId());
+
+      // A doctor can work on their own visit only until it is completed; after that it is
+      // frozen for them (only the owner can still change it).
+      allow update: if isOwner()
+                    || (isStaff() && resource.data.assignedTo == myStaffId()
+                        && resource.data.status != "completed"
+                        && request.resource.data.assignedTo == resource.data.assignedTo);
+      allow delete: if isOwner();
+    }
+
+    function validPublicBooking(d) {
+      return d.keys().hasOnly([
+          'bookingNo','patientName','phone','age','gender','area','address','landmark','gps',
+          'serviceId','serviceName','category','preferredDoctor','preferredDate','timeSlot',
+          'notes','fee','status','paymentStatus','paymentMode','paymentRef','source',
+          'createdAtMs','requestedAt'])
+        && d.keys().hasAll(['patientName','phone','serviceName','status','source','createdAtMs'])
+        && d.status == 'pending'
+        && d.paymentStatus in ['unpaid','claimed']
+        && str(d.patientName, 100) && d.patientName.size() > 0
+        && str(d.phone, 15) && d.phone.size() >= 10
+        && str(d.serviceName, 150)
+        && d.source in ['website','patient-app']
+        && (!('address' in d) || str(d.address, 300))
+        && (!('area' in d) || str(d.area, 200))
+        && (!('notes' in d) || str(d.notes, 1000))
+        && (!('landmark' in d) || str(d.landmark, 200))
+        && (!('gps' in d) || str(d.gps, 100))
+        && (!('paymentRef' in d) || str(d.paymentRef, 80))
+        && (!('fee' in d) || (d.fee is number && d.fee >= 0 && d.fee <= 100000));
+    }
+
+    // ---------- Team ----------
+    match /staffAuth/{email} {
+      allow get: if isOwner() || (signedIn() && request.auth.token.email.lower() == email);
+      allow list: if isOwner();
+      allow write: if isOwner();
+    }
+    match /staff/{id} {
+      allow read: if isStaff();
+      allow write: if isOwner();
+    }
+
+    // ---------- Clinical records ----------
+    // Prescriptions are write-once for doctors (no update/delete): what the doctor handed
+    // to the patient stays on record and the owner can always see it. New Rx for a visit
+    // that is already completed is rejected.
+    match /prescriptions/{id} {
+      allow create: if isStaff() && request.resource.data.doctorId == myStaffId()
+                    && (!("taskId" in request.resource.data) || request.resource.data.taskId == ""
+                        || get(/databases/$(database)/documents/tasks/$(request.resource.data.taskId)).data.status != "completed");
+      allow read: if isOwner() || (isStaff() && resource.data.doctorId == myStaffId());
+      allow update, delete: if isOwner();
+    }
+
+    // ---------- Prescription photos sent by patients (compressed image kept in the doc,
+    // because Cloud Storage is no longer free). Create-only for the public, owner reads.
+    match /rxUploads/{id} {
+      allow create: if request.resource.data.keys().hasOnly(
+                         ["name","phone","note","image","source","bookingNo","createdAtMs"])
+                    && request.resource.data.keys().hasAll(["image","phone","createdAtMs"])
+                    && str(request.resource.data.image, 700000)
+                    && request.resource.data.image.size() > 100
+                    && str(request.resource.data.phone, 15)
+                    && (!("name" in request.resource.data) || str(request.resource.data.name, 100))
+                    && (!("note" in request.resource.data) || str(request.resource.data.note, 500));
+      allow read, delete: if isOwner();
+    }
+
+    // ---------- Patient feedback ----------
+    match /feedback/{id} {
+      allow create: if request.resource.data.keys().hasOnly(
+                         ['name','phone','service','rating','message','source','createdAtMs'])
+                    && str(request.resource.data.name, 100)
+                    && str(request.resource.data.message, 1500)
+                    && request.resource.data.rating is number
+                    && request.resource.data.rating >= 1 && request.resource.data.rating <= 5;
+      allow read, delete: if isOwner();
+    }
+
+    // ---------- Live price list. Everyone (website, patient app) may read it; only the owner writes.
+    match /config/{docId} {
+      allow get: if true;
+      allow write: if isOwner() && docId == "prices"
+                   && request.resource.data.keys().hasOnly(["prices","updatedAtMs","updatedBy"])
+                   && request.resource.data.prices is map;
+    }
+
+    match /{document=**} { allow read, write: if false; }
+  }
+}

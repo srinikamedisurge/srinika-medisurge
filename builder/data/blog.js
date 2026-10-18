@@ -377,7 +377,7 @@ const BLOG_POSTS = [
       },
       {
         q: "How much does post-surgery wound dressing cost at home in Lucknow?",
-        a: "Our basic surgical wound dressing visit starts from ₹399, which includes all sterile single-use disposable consumables and nursing charges."
+        a: "Our surgical wound dressing visit (rates on our pricing page, by wound size) includes all sterile single-use disposable consumables and nursing charges."
       }
     ],
     relatedServices: ["wound-dressing-at-home-lucknow", "home-nursing-lucknow", "iv-drip-injection-at-home-lucknow"]

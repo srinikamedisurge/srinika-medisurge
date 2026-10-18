@@ -1,4 +1,5 @@
 const CONFIG = require('../../site.config.js');
+const { pricify } = require('../data/price_lines.js');
 const AREAS = require('../data/areas.js');
 const SERVICES = require('../data/services.js');
 
@@ -150,7 +151,7 @@ function renderAreaDetailPage(area) {
                   <i class="fa-solid ${s.icon}"></i>
                 </div>
                 <h3 class="font-bold text-slate-900 text-sm group-hover:text-sky-600 mb-1">${s.title}</h3>
-                <span class="text-xs font-bold text-emerald-700 block">${s.price}</span>
+                <span class="text-xs font-bold text-emerald-700 block">${pricify(s.price, s.slug)}</span>
               </a>
             `).join('')}
           </div>

@@ -21,8 +21,122 @@ const CLINIC_INFO = {
   razorpayKeyId: "rzp_live_Tn6PZUwraJ9021"
 };
 
-// Google Sheet Webhook Integration (Automatic Patient Entry & Feedback)
-const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbwIKwcF-eVAOvOgM3dS6B6KfpqHmezv8p4vBPINIVPtywSnEAJQhtA1c9wKNk2-nGw/exec";
+// ===== Srinika Cloud (Firestore REST, no SDK, free Spark tier) =====
+// Single source of truth for bookings: website + patient app write to the same
+// Firestore `tasks` collection that the Partner app reads. Writes are queued in
+// localStorage (outbox) and retried, so a flaky network never loses a booking.
+const SrinikaCloud = (function () {
+  const PROJECT_ID = "srinika-medisurge";
+  const API_KEY = "AIzaSyCYF8fz7INIDgs-jVGOHbRLe2pu3ygXJEM";
+  const BASE = "https://firestore.googleapis.com/v1/projects/" + PROJECT_ID + "/databases/(default)/documents";
+  const OUTBOX_KEY = "srinika_outbox_v1";
+  const MAX_AGE_MS = 7 * 24 * 3600 * 1000;
+  let flushing = false;
+
+  function store(op, key, val) {
+    try {
+      if (op === "get") return localStorage.getItem(key);
+      if (op === "set") localStorage.setItem(key, val);
+    } catch (e) {}
+    return null;
+  }
+
+  function toValue(v) {
+    if (v === null || v === undefined) return { nullValue: null };
+    if (typeof v === "string") return { stringValue: v };
+    if (typeof v === "boolean") return { booleanValue: v };
+    if (typeof v === "number") return Number.isInteger(v) ? { integerValue: String(v) } : { doubleValue: v };
+    return { stringValue: String(v) };
+  }
+
+  function fromValue(v) {
+    if (!v) return null;
+    if ("stringValue" in v) return v.stringValue;
+    if ("integerValue" in v) return Number(v.integerValue);
+    if ("doubleValue" in v) return v.doubleValue;
+    if ("booleanValue" in v) return v.booleanValue;
+    return null;
+  }
+
+  function newId() {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const bytes = new Uint8Array(20);
+    (window.crypto || window.msCrypto).getRandomValues(bytes);
+    let id = "";
+    for (let i = 0; i < 20; i++) id += chars[bytes[i] % chars.length];
+    return id;
+  }
+
+  function readOutbox() {
+    try { return JSON.parse(store("get", OUTBOX_KEY) || "[]"); } catch (e) { return []; }
+  }
+  function writeOutbox(list) { store("set", OUTBOX_KEY, JSON.stringify(list)); }
+
+  async function send(item) {
+    const fields = {};
+    Object.keys(item.data).forEach(k => {
+      if (item.data[k] !== undefined && item.data[k] !== "") fields[k] = toValue(item.data[k]);
+    });
+    const payload = JSON.stringify({ fields });
+    const res = await fetch(BASE + "/" + item.coll + "?documentId=" + item.id + "&key=" + API_KEY, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: payload,
+      keepalive: payload.length < 60000 // browsers reject keepalive bodies over 64KB (photos)
+    });
+    // 409 = already created (earlier attempt landed). 400/403 = rejected for good, retrying won't help.
+    if (res.ok || res.status === 409) return "done";
+    if (res.status === 400 || res.status === 403) return "drop";
+    return "retry";
+  }
+
+  async function flush() {
+    if (flushing) return;
+    flushing = true;
+    try {
+      let list = readOutbox();
+      const keep = [];
+      for (const item of list) {
+        if (Date.now() - item.at > MAX_AGE_MS) continue;
+        let r = "retry";
+        try { r = await send(item); } catch (e) { r = "retry"; }
+        if (r === "retry") keep.push(item);
+      }
+      writeOutbox(keep);
+    } finally {
+      flushing = false;
+    }
+  }
+
+  // Queue a document for creation. Returns its id immediately (usable offline).
+  function submit(coll, data) {
+    const id = newId();
+    const list = readOutbox();
+    list.push({ coll, id, data, at: Date.now() });
+    writeOutbox(list);
+    flush();
+    return id;
+  }
+
+  // Live status of a booking the patient created (read by unguessable id only).
+  async function getBooking(id) {
+    const res = await fetch(BASE + "/tasks/" + encodeURIComponent(id) + "?key=" + API_KEY);
+    if (!res.ok) return null;
+    const doc = await res.json();
+    const f = doc.fields || {};
+    return {
+      status: fromValue(f.status),
+      assignedToName: fromValue(f.assignedToName),
+      paymentStatus: fromValue(f.paymentStatus),
+      completedAt: fromValue(f.completedAt)
+    };
+  }
+
+  window.addEventListener("online", flush);
+  window.addEventListener("load", () => setTimeout(flush, 1500));
+
+  return { submit, flush, getBooking, newId };
+})();
 
 // Comprehensive Doorstep Services List
 const SERVICES_DATA = [
@@ -298,21 +412,64 @@ const PRICING_CATALOG = {
 
 // Initialize DOM Events safely
 document.addEventListener("DOMContentLoaded", () => {
+  SrinikaPrices.init();
   renderServices("all");
   renderCoverageAreas("");
   setupEventListeners();
   initCalculator();
   setupAnalyticsTracking();
+
+  // Prices: show cached owner prices immediately, then refresh from Firestore and re-apply.
+  SrinikaPrices.applyDom();
+  SrinikaPrices.onChange(() => {
+    renderServices(currentServiceCategory);
+    SrinikaPrices.applyDom();
+    if (typeof window.__recalcEstimate === "function") window.__recalcEstimate();
+    syncModalServiceMode();
+  });
+  SrinikaPrices.refresh();
 });
 
 // Render Services dynamically based on category
+let currentServiceCategory = "all";
+
+// Visible price text of the /services/ cards comes from the live price list (never hard-coded)
+const SERVICE_PRICE_TEXT = {
+  "consultation-online": p => p("consult-online") + " / consultation",
+  "consultation-doorstep": p => p("consult-doorstep") + " / visit (Within 5km)",
+  "physiotherapy-doorstep": p => p("physiotherapy-doorstep") + " / session",
+  "bipap-therapy": p => "Charges as per requirement / " + p("bipap-setup"),
+  "iv-fluids": p => "From " + p("im-injection") + " / visit",
+  "nebulization-therapy": p => p("nebulization") + " / session",
+  "patient-care": p => "From " + p("patient-care-12h") + " / shift",
+  "drug-admin": p => "From " + p("im-injection") + " / visit",
+  "catheterization": p => "From " + p("catheter-insertion") + " / procedure",
+  "ryles-tube": p => "From " + p("ryles-tube") + " / procedure",
+  "wound-dressing": p => "From " + p("wound-dressing-small") + " / session",
+  "home-nursing-care": p => "From " + p("nurse-morning") + " / shift"
+};
+const SERVICE_FEATURE_CTX = {
+  "consultation-online": { 500: "consult-online" },
+  "consultation-doorstep": { 2000: "consult-doorstep" },
+  "physiotherapy-doorstep": { 600: "physiotherapy-doorstep" }
+};
+
+function livePricedService(s) {
+  const asText = k => SrinikaPrices.fmt(SrinikaPrices.price(k));
+  const t = SERVICE_PRICE_TEXT[s.id];
+  const ctx = SERVICE_FEATURE_CTX[s.id];
+  return Object.assign({}, s, {
+    pricing: t ? t(asText) : s.pricing,
+    features: ctx ? s.features.map(f => SrinikaPrices.replaceText(f, ctx)) : s.features
+  });
+}
+
 function renderServices(filterCategory = "all") {
+  currentServiceCategory = filterCategory;
   const container = document.getElementById("services-container");
   if (!container) return;
 
-  const filtered = filterCategory === "all" 
-    ? SERVICES_DATA 
-    : SERVICES_DATA.filter(s => s.category === filterCategory);
+  const filtered = (filterCategory === "all" ? SERVICES_DATA : SERVICES_DATA.filter(s => s.category === filterCategory)).map(livePricedService);
 
   container.innerHTML = filtered.map(service => `
     <div class="service-card bg-white rounded-2xl p-6 sm:p-7 border border-slate-100 shadow-sm flex flex-col justify-between relative group hover:border-sky-300">
@@ -501,15 +658,16 @@ function initCalculator() {
 
   function updateEstimate() {
     const selectedKey = serviceSelect.value;
-    const baseItem = PRICING_CATALOG[selectedKey] || { price: 399, label: "Doorstep Care" };
+    const cat = PRICING_CATALOG[selectedKey];
+    const baseItem = cat ? { label: cat.label, price: SrinikaPrices.price(selectedKey) } : { price: SrinikaPrices.price("wound-dressing-small"), label: "Doorstep Care" };
     let total = baseItem.price;
 
     const isUrgent = urgentCheckbox && urgentCheckbox.checked;
     if (isUrgent) {
-      total += 150; // Priority dispatch fee
+      total += SrinikaPrices.price("urgent-fee"); // Priority dispatch fee
     }
 
-    totalDisplay.innerText = `₹${total}`;
+    totalDisplay.innerText = SrinikaPrices.fmt(total);
 
     const area = areaSelect ? areaSelect.value : "Gomti Nagar";
     const urgentText = isUrgent ? " (URGENT DISPATCH REQUEST)" : "";
@@ -536,6 +694,7 @@ function initCalculator() {
     });
   }
 
+  window.__recalcEstimate = updateEstimate;
   updateEstimate();
 }
 
@@ -581,7 +740,7 @@ function updateDynamicWhatsAppLinks() {
     `* Patient Name:* ${name}`,
     `* Mobile:* ${phone}`,
     `* Consulting Doctor:* ${doctor}`,
-    `* Service:* Online Doctor Consultation (₹500)`,
+    `* Service:* Online Doctor Consultation (${SrinikaPrices.fmt(SrinikaPrices.price("consult-online"))})`,
     `* Preferred Date:* ${date}`,
     `* Preferred Slot:* ${timeSlot}`,
     `* Notes:* ${notes}`,
@@ -615,7 +774,7 @@ function syncModalServiceMode() {
 
   if (isOnline) {
     if (alertBox) alertBox.classList.remove("hidden");
-    if (submitText) submitText.textContent = "Proceed to Pay ₹500 Online";
+    if (submitText) submitText.textContent = "Proceed to Pay " + SrinikaPrices.fmt(SrinikaPrices.price("consult-online")) + " Online";
     if (submitIcon) submitIcon.className = "fa-solid fa-lock";
     if (addressLabel) addressLabel.textContent = "City / Locality (Optional for Online)";
     if (addressInput) {
@@ -723,6 +882,34 @@ function quickWhatsAppGeneral() {
   window.open(url, "_blank");
 }
 
+// Build the shared booking document the Partner app consumes (Firestore `tasks`)
+function buildCloudTask(f) {
+  const digits = String(f.phone || "").replace(/\D/g, "");
+  const feeMatch = String(f.service || "").match(/₹\s?([\d,]+)/);
+  return {
+    bookingNo: f.bookingNo || ("SRN-" + Math.floor(1000 + Math.random() * 9000)),
+    patientName: String(f.name || "Patient").slice(0, 100),
+    phone: digits.slice(-10),
+    area: String(f.address || "Lucknow").slice(0, 200),
+    address: String(f.address || "Lucknow").slice(0, 300),
+    serviceName: String(f.service || "Patient Care").slice(0, 150),
+    serviceId: f.serviceId || "website",
+    category: f.category || "Doorstep Service",
+    preferredDoctor: String(f.doctor || "").slice(0, 80),
+    preferredDate: String(f.date || "").slice(0, 40),
+    timeSlot: String(f.time || "").slice(0, 80),
+    notes: String(f.notes || "").slice(0, 1000),
+    fee: feeMatch ? Number(feeMatch[1].replace(/,/g, "")) : 0,
+    status: "pending",
+    paymentStatus: f.paymentStatus || "unpaid",
+    paymentMode: f.paymentMode || "",
+    paymentRef: f.paymentRef || "",
+    source: "website",
+    createdAtMs: Date.now(),
+    requestedAt: new Date().toISOString()
+  };
+}
+
 // Active Consultation Booking Object Cache
 let activeConsultationData = null;
 
@@ -740,7 +927,8 @@ function handleBookingSubmit(e) {
   const name = document.getElementById("booking-name")?.value.trim() || "Patient";
   const phone = document.getElementById("booking-phone")?.value.trim() || "";
   const doctor = document.getElementById("booking-doctor")?.value || "Dr. Piyush Saxena";
-  const service = document.getElementById("modal-service-select")?.value || "Patient Care";
+  const serviceSelectEl = document.getElementById("modal-service-select");
+  const service = serviceSelectEl ? ((serviceSelectEl.options[serviceSelectEl.selectedIndex] || {}).text || serviceSelectEl.value) : "Patient Care";
   const address = document.getElementById("modal-address-input")?.value.trim() || "Gomti Nagar, Lucknow";
   const date = document.getElementById("booking-date")?.value || "Earliest Available";
   const timeSlot = document.getElementById("booking-time")?.value || "Immediate / Earliest (Within 15-30 mins)";
@@ -776,7 +964,7 @@ function handleBookingSubmit(e) {
       phone: phone,
       doctor: doctor,
       service: service,
-      amount: "₹500",
+      amount: SrinikaPrices.fmt(SrinikaPrices.price("consult-online")),
       address: address || "Online Consultation",
       date: formattedDate,
       time: timeSlot,
@@ -819,32 +1007,9 @@ function handleBookingSubmit(e) {
 
   const waUrl = `https://wa.me/${CLINIC_INFO.whatsappNumber}?text=${encodeURIComponent(whatsappMsg)}`;
 
-  // Send Doorstep Request to Google Sheet
-  const sheetPayload = {
-    type: "Doorstep Care Booking",
-    name: name,
-    phone: phone,
-    doctor: doctor,
-    service: service,
-    address: address,
-    date: formattedDate,
-    time: timeSlot,
-    notes: notes,
-    timestamp: new Date().toISOString()
-  };
-
-  if (GOOGLE_SHEET_URL) {
-    try {
-      fetch(GOOGLE_SHEET_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(sheetPayload)
-      }).catch(err => console.log("Google Sheet sync notice:", err));
-    } catch (err) {
-      console.log("Sheet save error:", err);
-    }
-  }
+  // Save booking to Firestore (Partner app picks it up live); WhatsApp stays as instant alert
+  const cloudTask = buildCloudTask({ name, phone, doctor, service, address, date: formattedDate, time: timeSlot, notes });
+  SrinikaCloud.submit("tasks", cloudTask);
 
   const formContainer = document.getElementById("modal-form-content");
   const successContainer = document.getElementById("modal-success-content");
@@ -883,7 +1048,7 @@ function launchRazorpayPayment() {
 
   const options = {
     key: CLINIC_INFO.razorpayKeyId,
-    amount: 50000, // 500.00 INR in paise
+    amount: Math.round(SrinikaPrices.price("consult-online") * 100), // paise, from the live price list
     currency: "INR",
     name: CLINIC_INFO.name,
     description: `Online Doctor Consultation Fee - ${activeConsultationData.doctor || 'Dr. Piyush Saxena'}`,
@@ -962,8 +1127,8 @@ function onPaymentVerifiedSuccess(transactionId, paymentMode) {
     `* Patient Name:* ${activeConsultationData.name}`,
     `* Mobile:* ${activeConsultationData.phone}`,
     `* Consulting Doctor:* ${doctorName}`,
-    `* Service:* Online Doctor Consultation (₹500)`,
-    `* Payment Status:* PAID & VERIFIED (₹500)`,
+    `* Service:* Online Doctor Consultation (${SrinikaPrices.fmt(SrinikaPrices.price("consult-online"))})`,
+    `* Payment Status:* PAID & VERIFIED (${SrinikaPrices.fmt(SrinikaPrices.price("consult-online"))})`,
     `* Payment Mode:* ${paymentMode}`,
     `* Razorpay Payment ID:* ${transactionId}`,
     `* Preferred Date:* ${activeConsultationData.date}`,
@@ -979,38 +1144,25 @@ function onPaymentVerifiedSuccess(transactionId, paymentMode) {
     waBtn.href = waConfirmUrl;
   }
 
-  // 3. Send Confirmed Payment to Google Sheet Webhook
-  const paymentPayload = {
-    type: `Online Doctor Consultation (${paymentMode})`,
-    bookingId: activeConsultationData.bookingId,
+  // 3. Save paid consultation to Firestore. Payment is only *claimed* here (no backend to
+  //    verify with Razorpay); the owner confirms the pay_ id in the Razorpay dashboard.
+  const cloudTask = buildCloudTask({
+    bookingNo: activeConsultationData.bookingId,
     name: activeConsultationData.name,
     phone: activeConsultationData.phone,
     doctor: doctorName,
-    service: activeConsultationData.service,
-    amount: "₹500",
-    paymentStatus: "PAID (Razorpay Verified)",
-    paymentMode: paymentMode,
-    transactionId: transactionId,
-    razorpayPaymentId: transactionId,
-    address: activeConsultationData.address,
+    service: "Online Doctor Consultation (" + SrinikaPrices.fmt(SrinikaPrices.price("consult-online")) + ")",
+    serviceId: "consultation-online",
+    category: "Online Consultation",
+    address: "Online Consultation",
     date: activeConsultationData.date,
     time: activeConsultationData.time,
     notes: activeConsultationData.notes,
-    timestamp: new Date().toISOString()
-  };
-
-  if (GOOGLE_SHEET_URL) {
-    try {
-      fetch(GOOGLE_SHEET_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(paymentPayload)
-      }).catch(err => console.log("Google Sheet sync notice:", err));
-    } catch (err) {
-      console.log("Sheet save error:", err);
-    }
-  }
+    paymentStatus: "claimed",
+    paymentMode: paymentMode,
+    paymentRef: transactionId
+  });
+  SrinikaCloud.submit("tasks", cloudTask);
 
   // 4. Switch to Digital Invoice Screen
   const paymentContainer = document.getElementById("modal-payment-content");
@@ -1130,7 +1282,7 @@ function toggleFaq(button) {
   }
 }
 
-// ================= PATIENT FEEDBACK & GOOGLE SHEET SYNC =================
+// ================= PATIENT FEEDBACK (saved to Firestore) =================
 function setFeedbackRating(rating) {
   const ratingInput = document.getElementById("fb-rating");
   const ratingText = document.getElementById("star-rating-text");
@@ -1192,28 +1344,16 @@ async function submitPatientFeedback(event) {
     submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> <span>Submitting Feedback...</span>';
   }
 
-  const feedbackPayload = {
-    type: "Patient Feedback",
-    name: name,
-    phone: phone,
-    service: service,
-    rating: `${rating} / 5 Stars`,
-    feedback: message,
-    notes: message,
-    date: new Date().toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata" }),
-    time: new Date().toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata" }),
-    timestamp: new Date().toISOString()
-  };
-
   try {
-    if (GOOGLE_SHEET_URL) {
-      await fetch(GOOGLE_SHEET_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(feedbackPayload)
-      });
-    }
+    SrinikaCloud.submit("feedback", {
+      name: name.slice(0, 100),
+      phone: phone.replace(/\D/g, "").slice(-10),
+      service: String(service).slice(0, 120),
+      rating: Number(rating) || 5,
+      message: message.slice(0, 1500),
+      source: "website",
+      createdAtMs: Date.now()
+    });
 
     if (statusMsg) {
       statusMsg.className = "p-5 rounded-2xl text-sm bg-emerald-50 border-2 border-emerald-400 text-emerald-950 block mt-4 shadow-sm animate-fadeIn";
