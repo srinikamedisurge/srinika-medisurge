@@ -232,9 +232,9 @@ function renderBookings() {
             ? `<div class="text-[10px] text-rose-700 mt-0.5">${esc(t.cancelReason || "")}${t.cancelNote ? " - " + esc(t.cancelNote) : ""}</div><div class="text-[10px] text-slate-400">${t.cancelledBy === "patient" ? "by patient" : "by " + esc(t.cancelledByName || "admin")} • ${fmtDate(t.cancelledAtMs)}</div>`
             : (t.assignedToName ? `<div class="text-[10px] text-slate-500 mt-0.5">${esc(t.assignedToName)}</div>` : "");
           const actions = cancelled
-            ? `<button data-restore="${esc(t.id)}" class="px-2 py-1 text-[11px] font-bold bg-sky-50 text-sky-800 border border-sky-200 rounded-lg">Restore</button>
-               <button data-delete="${esc(t.id)}" class="px-2 py-1 text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 rounded-lg">Delete</button>`
-            : `<button data-cancel="${esc(t.id)}" class="px-2 py-1 text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 rounded-lg"><i class="fa-solid fa-ban mr-1"></i>Cancel</button>`;
+            ? `<button data-bk-restore="${esc(t.id)}" class="px-2 py-1 text-[11px] font-bold bg-sky-50 text-sky-800 border border-sky-200 rounded-lg">Restore</button>
+               <button data-bk-delete="${esc(t.id)}" class="px-2 py-1 text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 rounded-lg">Delete</button>`
+            : `<button data-bk-cancel="${esc(t.id)}" class="px-2 py-1 text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 rounded-lg"><i class="fa-solid fa-ban mr-1"></i>Cancel</button>`;
           return `<tr class="border-t border-slate-100 align-top ${cancelled ? "bg-rose-50/30" : ""}">
             <td class="p-2 text-xs text-slate-500 whitespace-nowrap">${fmtDate(t.createdAtMs)}${t.bookingNo ? `<div class="text-[10px]">#${esc(t.bookingNo)}</div>` : ""}</td>
             <td class="p-2"><div class="font-semibold">${esc(t.patientName)}</div><div class="text-[11px] text-slate-500">${esc(t.phone)} • ${esc(t.source || "")}</div></td>
@@ -248,13 +248,14 @@ function renderBookings() {
     </div>
     <p class="text-[11px] text-slate-500 mt-2">Cancel test entries with reason <strong>Test entry</strong>, then delete them from the Test filter. Patients can also cancel from the patient app until the visit is done; those show "by patient".</p>`;
 
-  document.querySelectorAll("[data-bk]").forEach(b => { b.onclick = () => { bkStatus = b.dataset.bk; renderBookings(); }; });
+  const tab = $("tab-bookings");
+  tab.querySelectorAll("[data-bk]").forEach(b => { b.onclick = () => { bkStatus = b.dataset.bk; renderBookings(); }; });
   $("bk-range").onchange = async e => { payRange = e.target.value; await loadTasks(); renderBookings(); renderPayments(); renderOverview(); };
   $("bk-search").oninput = e => { bkSearch = e.target.value; const pos = e.target.selectionStart; renderBookings(); const el = $("bk-search"); el.focus(); el.setSelectionRange(pos, pos); };
   if ($("bk-del-tests")) $("bk-del-tests").onclick = () => deleteBookings(g.test);
-  document.querySelectorAll("[data-cancel]").forEach(b => { b.onclick = () => openCancel(b.dataset.cancel); });
-  document.querySelectorAll("[data-restore]").forEach(b => { b.onclick = () => restoreBooking(b.dataset.restore); });
-  document.querySelectorAll("[data-delete]").forEach(b => { b.onclick = () => { const t = findTask(b.dataset.delete); if (t) deleteBookings([t]); }; });
+  tab.querySelectorAll("[data-bk-cancel]").forEach(b => { b.onclick = () => openCancel(b.dataset.bkCancel); });
+  tab.querySelectorAll("[data-bk-restore]").forEach(b => { b.onclick = () => restoreBooking(b.dataset.bkRestore); });
+  tab.querySelectorAll("[data-bk-delete]").forEach(b => { b.onclick = () => { const t = findTask(b.dataset.bkDelete); if (t) deleteBookings([t]); }; });
 }
 
 function findTask(id) { return tasks.find(t => t.id === id) || openTasks.find(t => t.id === id); }
@@ -519,6 +520,41 @@ async function savePrices() {
 }
 
 // ================= staff =================
+// Same lists as the Partner app (android-partner/www/data.js). admin: true = full Owner Dashboard.
+const STAFF_ROLES = {
+  doctor: { label: "Doctor", admin: false },
+  nurse: { label: "Nurse", admin: false },
+  physio: { label: "Physiotherapist", admin: false },
+  attendant: { label: "Attendant", admin: false },
+  owner: { label: "Owner", admin: true },
+  management: { label: "Management", admin: true },
+  admin: { label: "Admin", admin: true }
+};
+const QUALIFICATIONS = [
+  "MBBS", "MBBS, MD (Medicine)", "MBBS, MS", "MBBS (Gynaecologist)", "MBBS (Neurologist)", "MBBS (Neuro Surgeon)",
+  "BAMS", "BHMS", "BUMS", "BEMS", "BNYS",
+  "BPT / MPT (Physiotherapy)", "GNM / B.Sc Nursing", "ANM", "Trained Patient Care Assistant"
+];
+const roleLabel = role => (STAFF_ROLES[role] || {}).label || role || "Staff";
+const isAdminRole = role => !!(STAFF_ROLES[role] && STAFF_ROLES[role].admin);
+
+function fillQualification(current) {
+  const sel = $("sf-qualification"), txt = $("sf-designation");
+  sel.innerHTML = '<option value="">Select qualification</option>' +
+    QUALIFICATIONS.map(q => `<option value="${esc(q)}">${esc(q)}</option>`).join("") +
+    '<option value="__other">Other (type below)</option>';
+  sel.value = !current ? "" : (QUALIFICATIONS.includes(current) ? current : "__other");
+  txt.value = current || "";
+  txt.classList.toggle("hidden", sel.value !== "__other");
+}
+$("sf-qualification").onchange = () => {
+  const sel = $("sf-qualification"), txt = $("sf-designation");
+  if (sel.value === "__other") { txt.value = ""; txt.classList.remove("hidden"); txt.focus(); }
+  else { txt.value = sel.value; txt.classList.add("hidden"); }
+};
+const updateRoleHint = () => $("sf-role-hint").classList.toggle("hidden", !isAdminRole($("sf-role").value));
+$("sf-role").onchange = updateRoleHint;
+
 function renderStaff() {
   const rows = staff.map(s => {
     const inactive = s.status === "inactive";
@@ -527,7 +563,7 @@ function renderStaff() {
     const isOwner = (s.email || "").toLowerCase() === OWNER_EMAIL || s.id === "dr-piyush-saxena";
     return `<div class="card p-3 flex flex-wrap items-center gap-3 ${inactive ? "opacity-60" : ""}">
       <div class="flex-1 min-w-[200px]">
-        <div class="font-bold">${esc(s.name)} <span class="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600">${esc(s.roleBadge || s.role)}</span> ${inactive ? '<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-100 text-rose-700">DEACTIVATED</span>' : ""}</div>
+        <div class="font-bold">${esc(s.name)} <span class="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600">${esc(s.roleBadge || roleLabel(s.role))}</span>${isAdminRole(s.role) ? ' <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-800">FULL ACCESS</span>' : ""} ${inactive ? '<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-100 text-rose-700">DEACTIVATED</span>' : ""}</div>
         <div class="text-[11px] text-slate-500">${esc(s.designation || "")}</div>
         <div class="text-xs mt-0.5">${s.email ? '<i class="fa-brands fa-google text-sky-500 mr-1"></i>' + esc(s.email) : '<span class="text-amber-600 font-bold">No Google email - cannot sign in yet</span>'} &nbsp;•&nbsp; ${esc(s.phone || "")}</div>
         <div class="text-[11px] text-slate-500 mt-0.5">Open visits: <strong>${open}</strong> &nbsp; Completed (30 days): <strong>${done}</strong></div>
@@ -536,7 +572,7 @@ function renderStaff() {
         <button data-edit="${esc(s.id)}" class="px-3 py-1.5 text-xs font-bold bg-sky-50 text-sky-800 border border-sky-200 rounded-lg"><i class="fa-solid fa-pen mr-1"></i>Edit</button>
         ${isOwner ? "" : `
           <button data-toggle="${esc(s.id)}" class="px-3 py-1.5 text-xs font-bold ${inactive ? "bg-emerald-50 text-emerald-800 border-emerald-200" : "bg-amber-50 text-amber-800 border-amber-200"} border rounded-lg">${inactive ? '<i class="fa-solid fa-user-check mr-1"></i>Activate' : '<i class="fa-solid fa-user-slash mr-1"></i>Deactivate'}</button>
-          <button data-delete="${esc(s.id)}" class="px-3 py-1.5 text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200 rounded-lg"><i class="fa-solid fa-trash mr-1"></i>Delete</button>`}
+          <button data-staff-delete="${esc(s.id)}" class="px-3 py-1.5 text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200 rounded-lg"><i class="fa-solid fa-trash mr-1"></i>Delete</button>`}
       </div>
     </div>`;
   }).join("");
@@ -547,9 +583,10 @@ function renderStaff() {
     </div>
     <div class="space-y-2">${rows || '<div class="card p-6 text-center text-slate-400 text-sm">No staff yet. Open the Partner app once as the owner to load the default team, or add staff here.</div>'}</div>`;
   $("staff-add").onclick = () => openStaffModal(null);
-  document.querySelectorAll("[data-edit]").forEach(b => { b.onclick = () => openStaffModal(staff.find(s => s.id === b.dataset.edit)); });
-  document.querySelectorAll("[data-toggle]").forEach(b => { b.onclick = () => toggleStaff(b.dataset.toggle); });
-  document.querySelectorAll("[data-delete]").forEach(b => { b.onclick = () => deleteStaff(b.dataset.delete); });
+  const tab = $("tab-staff");
+  tab.querySelectorAll("[data-edit]").forEach(b => { b.onclick = () => openStaffModal(staff.find(s => s.id === b.dataset.edit)); });
+  tab.querySelectorAll("[data-toggle]").forEach(b => { b.onclick = () => toggleStaff(b.dataset.toggle); });
+  tab.querySelectorAll("[data-staff-delete]").forEach(b => { b.onclick = () => deleteStaff(b.dataset.staffDelete); });
 }
 
 function openStaffModal(member) {
@@ -559,9 +596,10 @@ function openStaffModal(member) {
   $("sf-email").value = member ? member.email || "" : "";
   $("sf-role").value = member ? member.role : "doctor";
   $("sf-phone").value = member ? member.phone || "" : "";
-  $("sf-designation").value = member ? member.designation || "" : "";
+  fillQualification(member ? member.designation || "" : "");
   $("sf-specialty").value = member ? member.specialty || "" : "";
   $("sf-regno").value = member ? member.regNo || "" : "";
+  updateRoleHint();
   $("staff-modal").classList.remove("hidden");
   $("staff-modal").classList.add("flex");
 }
@@ -576,17 +614,19 @@ $("staff-form").onsubmit = async e => {
   const clash = email && staff.find(s => (s.email || "").toLowerCase() === email && s.id !== id);
   if (clash) { toast("That email already belongs to " + clash.name); return; }
   const role = $("sf-role").value;
+  const admin = isAdminRole(role);
   const member = {
     ...(existing || {}),
     id: existing ? existing.id : "staff-" + Date.now(),
     name: $("sf-name").value.trim(), email, role,
-    roleBadge: { doctor: "Doctor", nurse: "Nurse", physio: "Physio", attendant: "Attendant" }[role],
+    roleBadge: roleLabel(role),
     phone: $("sf-phone").value.trim(),
-    designation: $("sf-designation").value.trim() || (role === "doctor" ? "Consulting Physician" : "Certified Healthcare Staff"),
-    specialty: $("sf-specialty").value.trim() || "Doorstep Clinical Care",
+    designation: $("sf-designation").value.trim() || (role === "doctor" ? "Consulting Physician" : (admin ? roleLabel(role) : "Certified Healthcare Staff")),
+    specialty: $("sf-specialty").value.trim() || (admin ? "Operations & Administration" : "Doorstep Clinical Care"),
     regNo: $("sf-regno").value.trim(),
     status: existing ? (existing.status || "active") : "active",
-    avatarBg: (existing && existing.avatarBg) || (role === "doctor" ? "bg-sky-600 text-white" : "bg-teal-600 text-white")
+    avatarBg: (existing && existing.role === role && existing.avatarBg) ||
+      (admin ? "bg-amber-600 text-white" : (role === "doctor" ? "bg-sky-600 text-white" : "bg-teal-600 text-white"))
   };
   try {
     await saveStaff(member, existing ? existing.email : "");

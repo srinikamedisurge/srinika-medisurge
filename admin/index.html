@@ -75,11 +75,22 @@
       <div class="grid grid-cols-2 gap-2">
         <label class="block text-xs font-bold text-slate-600">Role *
           <select id="sf-role" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm bg-white">
-            <option value="doctor">Doctor</option><option value="nurse">Nurse</option><option value="physio">Physiotherapist</option><option value="attendant">Attendant</option>
+            <optgroup label="Clinical team">
+              <option value="doctor">Doctor</option><option value="nurse">Nurse</option><option value="physio">Physiotherapist</option><option value="attendant">Attendant</option>
+            </optgroup>
+            <optgroup label="Administration (full access)">
+              <option value="owner">Owner</option><option value="management">Management</option><option value="admin">Admin</option>
+            </optgroup>
           </select></label>
         <label class="block text-xs font-bold text-slate-600">Mobile *<input id="sf-phone" type="tel" required class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm"></label>
       </div>
-      <label class="block text-xs font-bold text-slate-600">Degrees / designation<input id="sf-designation" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm"></label>
+      <div id="sf-role-hint" class="hidden p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-[11px] font-semibold text-amber-900">
+        <i class="fa-solid fa-crown mr-1"></i>This person gets the full Owner Dashboard in the Partner app: all visits, payments, staff and summary.
+      </div>
+      <label class="block text-xs font-bold text-slate-600">Degrees / qualification
+        <select id="sf-qualification" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm bg-white"></select>
+        <input id="sf-designation" placeholder="Type qualification, e.g. MBBS, MD (Paediatrics)" class="hidden mt-1.5 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm">
+      </label>
       <label class="block text-xs font-bold text-slate-600">Specialty<input id="sf-specialty" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm"></label>
       <label class="block text-xs font-bold text-slate-600">Registration no.<input id="sf-regno" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm"></label>
       <button type="submit" class="w-full py-3 bg-sky-700 hover:bg-sky-800 text-white rounded-xl font-bold text-sm">Save</button>
