@@ -6,6 +6,7 @@ rules_version = '2';
 //               booking and READ one booking by its unguessable id (live status).
 //               Only signed-in staff can list/update. Doctors see only their own visits.
 //  staffAuth  : {email} -> { staffId, name, role, ... }  written by the owner only.
+//               role owner / management / admin = full owner-dashboard access.
 //  staff      : team directory, owner-managed, readable by staff.
 //  prescriptions / feedback : staff-only reads; feedback is create-only for the public.
 service cloud.firestore {
@@ -14,16 +15,22 @@ service cloud.firestore {
     function owner() { return 'srinika.medisurge@gmail.com'; }
     // Google sign-in only: the email must be verified by Google, so it cannot be impersonated.
     function signedIn() { return request.auth != null && request.auth.token.email != null && request.auth.token.email_verified == true; }
-    function isOwner() { return signedIn() && request.auth.token.email.lower() == owner(); }
+    function isMasterOwner() { return signedIn() && request.auth.token.email.lower() == owner(); }
     function staffDoc() {
       return get(/databases/$(database)/documents/staffAuth/$(request.auth.token.email.lower()));
     }
-    function isStaff() {
-      return signedIn() && (isOwner() ||
-        (exists(/databases/$(database)/documents/staffAuth/$(request.auth.token.email.lower()))
-          && staffDoc().data.active == true));
+    function hasStaffDoc() {
+      return exists(/databases/$(database)/documents/staffAuth/$(request.auth.token.email.lower()))
+          && staffDoc().data.active == true;
     }
-    function myStaffId() { return isOwner() ? 'dr-piyush-saxena' : staffDoc().data.staffId; }
+    // Team roles with full dashboard access (same as the master owner, see PARTNER_DATA.staffRoles)
+    function adminRoles() { return ['owner', 'management', 'admin']; }
+    // isOwner() = master owner OR an active Owner / Management / Admin team member
+    function isOwner() {
+      return isMasterOwner() || (signedIn() && hasStaffDoc() && staffDoc().data.role in adminRoles());
+    }
+    function isStaff() { return signedIn() && (isMasterOwner() || hasStaffDoc()); }
+    function myStaffId() { return isMasterOwner() ? 'dr-piyush-saxena' : staffDoc().data.staffId; }
     function str(v, max) { return v is string && v.size() <= max; }
 
     // ---------- Bookings / visits ----------
@@ -41,11 +48,29 @@ service cloud.firestore {
 
       // A doctor can work on their own visit only until it is completed; after that it is
       // frozen for them (only the owner can still change it).
+      // Cancelling (status "cancelled") is for admins, or the patient themself (below).
       allow update: if isOwner()
                     || (isStaff() && resource.data.assignedTo == myStaffId()
-                        && resource.data.status != "completed"
-                        && request.resource.data.assignedTo == resource.data.assignedTo);
+                        && !(resource.data.status in ["completed", "cancelled"])
+                        && request.resource.data.status != "cancelled"
+                        && request.resource.data.assignedTo == resource.data.assignedTo)
+                    || validPatientCancel();
       allow delete: if isOwner();
+    }
+
+    // The patient app may cancel its own booking (it knows the unguessable id) until the visit
+    // is done. Only the cancel fields may change; nothing else about the booking.
+    function validPatientCancel() {
+      let d = request.resource.data;
+      return resource.data.status in ["pending", "assigned", "in_progress"]
+        && d.diff(resource.data).affectedKeys().hasOnly(
+             ["status", "statusBeforeCancel", "cancelReason", "cancelNote", "cancelledBy", "cancelledAtMs"])
+        && d.status == "cancelled"
+        && d.cancelledBy == "patient"
+        && d.statusBeforeCancel == resource.data.status
+        && d.cancelledAtMs is number
+        && str(d.cancelReason, 80)
+        && (!("cancelNote" in d) || str(d.cancelNote, 300));
     }
 
     function validPublicBooking(d) {
@@ -74,7 +99,12 @@ service cloud.firestore {
     match /staffAuth/{email} {
       allow get: if isOwner() || (signedIn() && request.auth.token.email.lower() == email);
       allow list: if isOwner();
-      allow write: if isOwner();
+      // Admin-level roles can manage the clinical team, but only the master owner can
+      // give, change or remove an Owner / Management / Admin login.
+      allow create: if isMasterOwner() || (isOwner() && !(request.resource.data.role in adminRoles()));
+      allow update: if isMasterOwner() || (isOwner() && !(request.resource.data.role in adminRoles())
+                                                    && !(resource.data.role in adminRoles()));
+      allow delete: if isMasterOwner() || (isOwner() && !(resource.data.role in adminRoles()));
     }
     match /staff/{id} {
       allow read: if isStaff();

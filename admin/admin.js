@@ -72,7 +72,7 @@ document.querySelectorAll(".tab-btn").forEach(b => {
 });
 function showTab(name) {
   document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === name));
-  ["overview", "payments", "prices", "staff"].forEach(t => $("tab-" + t).classList.toggle("hidden", t !== name));
+  ["overview", "bookings", "payments", "prices", "staff"].forEach(t => $("tab-" + t).classList.toggle("hidden", t !== name));
 }
 
 // ================= data =================
@@ -133,6 +133,7 @@ async function reloadAll() {
     toast("Could not load data: " + (e.code || e.message) + " (publish the Firestore rules?)");
   }
   renderOverview();
+  renderBookings();
   renderPayments();
   renderPrices();
   renderStaff();
@@ -144,19 +145,24 @@ function amountOf(t) {
   return Number(t.fee || 0);
 }
 
+// Cancelled / test bookings never count in visits or money.
+const isLive = t => t.status !== "cancelled";
+
 function renderOverview() {
   const todayStart = rangeStartMs("1");
   const monthStart = rangeStartMs("month");
-  const paid = tasks.filter(t => t.paymentStatus === "paid");
+  const live = tasks.filter(isLive);
+  const cancelled = tasks.filter(t => !isLive(t));
+  const paid = live.filter(t => t.paymentStatus === "paid");
   const when = t => t.completedAtMs || t.createdAtMs || 0;
   const sum = list => list.reduce((s, t) => s + amountOf(t), 0);
   const today = paid.filter(t => when(t) >= todayStart);
   const month = paid.filter(t => when(t) >= monthStart);
-  const claimed = tasks.filter(t => t.paymentStatus === "claimed");
+  const claimed = live.filter(t => t.paymentStatus === "claimed");
   const pending = openTasks.filter(t => t.status === "pending");
   const inProg = openTasks.filter(t => t.status !== "pending");
   const stat = (label, value, sub, color) => `<div class="card p-4"><div class="text-[11px] font-bold uppercase text-slate-400">${label}</div><div class="text-2xl font-black ${color || "text-slate-900"}">${value}</div><div class="text-[11px] text-slate-500">${sub || ""}</div></div>`;
-  const recent = tasks.slice(0, 8).map(t => `<tr class="border-t border-slate-100"><td class="p-2 text-xs text-slate-500 whitespace-nowrap">${fmtDate(t.createdAtMs)}</td><td class="p-2 font-semibold">${esc(t.patientName)}</td><td class="p-2 text-xs">${esc(t.serviceName)}</td><td class="p-2 text-xs">${badge(t.status)}</td></tr>`).join("");
+  const recent = live.slice(0, 8).map(t => `<tr class="border-t border-slate-100"><td class="p-2 text-xs text-slate-500 whitespace-nowrap">${fmtDate(t.createdAtMs)}</td><td class="p-2 font-semibold">${esc(t.patientName)}</td><td class="p-2 text-xs">${esc(t.serviceName)}</td><td class="p-2 text-xs">${badge(t.status)}</td></tr>`).join("");
   $("tab-overview").innerHTML = `
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
       ${stat("Collected today", inr(sum(today)), today.length + " paid visits", "text-emerald-600")}
@@ -164,7 +170,8 @@ function renderOverview() {
       ${stat("New / unassigned", pending.length, "waiting for assignment", pending.length ? "text-amber-600" : "")}
       ${stat("In progress", inProg.length, "assigned, not completed")}
       ${stat("Online payments to verify", claimed.length, inr(sum(claimed)) + " claimed", claimed.length ? "text-sky-700" : "")}
-      ${stat("Visits (30 days)", tasks.length, "all sources")}
+      ${stat("Visits (30 days)", live.length, "all sources, without cancelled")}
+      ${stat("Cancelled (30 days)", cancelled.length, cancelled.filter(t => t.cancelReason === "Test entry").length + " test • " + cancelled.filter(t => t.cancelledBy === "patient").length + " by patient", cancelled.length ? "text-rose-600" : "")}
       ${stat("Active staff", staff.filter(s => s.status !== "inactive").length, staff.filter(s => s.status === "inactive").length + " deactivated")}
       ${stat("Price overrides", Object.keys(prices).length, pricesMeta && pricesMeta.updatedAtMs ? "updated " + fmtDate(pricesMeta.updatedAtMs) : "using built-in prices")}
     </div>
@@ -175,15 +182,176 @@ function renderOverview() {
 }
 
 function badge(status) {
-  const map = { pending: "bg-amber-100 text-amber-800", assigned: "bg-sky-100 text-sky-800", in_progress: "bg-sky-100 text-sky-800", completed: "bg-emerald-100 text-emerald-800" };
-  const label = { pending: "New", assigned: "Assigned", in_progress: "In progress", completed: "Completed" }[status] || status;
+  const map = { pending: "bg-amber-100 text-amber-800", assigned: "bg-sky-100 text-sky-800", in_progress: "bg-sky-100 text-sky-800", completed: "bg-emerald-100 text-emerald-800", cancelled: "bg-rose-100 text-rose-800" };
+  const label = { pending: "New", assigned: "Assigned", in_progress: "In progress", completed: "Completed", cancelled: "Cancelled" }[status] || status;
   return `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${map[status] || "bg-slate-100"}">${esc(label)}</span>`;
+}
+
+// ================= bookings (cancel / restore / delete) =================
+const CANCEL_REASONS = ["Test entry", "Patient cancelled", "Duplicate booking", "Patient not reachable", "Service not available", "Other"];
+let bkStatus = "active";   // active | completed | cancelled | test | all
+let bkSearch = "";
+let cancelId = null, cancelReason = "";
+
+function bookingGroups() {
+  const from = rangeStartMs(payRange);
+  const inRange = tasks.filter(t => (t.createdAtMs || 0) >= from);
+  // Open visits older than the window still need attention, so always include them.
+  const ids = new Set(inRange.map(t => t.id));
+  openTasks.forEach(t => { if (!ids.has(t.id)) inRange.push(t); });
+  return {
+    active: inRange.filter(t => ["pending", "assigned", "in_progress"].includes(t.status)),
+    completed: inRange.filter(t => t.status === "completed"),
+    cancelled: inRange.filter(t => t.status === "cancelled" && t.cancelReason !== "Test entry"),
+    test: inRange.filter(t => t.status === "cancelled" && t.cancelReason === "Test entry"),
+    all: inRange
+  };
+}
+
+function renderBookings() {
+  const g = bookingGroups();
+  const q = bkSearch.toLowerCase();
+  const list = (g[bkStatus] || g.all)
+    .filter(t => !q || [t.patientName, t.phone, t.serviceName, t.bookingNo].join(" ").toLowerCase().includes(q))
+    .sort((a, b) => (b.createdAtMs || 0) - (a.createdAtMs || 0));
+  const chip = (k, label) => `<button data-bk="${k}" class="px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap ${bkStatus === k ? "bg-sky-900 text-white" : "bg-white border border-slate-200"}">${label} (${g[k].length})</button>`;
+  const opt = (v, label) => `<option value="${v}" ${v === payRange ? "selected" : ""}>${label}</option>`;
+  $("tab-bookings").innerHTML = `
+    <div class="card p-3 flex flex-wrap gap-2 items-center">
+      <div class="flex gap-1.5 overflow-x-auto">${chip("active", "Active")}${chip("completed", "Completed")}${chip("cancelled", "Cancelled")}${chip("test", "Test")}${chip("all", "All")}</div>
+      <select id="bk-range" class="border border-slate-300 rounded-lg px-2 py-1.5 text-sm bg-white">${opt("1", "Today")}${opt("7", "Last 7 days")}${opt("30", "Last 30 days")}${opt("month", "This month")}${opt("all", "All time")}</select>
+      <input id="bk-search" value="${esc(bkSearch)}" placeholder="Search name, phone, booking no." class="border border-slate-300 rounded-xl px-3 py-1.5 text-sm flex-1 min-w-[180px]">
+      ${bkStatus === "test" && g.test.length ? `<button id="bk-del-tests" class="px-3 py-2 text-xs font-bold bg-rose-600 text-white rounded-xl"><i class="fa-solid fa-trash mr-1"></i>Delete all test (${g.test.length})</button>` : ""}
+    </div>
+    <div class="card mt-3 overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead><tr class="text-left text-[11px] uppercase text-slate-500 bg-slate-50"><th class="p-2">Booked</th><th class="p-2">Patient</th><th class="p-2">Service</th><th class="p-2">Status</th><th class="p-2">Payment</th><th class="p-2 text-right">Actions</th></tr></thead>
+        <tbody>${list.map(t => {
+          const cancelled = t.status === "cancelled";
+          const info = cancelled
+            ? `<div class="text-[10px] text-rose-700 mt-0.5">${esc(t.cancelReason || "")}${t.cancelNote ? " - " + esc(t.cancelNote) : ""}</div><div class="text-[10px] text-slate-400">${t.cancelledBy === "patient" ? "by patient" : "by " + esc(t.cancelledByName || "admin")} • ${fmtDate(t.cancelledAtMs)}</div>`
+            : (t.assignedToName ? `<div class="text-[10px] text-slate-500 mt-0.5">${esc(t.assignedToName)}</div>` : "");
+          const actions = cancelled
+            ? `<button data-restore="${esc(t.id)}" class="px-2 py-1 text-[11px] font-bold bg-sky-50 text-sky-800 border border-sky-200 rounded-lg">Restore</button>
+               <button data-delete="${esc(t.id)}" class="px-2 py-1 text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 rounded-lg">Delete</button>`
+            : `<button data-cancel="${esc(t.id)}" class="px-2 py-1 text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 rounded-lg"><i class="fa-solid fa-ban mr-1"></i>Cancel</button>`;
+          return `<tr class="border-t border-slate-100 align-top ${cancelled ? "bg-rose-50/30" : ""}">
+            <td class="p-2 text-xs text-slate-500 whitespace-nowrap">${fmtDate(t.createdAtMs)}${t.bookingNo ? `<div class="text-[10px]">#${esc(t.bookingNo)}</div>` : ""}</td>
+            <td class="p-2"><div class="font-semibold">${esc(t.patientName)}</div><div class="text-[11px] text-slate-500">${esc(t.phone)} • ${esc(t.source || "")}</div></td>
+            <td class="p-2 text-xs">${esc(t.serviceName)}${t.fee ? `<div class="text-[11px] font-bold">${inr(t.fee)}</div>` : ""}</td>
+            <td class="p-2 text-xs">${badge(t.status)}${info}</td>
+            <td class="p-2 text-xs">${payBadge(t)}</td>
+            <td class="p-2 text-right whitespace-nowrap space-x-1">${actions}</td>
+          </tr>`;
+        }).join("") || '<tr><td colspan="6" class="p-6 text-center text-slate-400">No bookings here.</td></tr>'}</tbody>
+      </table>
+    </div>
+    <p class="text-[11px] text-slate-500 mt-2">Cancel test entries with reason <strong>Test entry</strong>, then delete them from the Test filter. Patients can also cancel from the patient app until the visit is done; those show "by patient".</p>`;
+
+  document.querySelectorAll("[data-bk]").forEach(b => { b.onclick = () => { bkStatus = b.dataset.bk; renderBookings(); }; });
+  $("bk-range").onchange = async e => { payRange = e.target.value; await loadTasks(); renderBookings(); renderPayments(); renderOverview(); };
+  $("bk-search").oninput = e => { bkSearch = e.target.value; const pos = e.target.selectionStart; renderBookings(); const el = $("bk-search"); el.focus(); el.setSelectionRange(pos, pos); };
+  if ($("bk-del-tests")) $("bk-del-tests").onclick = () => deleteBookings(g.test);
+  document.querySelectorAll("[data-cancel]").forEach(b => { b.onclick = () => openCancel(b.dataset.cancel); });
+  document.querySelectorAll("[data-restore]").forEach(b => { b.onclick = () => restoreBooking(b.dataset.restore); });
+  document.querySelectorAll("[data-delete]").forEach(b => { b.onclick = () => { const t = findTask(b.dataset.delete); if (t) deleteBookings([t]); }; });
+}
+
+function findTask(id) { return tasks.find(t => t.id === id) || openTasks.find(t => t.id === id); }
+
+function afterTaskChange() {
+  renderBookings();
+  renderOverview();
+  renderPayments();
+}
+
+function openCancel(id) {
+  const t = findTask(id);
+  if (!t) return;
+  cancelId = id; cancelReason = "";
+  $("cancel-sub").textContent = t.patientName + " • " + t.serviceName + (t.bookingNo ? " • #" + t.bookingNo : "");
+  $("cancel-note").value = "";
+  const warn = [];
+  if (t.status === "completed") warn.push("This visit is already completed; its billing will be removed from the totals.");
+  if (t.paymentStatus === "paid" || t.paymentStatus === "claimed") warn.push("A payment is recorded (" + inr(t.amountCollected || t.fee) + "). Refund it separately if needed.");
+  if (t.assignedToName && t.status !== "completed") warn.push(t.assignedToName + " is assigned. Inform them; the visit leaves their app.");
+  $("cancel-warn").innerHTML = warn.map(w => "<div>" + esc(w) + "</div>").join("");
+  $("cancel-warn").classList.toggle("hidden", !warn.length);
+  drawCancelReasons();
+  $("cancel-modal").classList.remove("hidden");
+  $("cancel-modal").classList.add("flex");
+}
+
+function drawCancelReasons() {
+  $("cancel-reasons").innerHTML = CANCEL_REASONS.map(r => `<button type="button" data-reason="${esc(r)}" class="p-2 rounded-xl border text-xs font-bold text-left ${r === cancelReason ? "border-rose-500 bg-rose-50 text-rose-800" : "border-slate-200"}">${esc(r)}</button>`).join("");
+  document.querySelectorAll("[data-reason]").forEach(b => { b.onclick = () => { cancelReason = b.dataset.reason; drawCancelReasons(); }; });
+}
+
+function closeCancel() {
+  $("cancel-modal").classList.add("hidden");
+  $("cancel-modal").classList.remove("flex");
+  cancelId = null;
+}
+$("cancel-close").onclick = closeCancel;
+
+$("cancel-confirm").onclick = async () => {
+  const t = findTask(cancelId);
+  if (!t) return;
+  if (!cancelReason) { toast("Choose a reason."); return; }
+  const fields = {
+    status: "cancelled", statusBeforeCancel: t.status || "pending",
+    cancelReason, cancelNote: $("cancel-note").value.trim().slice(0, 300),
+    cancelledBy: "admin", cancelledByName: auth.currentUser.email, cancelledAtMs: Date.now()
+  };
+  try {
+    await db.collection("tasks").doc(t.id).update(fields);
+    Object.assign(t, fields);
+    openTasks = openTasks.filter(x => x.id !== t.id);
+    if (!tasks.includes(t)) tasks.push(t);
+    closeCancel();
+    afterTaskChange();
+    toast("Booking cancelled (" + cancelReason + ").");
+  } catch (e) { toast("Could not cancel: " + (e.code || e.message)); }
+};
+
+async function restoreBooking(id) {
+  const t = findTask(id);
+  if (!t || !confirm("Restore this booking for " + t.patientName + "?")) return;
+  const back = t.statusBeforeCancel && t.statusBeforeCancel !== "cancelled" ? t.statusBeforeCancel : (t.assignedTo ? "in_progress" : "pending");
+  const del = firebase.firestore.FieldValue.delete();
+  try {
+    await db.collection("tasks").doc(id).update({
+      status: back, statusBeforeCancel: del, cancelReason: del, cancelNote: del,
+      cancelledBy: del, cancelledByName: del, cancelledAtMs: del, restoredAtMs: Date.now()
+    });
+    ["statusBeforeCancel", "cancelReason", "cancelNote", "cancelledBy", "cancelledByName", "cancelledAtMs"].forEach(k => delete t[k]);
+    t.status = back;
+    if (back !== "completed") openTasks.push(t);
+    afterTaskChange();
+    toast("Booking restored.");
+  } catch (e) { toast("Could not restore: " + (e.code || e.message)); }
+}
+
+async function deleteBookings(list) {
+  if (!list.length) return;
+  const what = list.length === 1 ? list[0].patientName + " • " + list[0].serviceName : list.length + " bookings";
+  if (!confirm("Delete " + what + " permanently?\nThis cannot be undone.")) return;
+  let ok = 0;
+  for (const t of list) {
+    try { await db.collection("tasks").doc(t.id).delete(); ok++; } catch (e) {}
+  }
+  const gone = new Set(list.map(t => t.id));
+  tasks = tasks.filter(t => !gone.has(t.id));
+  openTasks = openTasks.filter(t => !gone.has(t.id));
+  afterTaskChange();
+  toast(ok + " booking" + (ok === 1 ? "" : "s") + " deleted.");
 }
 
 // ================= payments =================
 function filteredPayments() {
   const from = rangeStartMs(payRange);
   return tasks.filter(t => {
+    if (!isLive(t)) return false;
     if ((t.createdAtMs || 0) < from) return false;
     if (payStatus !== "all" && (t.paymentStatus || "unpaid") !== payStatus) return false;
     if (payMode !== "all" && (t.paymentMode || "") !== payMode) return false;
@@ -241,7 +409,7 @@ function renderPayments() {
     </div>
     <p class="text-[11px] text-slate-500 mt-2">"Online - to verify": the patient paid through the website/app (Razorpay or UPI). Check the payment id in your Razorpay dashboard, then tap <strong>Mark received</strong>.</p>`;
 
-  $("f-range").onchange = async e => { payRange = e.target.value; await loadTasks(); renderPayments(); renderOverview(); };
+  $("f-range").onchange = async e => { payRange = e.target.value; await loadTasks(); renderPayments(); renderOverview(); renderBookings(); };
   $("f-status").onchange = e => { payStatus = e.target.value; renderPayments(); };
   $("f-mode").onchange = e => { payMode = e.target.value; renderPayments(); };
   $("f-staff").onchange = e => { payStaff = e.target.value; renderPayments(); };
@@ -441,6 +609,7 @@ async function saveStaff(member, previousEmail) {
     await db.collection("staffAuth").doc(email).set({
       staffId: member.id, name: member.name, role: member.role,
       designation: member.designation || "", regNo: member.regNo || "",
+      phone: member.phone || "", specialty: member.specialty || "",
       active: member.status !== "inactive"
     });
   }

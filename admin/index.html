@@ -49,12 +49,14 @@
 
     <nav class="flex gap-1.5 overflow-x-auto text-sm">
       <button class="tab-btn active px-4 py-2 rounded-xl font-bold bg-white border border-slate-200 whitespace-nowrap" data-tab="overview"><i class="fa-solid fa-gauge mr-1.5"></i>Overview</button>
+      <button class="tab-btn px-4 py-2 rounded-xl font-bold bg-white border border-slate-200 whitespace-nowrap" data-tab="bookings"><i class="fa-solid fa-calendar-check mr-1.5"></i>Bookings</button>
       <button class="tab-btn px-4 py-2 rounded-xl font-bold bg-white border border-slate-200 whitespace-nowrap" data-tab="payments"><i class="fa-solid fa-indian-rupee-sign mr-1.5"></i>Payments</button>
       <button class="tab-btn px-4 py-2 rounded-xl font-bold bg-white border border-slate-200 whitespace-nowrap" data-tab="prices"><i class="fa-solid fa-tags mr-1.5"></i>Prices</button>
       <button class="tab-btn px-4 py-2 rounded-xl font-bold bg-white border border-slate-200 whitespace-nowrap" data-tab="staff"><i class="fa-solid fa-user-doctor mr-1.5"></i>Staff</button>
     </nav>
 
     <section id="tab-overview"></section>
+    <section id="tab-bookings" class="hidden"></section>
     <section id="tab-payments" class="hidden"></section>
     <section id="tab-prices" class="hidden"></section>
     <section id="tab-staff" class="hidden"></section>
@@ -82,6 +84,25 @@
       <label class="block text-xs font-bold text-slate-600">Registration no.<input id="sf-regno" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm"></label>
       <button type="submit" class="w-full py-3 bg-sky-700 hover:bg-sky-800 text-white rounded-xl font-bold text-sm">Save</button>
     </form>
+  </div>
+
+  <!-- Cancel booking modal -->
+  <div id="cancel-modal" class="hidden fixed inset-0 z-50 bg-black/50 items-center justify-center p-4">
+    <div class="bg-white rounded-2xl w-full max-w-md p-5 space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="font-extrabold">Cancel booking</h3>
+          <p id="cancel-sub" class="text-xs text-slate-500"></p>
+        </div>
+        <button type="button" id="cancel-close" class="w-8 h-8 rounded-full bg-slate-100"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="text-xs font-bold text-slate-600">Reason *</div>
+      <div id="cancel-reasons" class="grid grid-cols-2 gap-2"></div>
+      <textarea id="cancel-note" rows="2" maxlength="300" placeholder="Note (optional)" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm"></textarea>
+      <div id="cancel-warn" class="hidden p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-[11px] font-semibold text-amber-900"></div>
+      <p class="text-[11px] text-slate-500">Cancelled bookings are removed from visit lists and from all billing totals. You can restore them later.</p>
+      <button id="cancel-confirm" class="w-full py-3 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold text-sm"><i class="fa-solid fa-ban mr-1"></i>Cancel this booking</button>
+    </div>
   </div>
 
   <div id="toast" class="fixed left-1/2 -translate-x-1/2 top-4 z-[60] bg-slate-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-lg opacity-0 transition-opacity pointer-events-none max-w-[90%] text-center"></div>
