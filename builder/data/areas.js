@@ -361,4 +361,160 @@ const AREAS = [
   }
 ];
 
+/**
+ * Wider Lucknow coverage. Each area gets its own localities, landmarks and nearby hospitals so
+ * every page carries area-specific copy (FAQs are built from those details).
+ */
+function wideArea(a) {
+  return {
+    slug: a.slug,
+    name: a.name,
+    title: `Home Nursing & Healthcare Services in ${a.name}, Lucknow`,
+    responseTime: a.responseTime,
+    status: a.status,
+    badge: a.badge,
+    metaTitle: `Home Nursing in ${a.name} Lucknow | Doctor, Nurse & GDA at Home`,
+    metaDescription: `Home nursing, doctor visits, GDA & EMT staff in ${a.name}, Lucknow by Srinika Medisurge. ${a.responseTime} doorstep arrival. IV drips, catheter, dressing & elder care. Call +91 96530 01359.`,
+    intro: a.intro,
+    landmarks: a.landmarks,
+    highlights: [
+      a.highlight,
+      `Typical doorstep arrival of ${a.responseTime} across ${a.localities.slice(0, 3).join(", ")} and nearby colonies.`,
+      `Post-discharge home care for patients returning from ${a.hospitals}.`,
+      "Monthly GDA and EMT staff, plus certified nurses for 12-hour and 24-hour shifts."
+    ],
+    faqs: [
+      {
+        q: `How fast can a nurse reach my home in ${a.name}?`,
+        a: `Our nursing staff usually reaches homes in ${a.name} within ${a.responseTime} of booking confirmation. For planned visits you can also book a fixed time slot on call or WhatsApp.`
+      },
+      {
+        q: `Which localities in and around ${a.name} do you cover?`,
+        a: `We cover ${a.localities.join(", ")} and all nearby colonies. If your locality is not listed, call +91 96530 01359 and we will confirm coverage.`
+      },
+      {
+        q: `Do you provide home care after discharge from hospitals near ${a.name}?`,
+        a: `Yes. Many of our patients in ${a.name} come home from ${a.hospitals}. We continue the prescribed treatment at home: IV drips, injections, catheter care, wound dressing and nursing shifts.`
+      },
+      {
+        q: `Can I hire a GDA or EMT staff on a monthly basis in ${a.name}?`,
+        a: "Yes. A 12-hour GDA costs ₹20,000 - ₹24,000 per month and a 24-hour GDA ₹30,000 - ₹35,000 per month. EMT staff costs ₹25,000 per month for 12 hours and ₹30,000 - ₹35,000 per month for 24 hours. Contact us on WhatsApp for details."
+      }
+    ]
+  };
+}
+
+AREAS.push(...[
+  {
+    slug: "home-nursing-nishatganj-badshah-nagar",
+    name: "Nishatganj & Badshah Nagar",
+    responseTime: "25 - 35 Mins", status: "Fast Dispatch", badge: "Immediate Available",
+    intro: "Nishatganj and Badshah Nagar sit between Mahanagar, Indira Nagar and Hazratganj, with dense residential lanes, Paper Mill Colony and busy market streets. Srinika Medisurge reaches these homes quickly from our Gomti Nagar hub for nursing visits, injections, catheter changes, wound dressing and long-term elderly care.",
+    landmarks: "Nishatganj Market, Badshah Nagar Railway Station, Paper Mill Colony, Nishatganj Bridge, Kapoorthala Road",
+    localities: ["Nishatganj", "Badshah Nagar", "Paper Mill Colony", "Butler Palace Colony", "New Hyderabad"],
+    hospitals: "Hazratganj and Mahanagar hospitals and clinics",
+    highlight: "Quick reach from our Gomti Nagar hub across the Gomti bridges."
+  },
+  {
+    slug: "home-nursing-nirala-nagar-daliganj",
+    name: "Nirala Nagar & Daliganj",
+    responseTime: "30 - 40 Mins", status: "Standard", badge: "Available",
+    intro: "Nirala Nagar and Daliganj are well-settled residential areas close to Lucknow University and the Gomti river, home to many senior citizens and families. Srinika Medisurge provides doorstep nursing, doctor visits, physiotherapy and attendant care here, so patients don't have to travel for routine procedures.",
+    landmarks: "Nirala Nagar, Daliganj Bridge, Lucknow University, Hanuman Setu, Vivekananda Polyclinic",
+    localities: ["Nirala Nagar", "Daliganj", "University Road", "Hanuman Setu area", "Mall Avenue side colonies"],
+    hospitals: "Vivekananda Polyclinic and nearby city hospitals",
+    highlight: "Trusted elderly care for long-settled families around Lucknow University."
+  },
+  {
+    slug: "home-nursing-vikas-nagar-kursi-road",
+    name: "Vikas Nagar & Kursi Road",
+    responseTime: "35 - 45 Mins", status: "Standard", badge: "Available",
+    intro: "Vikas Nagar, Kapoorthala and the Kursi Road belt have grown into large residential neighbourhoods with many new apartment projects. Srinika Medisurge sends nurses, GDAs and doctors to homes across this belt for post-surgery care, IV drips, catheterization and daily patient support.",
+    landmarks: "Vikas Nagar Sectors, Kapoorthala Complex, Kursi Road, Kalyanpur, Ring Road",
+    localities: ["Vikas Nagar", "Kapoorthala", "Kalyanpur", "Kursi Road", "Gudamba"],
+    hospitals: "hospitals on Kursi Road, Aliganj and Kapoorthala",
+    highlight: "Covers new apartment societies along Kursi Road and the Ring Road."
+  },
+  {
+    slug: "home-nursing-sitapur-road-iim-road",
+    name: "Sitapur Road & IIM Road",
+    responseTime: "40 - 55 Mins", status: "Scheduled / Priority", badge: "Available",
+    intro: "Sitapur Road, IIM Road and Jankipuram Extension form Lucknow's fast-growing northern side, with many new townships and independent houses. Srinika Medisurge serves this area with scheduled and priority nursing visits, monthly GDA and EMT staff, and doctor home visits.",
+    landmarks: "Sitapur Road Yojana, IIM Road, Jankipuram Extension, Madiyaon, Khadra",
+    localities: ["Sitapur Road Yojana", "IIM Road", "Jankipuram Extension", "Madiyaon", "Khadra"],
+    hospitals: "hospitals on Sitapur Road and in Jankipuram",
+    highlight: "Planned daily visits for long-term patients in the northern townships."
+  },
+  {
+    slug: "home-nursing-chowk-thakurganj",
+    name: "Chowk & Thakurganj",
+    responseTime: "40 - 50 Mins", status: "Standard", badge: "Available",
+    intro: "Chowk, Thakurganj and Saadatganj are the heart of old Lucknow, with narrow lanes where taking a bedridden patient out for treatment is very hard. Srinika Medisurge brings nursing, catheter care, wound dressing and doctor visits to the patient's bedside in these old-city mohallas.",
+    landmarks: "Chowk, Thakurganj, Saadatganj, Bara Imambara, Medical College Chauraha",
+    localities: ["Chowk", "Thakurganj", "Saadatganj", "Victoria Street", "Nakhas"],
+    hospitals: "KGMU, Balrampur Hospital and old-city hospitals",
+    highlight: "Bedside care in old-city lanes where moving the patient is difficult."
+  },
+  {
+    slug: "home-nursing-aminabad-charbagh",
+    name: "Aminabad & Charbagh",
+    responseTime: "35 - 45 Mins", status: "Standard", badge: "Available",
+    intro: "Aminabad, Latouche Road and Charbagh are central Lucknow's busiest commercial and residential areas. Families here use Srinika Medisurge for doorstep injections, IV drips, catheter changes and nursing shifts, without dealing with traffic and crowded hospital OPDs.",
+    landmarks: "Aminabad Market, Charbagh Railway Station, Latouche Road, Naka Hindola, Golaganj",
+    localities: ["Aminabad", "Charbagh", "Latouche Road", "Naka Hindola", "Golaganj"],
+    hospitals: "Balrampur Hospital, KGMU and central Lucknow hospitals",
+    highlight: "Saves crowded OPD trips for families in central Lucknow."
+  },
+  {
+    slug: "home-nursing-rajajipuram",
+    name: "Rajajipuram",
+    responseTime: "45 - 60 Mins", status: "Scheduled / Priority", badge: "Available",
+    intro: "Rajajipuram is one of west Lucknow's largest residential colonies, along with Talkatora and the Dubagga side. Srinika Medisurge provides scheduled nursing visits, attendant and GDA staff, physiotherapy and doctor visits to homes across all Rajajipuram blocks.",
+    landmarks: "Rajajipuram Blocks, Talkatora Road, Dubagga, Para Road, Encore Chauraha",
+    localities: ["Rajajipuram", "Talkatora", "Dubagga", "Para", "Budheshwar"],
+    hospitals: "hospitals in Rajajipuram, Alambagh and Charbagh",
+    highlight: "Planned visit slots for regular injections and dressings in west Lucknow."
+  },
+  {
+    slug: "home-nursing-krishna-nagar-kanpur-road",
+    name: "Krishna Nagar & Kanpur Road",
+    responseTime: "45 - 60 Mins", status: "Scheduled / Priority", badge: "Available",
+    intro: "Krishna Nagar, LDA Colony and the Kanpur Road belt are busy residential areas in south-west Lucknow. Srinika Medisurge serves these homes with nursing procedures, monthly GDA and EMT staff, oxygen and BiPAP setup, and doctor visits.",
+    landmarks: "Krishna Nagar, LDA Colony Kanpur Road, Transport Nagar, Singar Nagar, Kanpur Road",
+    localities: ["Krishna Nagar", "LDA Colony", "Transport Nagar", "Singar Nagar", "Manas Nagar"],
+    hospitals: "hospitals on Kanpur Road and in Alambagh",
+    highlight: "Oxygen, BiPAP and nursing support together for chronic patients."
+  },
+  {
+    slug: "home-nursing-sarojini-nagar-amausi",
+    name: "Sarojini Nagar & Amausi",
+    responseTime: "50 - 65 Mins", status: "Scheduled / Priority", badge: "Available",
+    intro: "Sarojini Nagar and the Amausi airport area lie on Lucknow's southern edge along Kanpur Road. Srinika Medisurge provides scheduled home nursing visits, long-term GDA and EMT staff and doctor visits here, so patients don't need long trips to the city for care.",
+    landmarks: "Sarojini Nagar, Chaudhary Charan Singh Airport (Amausi), Scooters India, Kanpur Road, Banthara",
+    localities: ["Sarojini Nagar", "Amausi", "Banthara", "Natkur", "Scooters India area"],
+    hospitals: "hospitals on Kanpur Road and in central Lucknow",
+    highlight: "Monthly live-in GDA and EMT staff for patients on the city's southern edge."
+  },
+  {
+    slug: "home-nursing-raebareli-road-pgi",
+    name: "Raebareli Road & PGI",
+    responseTime: "35 - 50 Mins", status: "Standard", badge: "Available",
+    intro: "Raebareli Road, Vrindavan Yojana and Telibagh surround SGPGI, one of Lucknow's major hospitals. Many families here bring patients home after PGI treatment, and Srinika Medisurge continues that care at home with nursing visits, catheter care, dressings, monthly GDA and EMT staff.",
+    landmarks: "SGPGI, Vrindavan Yojana, Telibagh, Utrethia, Raebareli Road",
+    localities: ["Vrindavan Yojana", "Telibagh", "Utrethia", "PGI area", "Raebareli Road"],
+    hospitals: "SGPGI and hospitals on Raebareli Road",
+    highlight: "Follow-up care at home for patients discharged from SGPGI."
+  },
+  {
+    slug: "home-nursing-cantt-dilkusha",
+    name: "Cantt & Dilkusha",
+    responseTime: "30 - 40 Mins", status: "Standard", badge: "Available",
+    intro: "Lucknow Cantonment, Sadar and Dilkusha are calm, well-planned areas with many retired officers and senior citizens. Srinika Medisurge provides elderly home nursing, doctor visits, physiotherapy and long-term attendant care to families across the Cantt area.",
+    landmarks: "Lucknow Cantonment, Sadar Bazaar, Dilkusha Garden, Command Hospital, Cantt Road",
+    localities: ["Lucknow Cantt", "Sadar", "Dilkusha", "Nehru Road", "Cantt Road"],
+    hospitals: "Command Hospital and central Lucknow hospitals",
+    highlight: "Elderly-focused care for senior citizens and veterans in the Cantt area."
+  }
+].map(wideArea));
+
 module.exports = AREAS;

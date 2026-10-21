@@ -92,7 +92,12 @@ const WEBSITE_PAGE_CONTEXT = {
 
 /** Pages outside /services/: matched by URL prefix. */
 const WEBSITE_PATH_CONTEXT = {
-  "/areas/": { 2000: "consult-doorstep", 600: "physiotherapy-doorstep", 500: "consult-online" },
+  "/areas/": {
+    2000: "consult-doorstep", 600: "physiotherapy-doorstep", 500: "consult-online",
+    // area FAQ: GDA 12h / 24h, then EMT 12h / 24h (30,000 and 35,000 appear once for each)
+    20000: "gda-12h-min", 24000: "gda-12h-max", 25000: "emt-12h",
+    30000: ["gda-24h-min", "emt-24h-min"], 35000: ["gda-24h-max", "emt-24h-max"]
+  },
   "/blog/home-physiotherapy-stroke-surgery-recovery/": { 600: "physiotherapy-doorstep" },
   "/blog/doorstep-doctor-visit-vs-hospital-opd-elderly/": { 2000: "consult-doorstep" }
 };

@@ -82,7 +82,7 @@ const sitemapEntries = [];
 function registerSitemap(url, priority = "0.8", changefreq = "weekly") {
   sitemapEntries.push({
     url: `${CONFIG.siteUrl}${url}`,
-    lastmod: "2026-10-17",
+    lastmod: "2026-10-21",
     priority,
     changefreq
   });

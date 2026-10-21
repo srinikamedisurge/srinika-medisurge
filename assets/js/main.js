@@ -419,7 +419,18 @@ const LUCKNOW_AREAS = [
   { name: "Aliganj & Jankipuram", slug: "home-nursing-aliganj-jankipuram", time: "35 - 45 Mins", status: "Standard", badge: "Available" },
   { name: "Shaheed Path / Sushant Golf City", slug: "home-nursing-shaheed-path-sushant-golf-city", time: "25 - 35 Mins", status: "Fast Dispatch", badge: "Immediate Available" },
   { name: "Alambagh & Ashiyana", slug: "home-nursing-alambagh-ashiyana", time: "35 - 50 Mins", status: "Scheduled / Priority", badge: "Available" },
-  { name: "Chinhat & Kamta", slug: "home-nursing-chinhat-kamta", time: "20 - 30 Mins", status: "Fast Dispatch", badge: "Immediate Available" }
+  { name: "Chinhat & Kamta", slug: "home-nursing-chinhat-kamta", time: "20 - 30 Mins", status: "Fast Dispatch", badge: "Immediate Available" },
+  { name: "Nishatganj & Badshah Nagar", slug: "home-nursing-nishatganj-badshah-nagar", time: "25 - 35 Mins", status: "Fast Dispatch", badge: "Immediate Available" },
+  { name: "Nirala Nagar & Daliganj", slug: "home-nursing-nirala-nagar-daliganj", time: "30 - 40 Mins", status: "Standard", badge: "Available" },
+  { name: "Vikas Nagar & Kursi Road", slug: "home-nursing-vikas-nagar-kursi-road", time: "35 - 45 Mins", status: "Standard", badge: "Available" },
+  { name: "Sitapur Road & IIM Road", slug: "home-nursing-sitapur-road-iim-road", time: "40 - 55 Mins", status: "Scheduled / Priority", badge: "Available" },
+  { name: "Chowk & Thakurganj", slug: "home-nursing-chowk-thakurganj", time: "40 - 50 Mins", status: "Standard", badge: "Available" },
+  { name: "Aminabad & Charbagh", slug: "home-nursing-aminabad-charbagh", time: "35 - 45 Mins", status: "Standard", badge: "Available" },
+  { name: "Rajajipuram", slug: "home-nursing-rajajipuram", time: "45 - 60 Mins", status: "Scheduled / Priority", badge: "Available" },
+  { name: "Krishna Nagar & Kanpur Road", slug: "home-nursing-krishna-nagar-kanpur-road", time: "45 - 60 Mins", status: "Scheduled / Priority", badge: "Available" },
+  { name: "Sarojini Nagar & Amausi", slug: "home-nursing-sarojini-nagar-amausi", time: "50 - 65 Mins", status: "Scheduled / Priority", badge: "Available" },
+  { name: "Raebareli Road & PGI", slug: "home-nursing-raebareli-road-pgi", time: "35 - 50 Mins", status: "Standard", badge: "Available" },
+  { name: "Cantt & Dilkusha", slug: "home-nursing-cantt-dilkusha", time: "30 - 40 Mins", status: "Standard", badge: "Available" }
 ];
 
 // Service Calculator Base Rates
