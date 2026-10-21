@@ -893,6 +893,11 @@ const SERVICES = [
     ],
     oversight: "Supervised by Dr. Piyush Saxena's healthcare team. Certified nurses are available for injections, IV, catheter or dressing whenever needed.",
     safetyNote: "Background-verified GDAs with Aadhaar and address checks, trained in hospital bedside care.",
+    heroNote: "Every GDA is background-verified and supervised by <strong>Dr. Piyush Saxena</strong>'s team, with deployment at your home within <strong>24 to 48 hours</strong> of confirmation.",
+    trustLabel: "Staff Verification",
+    trustValue: "100% Background Verified",
+    safetyLabel: "Staff Verification",
+    ctaNote: "Share your patient's needs on WhatsApp or call us. A trained, verified GDA can start at your home within 24-48 hours, with a replacement arranged during leave.",
     faqs: [
       {
         q: "What is the monthly charge for a GDA in Lucknow?",
@@ -969,6 +974,11 @@ const SERVICES = [
     ],
     oversight: "Supervised by Dr. Piyush Saxena's medical team, with doctor home visits and certified nurses available on call.",
     safetyNote: "Background-verified EMT staff trained in emergency response, basic life support and medical equipment handling.",
+    heroNote: "Every EMT is background-verified and backed by <strong>Dr. Piyush Saxena</strong>'s medical team, with deployment at your home within <strong>24 to 48 hours</strong> of confirmation.",
+    trustLabel: "Staff Training",
+    trustValue: "Emergency & BLS Trained",
+    safetyLabel: "Staff Verification",
+    ctaNote: "Share your patient's condition on WhatsApp or call us. Emergency-trained EMT staff can start at your home within 24-48 hours, with our doctors on call.",
     faqs: [
       {
         q: "What is the monthly charge for EMT staff in Lucknow?",

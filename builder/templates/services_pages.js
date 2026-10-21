@@ -141,7 +141,7 @@ function renderServiceDetailPage(service) {
         </h1>
 
         <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-3xl mb-8">
-          ${service.summary} Delivered with 100% sterile consumable kits, direct clinical guidance by <strong>${CONFIG.founderName}</strong>, and an average doorstep arrival of <strong>30 to 45 minutes</strong> across Lucknow.
+          ${service.summary} ${service.heroNote || `Delivered with 100% sterile consumable kits, direct clinical guidance by <strong>${CONFIG.founderName}</strong>, and an average doorstep arrival of <strong>30 to 45 minutes</strong> across Lucknow.`}
         </p>
 
         <!-- Quick Summary Bar -->
@@ -159,8 +159,8 @@ function renderServiceDetailPage(service) {
             <strong class="text-sm font-extrabold text-slate-900">${CONFIG.founderName}</strong>
           </div>
           <div>
-            <span class="text-slate-400 uppercase font-bold block text-[10px]">Kit Sterility</span>
-            <strong class="text-sm font-extrabold text-sky-600">100% Sealed Sterile Disposables</strong>
+            <span class="text-slate-400 uppercase font-bold block text-[10px]">${service.trustLabel || "Kit Sterility"}</span>
+            <strong class="text-sm font-extrabold text-sky-600">${service.trustValue || "100% Sealed Sterile Disposables"}</strong>
           </div>
         </div>
 
@@ -268,7 +268,7 @@ function renderServiceDetailPage(service) {
               <strong>Oversight:</strong> ${service.oversight}
             </p>
             <p class="text-xs text-slate-600 leading-relaxed">
-              <strong>Sterility Protocol:</strong> ${service.safetyNote}
+              <strong>${service.safetyLabel || "Sterility Protocol"}:</strong> ${service.safetyNote}
             </p>
           </div>
         </div>
@@ -330,7 +330,7 @@ function renderServiceDetailPage(service) {
             Schedule Your ${service.shortTitle} in Lucknow
           </h3>
           <p class="text-slate-200 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
-            Our qualified staff reaches your home in Gomti Nagar within 15-25 minutes, or within 30-45 minutes across Lucknow. 100% sterile kits and gentle care guaranteed.
+            ${service.ctaNote || "Our qualified staff reaches your home in Gomti Nagar within 15-25 minutes, or within 30-45 minutes across Lucknow. 100% sterile kits and gentle care guaranteed."}
           </p>
           <div class="flex flex-wrap justify-center gap-3 pt-2">
             <a href="/book/?service=${encodeURIComponent(service.shortTitle)}" class="px-7 py-3.5 bg-white text-slate-900 font-extrabold text-sm rounded-xl hover:bg-slate-100 transition shadow">
