@@ -39,6 +39,15 @@ const LINES = [
   { key: "patient-care-12h",      group: "Nursing & Attendant Shifts", label: "Patient Attendant - 12 hours", unit: "/ shift", price: 999 },
   { key: "patient-care-24h",      group: "Nursing & Attendant Shifts", label: "Patient Attendant - 24 hours", unit: "/ day", price: 1799 },
 
+  // ---- Monthly staff (GDA / EMT): ranges are stored as min / max lines
+  { key: "gda-12h-min",           group: "Monthly Staff (GDA / EMT)", label: "GDA - 12 hours (from)", unit: "/ month", price: 20000 },
+  { key: "gda-12h-max",           group: "Monthly Staff (GDA / EMT)", label: "GDA - 12 hours (up to)", unit: "/ month", price: 24000 },
+  { key: "gda-24h-min",           group: "Monthly Staff (GDA / EMT)", label: "GDA - 24 hours (from)", unit: "/ month", price: 30000 },
+  { key: "gda-24h-max",           group: "Monthly Staff (GDA / EMT)", label: "GDA - 24 hours (up to)", unit: "/ month", price: 35000 },
+  { key: "emt-12h",               group: "Monthly Staff (GDA / EMT)", label: "EMT Staff - 12 hours", unit: "/ month", price: 25000 },
+  { key: "emt-24h-min",           group: "Monthly Staff (GDA / EMT)", label: "EMT Staff - 24 hours (from)", unit: "/ month", price: 30000 },
+  { key: "emt-24h-max",           group: "Monthly Staff (GDA / EMT)", label: "EMT Staff - 24 hours (up to)", unit: "/ month", price: 35000 },
+
   // ---- Respiratory / misc
   { key: "bipap-setup",           group: "Other", label: "BiPAP setup & titration (from)", unit: "", price: 1200 },
   { key: "urgent-fee",            group: "Other", label: "Urgent priority dispatch surcharge", unit: "", price: 150 },
@@ -101,6 +110,8 @@ const APP_ITEM_CONTEXT = {
   "im-sc-injection": { 299: "im-injection" },
   "nursing-duties-shifts": { 999: ["nurse-morning", "nurse-evening"], 1299: "nurse-night" },
   "diaper-change-urine-empty": { 500: "diaper-urine" },
+  "gda-service": { 20000: "gda-12h-min", 24000: "gda-12h-max", 30000: "gda-24h-min", 35000: "gda-24h-max" },
+  "emt-staff-service": { 25000: "emt-12h", 30000: "emt-24h-min", 35000: "emt-24h-max" },
   "doctor-home-visit-lucknow": { 2000: "consult-doorstep" },
   "physiotherapy-at-home-lucknow": { 600: "physiotherapy-doorstep" },
   "online-doctor-consultation": { 500: "consult-online" },

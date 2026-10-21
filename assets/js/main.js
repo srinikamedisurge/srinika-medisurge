@@ -367,6 +367,44 @@ const SERVICES_DATA = [
     pricing: "From ₹999 / shift",
     estimatedDuration: "12h / 24h / Shift",
     includesKit: true
+  },
+  {
+    id: "gda-service",
+    slug: "patient-attendant-lucknow",
+    category: "nursing",
+    title: "GDA (General Duty Assistant) Service",
+    badge: "Monthly Plans",
+    icon: "fa-hands-holding-child",
+    iconColor: "text-indigo-600 bg-indigo-50",
+    description: "Trained General Duty Assistants for daily patient care, hygiene, feeding and mobility support at home on a monthly basis.",
+    features: [
+      "12 Hours Shift: ₹20,000 - ₹24,000 / month",
+      "24 Hours Shift: ₹30,000 - ₹35,000 / month",
+      "Bedside Hygiene, Feeding & Mobility Assistance",
+      "For Details, Contact Us on WhatsApp"
+    ],
+    pricing: "From ₹20,000 / month",
+    estimatedDuration: "12h / 24h / Monthly",
+    includesKit: false
+  },
+  {
+    id: "emt-staff-service",
+    slug: "home-nursing-lucknow",
+    category: "nursing",
+    title: "EMT Staff Service",
+    badge: "Emergency Trained",
+    icon: "fa-truck-medical",
+    iconColor: "text-red-600 bg-red-50",
+    description: "Emergency Medical Technician (EMT) staff for critical, post-ICU and high-dependency patients at home on a monthly basis.",
+    features: [
+      "12 Hours Shift: ₹25,000 / month",
+      "24 Hours Shift: ₹30,000 - ₹35,000 / month",
+      "Emergency Response, Vitals & Oxygen Support",
+      "For Details, Contact Us on WhatsApp"
+    ],
+    pricing: "From ₹25,000 / month",
+    estimatedDuration: "12h / 24h / Monthly",
+    includesKit: false
   }
 ];
 
@@ -446,12 +484,16 @@ const SERVICE_PRICE_TEXT = {
   "catheterization": p => "From " + p("catheter-insertion") + " / procedure",
   "ryles-tube": p => "From " + p("ryles-tube") + " / procedure",
   "wound-dressing": p => "From " + p("wound-dressing-small") + " / session",
-  "home-nursing-care": p => "From " + p("nurse-morning") + " / shift"
+  "home-nursing-care": p => "From " + p("nurse-morning") + " / shift",
+  "gda-service": p => "From " + p("gda-12h-min") + " / month",
+  "emt-staff-service": p => "From " + p("emt-12h") + " / month"
 };
 const SERVICE_FEATURE_CTX = {
   "consultation-online": { 500: "consult-online" },
   "consultation-doorstep": { 2000: "consult-doorstep" },
-  "physiotherapy-doorstep": { 600: "physiotherapy-doorstep" }
+  "physiotherapy-doorstep": { 600: "physiotherapy-doorstep" },
+  "gda-service": { 20000: "gda-12h-min", 24000: "gda-12h-max", 30000: "gda-24h-min", 35000: "gda-24h-max" },
+  "emt-staff-service": { 25000: "emt-12h", 30000: "emt-24h-min", 35000: "emt-24h-max" }
 };
 
 function livePricedService(s) {
