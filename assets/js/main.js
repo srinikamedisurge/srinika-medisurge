@@ -370,7 +370,7 @@ const SERVICES_DATA = [
   },
   {
     id: "gda-service",
-    slug: "patient-attendant-lucknow",
+    slug: "gda-service-lucknow",
     category: "nursing",
     title: "GDA (General Duty Assistant) Service",
     badge: "Monthly Plans",
@@ -389,7 +389,7 @@ const SERVICES_DATA = [
   },
   {
     id: "emt-staff-service",
-    slug: "home-nursing-lucknow",
+    slug: "emt-staff-service-lucknow",
     category: "nursing",
     title: "EMT Staff Service",
     badge: "Emergency Trained",

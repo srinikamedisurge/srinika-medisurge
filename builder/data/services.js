@@ -837,6 +837,158 @@ const SERVICES = [
     ],
     relatedServices: ["home-nursing-lucknow", "doctor-home-visit-lucknow", "physiotherapy-at-home-lucknow"],
     relatedAreas: ["home-nursing-gomti-nagar", "home-nursing-indira-nagar", "home-nursing-aliganj-jankipuram", "home-nursing-hazratganj"]
+  },
+  {
+    slug: "gda-service-lucknow",
+    title: "GDA (General Duty Assistant) Service in Lucknow – Monthly 12h & 24h Care",
+    shortTitle: "GDA Service",
+    category: "nursing",
+    icon: "fa-hands-holding-child",
+    iconColor: "text-indigo-600 bg-indigo-50",
+    badge: "Monthly Plans",
+    price: "From ₹20,000 / month",
+    priceNumber: 20000,
+    priceNote: "12 hours shift: ₹20,000 - ₹24,000 / month. 24 hours shift: ₹30,000 - ₹35,000 / month. For exact pricing, contact us on WhatsApp.",
+    duration: "12h / 24h Monthly",
+    responseTime: "Deployment within 24 - 48 hours",
+    metaTitle: "GDA Service Lucknow | Monthly 12h/24h General Duty Assistant",
+    metaDescription: "Trained GDA (General Duty Assistant) at home in Lucknow by Srinika Medisurge. 12 hours from ₹20,000/month, 24 hours from ₹30,000/month. Call +91 96530 01359.",
+    summary: "Trained General Duty Assistants (GDA) for long-term daily patient care at home in Lucknow, available on monthly 12-hour and 24-hour plans.",
+    whoNeedsIt: [
+      "Elderly parents who need daily help with bathing, feeding, walking and medicine reminders for many weeks or months.",
+      "Bedridden, paralysed or stroke patients who need regular turning, hygiene care and diaper changes.",
+      "Patients recovering at home after a long hospital stay or major surgery.",
+      "Dementia, Parkinson's or chronic illness patients who should not be left alone.",
+      "Families who want one dedicated, trained person for their patient on a monthly basis."
+    ],
+    whatsIncluded: [
+      "Personal hygiene: sponge bath, oral care, hair grooming, nail care and dressing.",
+      "Bedpan, urinal and adult diaper changing with skin care to prevent bed sores.",
+      "2-hourly position change, back care and safe bed-to-chair transfers.",
+      "Feeding help, including Ryle's tube feeds as instructed by the doctor or nurse.",
+      "Timely oral medicine reminders and basic vitals check (BP, temperature, SpO2).",
+      "Bed making, linen change, room cleanliness and companionship."
+    ],
+    steps: [
+      {
+        step: 1,
+        title: "Share Requirement",
+        desc: "Call or WhatsApp +91 96530 01359 with the patient's condition, shift needed (12 hours or 24 hours) and start date."
+      },
+      {
+        step: 2,
+        title: "Plan & Rate Confirmation",
+        desc: "We confirm the monthly rate based on the patient's care needs: 12 hours ₹20,000 - ₹24,000, 24 hours ₹30,000 - ₹35,000."
+      },
+      {
+        step: 3,
+        title: "GDA Deployment",
+        desc: "A trained, background-verified GDA reaches your home, learns the patient's routine from the family and starts care."
+      },
+      {
+        step: 4,
+        title: "Ongoing Supervision",
+        desc: "Our team checks in regularly and arranges a replacement GDA during leave, so care never stops."
+      }
+    ],
+    oversight: "Supervised by Dr. Piyush Saxena's healthcare team. Certified nurses are available for injections, IV, catheter or dressing whenever needed.",
+    safetyNote: "Background-verified GDAs with Aadhaar and address checks, trained in hospital bedside care.",
+    faqs: [
+      {
+        q: "What is the monthly charge for a GDA in Lucknow?",
+        a: "A 12-hour GDA costs ₹20,000 to ₹24,000 per month, and a 24-hour GDA costs ₹30,000 to ₹35,000 per month, depending on the patient's care needs. Contact us on WhatsApp for the exact rate."
+      },
+      {
+        q: "What is the difference between a GDA and a nurse?",
+        a: "A GDA handles daily personal care such as hygiene, feeding, mobility and diaper changes. Medical procedures like injections, IV drips, catheterization or wound dressing are done by our certified GNM/B.Sc nurses."
+      },
+      {
+        q: "Can I get a female GDA?",
+        a: "Yes. Both female and male GDAs are available based on your family's preference."
+      },
+      {
+        q: "What happens if the GDA takes leave?",
+        a: "We send a replacement GDA so your patient's care continues without a break."
+      }
+    ],
+    relatedServices: ["patient-attendant-lucknow", "home-nursing-lucknow", "emt-staff-service-lucknow"],
+    relatedAreas: ["home-nursing-gomti-nagar", "home-nursing-indira-nagar", "home-nursing-aliganj-jankipuram", "home-nursing-hazratganj"]
+  },
+  {
+    slug: "emt-staff-service-lucknow",
+    title: "EMT Staff Service in Lucknow – Monthly 12h & 24h Emergency-Trained Care",
+    shortTitle: "EMT Staff Service",
+    category: "nursing",
+    icon: "fa-truck-medical",
+    iconColor: "text-red-600 bg-red-50",
+    badge: "Emergency Trained",
+    price: "From ₹25,000 / month",
+    priceNumber: 25000,
+    priceNote: "12 hours shift: ₹25,000 / month. 24 hours shift: ₹30,000 - ₹35,000 / month. For exact pricing, contact us on WhatsApp.",
+    duration: "12h / 24h Monthly",
+    responseTime: "Deployment within 24 - 48 hours",
+    metaTitle: "EMT Staff Service Lucknow | Monthly 12h/24h Emergency Care at Home",
+    metaDescription: "Emergency Medical Technician (EMT) staff at home in Lucknow by Srinika Medisurge. 12 hours ₹25,000/month, 24 hours from ₹30,000/month. Call +91 96530 01359.",
+    summary: "Emergency Medical Technician (EMT) staff at home for critical, post-ICU and high-dependency patients in Lucknow, on monthly 12-hour and 24-hour plans.",
+    whoNeedsIt: [
+      "Patients discharged from ICU who still need close monitoring at home.",
+      "Patients on oxygen, BiPAP, suction or a tracheostomy tube.",
+      "Cardiac, stroke or seizure patients with a risk of sudden emergencies.",
+      "Bedridden patients with multiple illnesses who need trained watch day and night.",
+      "Families who want an emergency-trained person at home instead of a long hospital stay."
+    ],
+    whatsIncluded: [
+      "Regular vitals monitoring: BP, pulse, SpO2, temperature and respiratory rate, with a written chart.",
+      "Emergency first response and CPR / basic life support until the doctor or ambulance arrives.",
+      "Oxygen concentrator, cylinder, BiPAP and suction machine handling.",
+      "Airway care and tracheostomy suctioning support.",
+      "Safe patient positioning, transfers and bed sore prevention.",
+      "Immediate reporting to Dr. Piyush Saxena's team when vitals change."
+    ],
+    steps: [
+      {
+        step: 1,
+        title: "Share Requirement",
+        desc: "Call or WhatsApp +91 96530 01359 with the patient's condition, equipment in use and the shift needed (12 hours or 24 hours)."
+      },
+      {
+        step: 2,
+        title: "Plan & Rate Confirmation",
+        desc: "We confirm the monthly rate: 12 hours ₹25,000, 24 hours ₹30,000 - ₹35,000, based on the patient's condition."
+      },
+      {
+        step: 3,
+        title: "EMT Deployment",
+        desc: "A trained EMT reaches your home, checks the equipment and the patient's current status, and starts monitoring."
+      },
+      {
+        step: 4,
+        title: "Doctor-Backed Supervision",
+        desc: "Vitals are shared with our medical team, and a doctor or nurse visit is arranged whenever needed."
+      }
+    ],
+    oversight: "Supervised by Dr. Piyush Saxena's medical team, with doctor home visits and certified nurses available on call.",
+    safetyNote: "Background-verified EMT staff trained in emergency response, basic life support and medical equipment handling.",
+    faqs: [
+      {
+        q: "What is the monthly charge for EMT staff in Lucknow?",
+        a: "A 12-hour EMT shift costs ₹25,000 per month, and 24-hour EMT care costs ₹30,000 to ₹35,000 per month, depending on the patient's condition. Contact us on WhatsApp for the exact rate."
+      },
+      {
+        q: "How is EMT staff different from a GDA?",
+        a: "A GDA mainly helps with daily personal care. EMT staff are trained for emergencies, vitals monitoring, oxygen and BiPAP support, and basic life support, so they are better for critical or post-ICU patients."
+      },
+      {
+        q: "Can EMT staff handle oxygen and BiPAP machines?",
+        a: "Yes. Our EMT staff are trained to run oxygen concentrators, cylinders, BiPAP and suction machines. We can also provide these machines on rent."
+      },
+      {
+        q: "What happens in an emergency at home?",
+        a: "The EMT gives immediate first response and basic life support, informs our doctor right away, and helps arrange an ambulance if hospital care is needed."
+      }
+    ],
+    relatedServices: ["bipap-oxygen-support-at-home-lucknow", "home-nursing-lucknow", "gda-service-lucknow"],
+    relatedAreas: ["home-nursing-gomti-nagar", "home-nursing-vibhuti-khand", "home-nursing-indira-nagar", "home-nursing-hazratganj"]
   }
 ];
 

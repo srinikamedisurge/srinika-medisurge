@@ -85,7 +85,9 @@ const WEBSITE_PAGE_CONTEXT = {
   "physiotherapy-at-home-lucknow": { 600: "physiotherapy-doorstep" },
   "bipap-oxygen-support-at-home-lucknow": { 1200: "bipap-setup" },
   "nebulization-vitals-ecg-at-home": { 500: "nebulization" },
-  "patient-attendant-lucknow": { 999: "patient-care-12h", 1799: "patient-care-24h" }
+  "patient-attendant-lucknow": { 999: "patient-care-12h", 1799: "patient-care-24h" },
+  "gda-service-lucknow": { 20000: "gda-12h-min", 24000: "gda-12h-max", 30000: "gda-24h-min", 35000: "gda-24h-max" },
+  "emt-staff-service-lucknow": { 25000: "emt-12h", 30000: "emt-24h-min", 35000: "emt-24h-max" }
 };
 
 /** Pages outside /services/: matched by URL prefix. */
