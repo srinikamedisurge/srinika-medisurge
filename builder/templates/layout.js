@@ -50,6 +50,8 @@ function renderMasterLayout({
   canonicalUrl,
   currentPath = '/',
   ogImage = `${CONFIG.siteUrl}/assets/images/logo.png`,
+  ogType = 'website',
+  articleMeta = null,
   schema = null,
   breadcrumbs = null,
   content = '',
@@ -173,7 +175,10 @@ function renderMasterLayout({
   <meta name="ICBM" content="${CONFIG.geo.latitude}, ${CONFIG.geo.longitude}">
 
   <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="${ogType}">${articleMeta ? `
+  <meta property="article:published_time" content="${articleMeta.published}">
+  <meta property="article:modified_time" content="${articleMeta.modified}">
+  <meta property="article:section" content="${articleMeta.section}">` : ''}
   <meta property="og:site_name" content="${CONFIG.brandName}">
   <meta property="og:locale" content="en_IN">
   <meta property="og:url" content="${fullCanonical}">

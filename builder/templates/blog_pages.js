@@ -1,5 +1,18 @@
 const CONFIG = require('../../site.config.js');
 const BLOG_POSTS = require('../data/blog.js');
+const SERVICES = require('../data/services.js');
+const { pricify } = require('../data/price_lines.js');
+
+// Newest first, so fresh articles get the most prominent links.
+const POSTS_BY_DATE = [...BLOG_POSTS].sort((a, b) => b.date.localeCompare(a.date));
+
+// Up to `limit` other posts, same category first, then newest.
+function relatedPosts(post, limit = 3) {
+  const others = POSTS_BY_DATE.filter(p => p.slug !== post.slug);
+  const sameCategory = others.filter(p => p.category === post.category);
+  const rest = others.filter(p => p.category !== post.category);
+  return [...sameCategory, ...rest].slice(0, limit);
+}
 
 function renderBlogOverview() {
   return `
@@ -20,7 +33,7 @@ function renderBlogOverview() {
     <div class="py-12 sm:py-20 bg-slate-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          ${BLOG_POSTS.map(post => `
+          ${POSTS_BY_DATE.map(post => `
             <article class="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
               <div>
                 <div class="flex items-center justify-between text-xs text-slate-400 mb-3">
@@ -54,6 +67,12 @@ function renderBlogOverview() {
   `;
 }
 
+function relatedServicesOf(post) {
+  return (post.relatedServices || [])
+    .map(slug => SERVICES.find(s => s.slug === slug))
+    .filter(Boolean);
+}
+
 function renderBlogPost(post) {
   return `
     <article class="py-12 sm:py-16 bg-white">
@@ -66,8 +85,13 @@ function renderBlogPost(post) {
               ${post.category}
             </span>
             <span class="text-xs text-slate-500">
-              <i class="fa-regular fa-calendar mr-1"></i> ${post.date}
+              <i class="fa-regular fa-calendar mr-1"></i> <time datetime="${post.date}">${post.date}</time>
             </span>
+            ${post.dateModified && post.dateModified !== post.date ? `
+              <span class="text-xs text-slate-500">
+                &bull; Updated <time datetime="${post.dateModified}">${post.dateModified}</time>
+              </span>
+            ` : ''}
             <span class="text-xs text-slate-500">
               &bull; <i class="fa-regular fa-clock mr-1"></i> ${post.readTime}
             </span>
@@ -85,6 +109,9 @@ function renderBlogPost(post) {
               <span class="text-slate-400 block uppercase font-bold text-[10px]">Author</span>
               <strong class="text-slate-900 text-sm block">${post.author}</strong>
               <span class="text-slate-500">Srinika Medisurge Doorstep Healthcare, Gomti Nagar, Lucknow</span>
+              <span class="text-emerald-700 font-semibold block mt-1">
+                <i class="fa-solid fa-user-doctor mr-1"></i> Medically reviewed by <a href="/doctors/" class="underline hover:text-emerald-900">Dr. Piyush Saxena</a>
+              </span>
             </div>
           </div>
         </header>
@@ -117,6 +144,34 @@ function renderBlogPost(post) {
           </div>
         ` : ''}
 
+        <!-- Related Services -->
+        ${relatedServicesOf(post).length > 0 ? `
+          <div class="py-10 border-b border-slate-200">
+            <h3 class="text-xl font-bold text-slate-900 font-heading mb-4">Related Doorstep Services in Lucknow</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              ${relatedServicesOf(post).map(s => `
+                <a href="/services/${s.slug}/" class="p-4 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-300 transition block group">
+                  <span class="text-sm font-bold text-slate-900 group-hover:text-sky-600 block mb-1">${s.shortTitle}</span>
+                  <span class="text-[11px] text-slate-500 block">${pricify(s.price, s.slug)}</span>
+                </a>
+              `).join('')}
+            </div>
+          </div>
+        ` : ''}
+
+        <!-- Related Articles -->
+        <div class="py-10 border-b border-slate-200">
+          <h3 class="text-xl font-bold text-slate-900 font-heading mb-4">More Home Care Guides</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            ${relatedPosts(post).map(p => `
+              <a href="/blog/${p.slug}/" class="p-4 rounded-xl bg-white hover:bg-sky-50 border border-slate-200 hover:border-sky-300 transition block group">
+                <span class="text-[10px] font-bold text-sky-700 uppercase block mb-1">${p.category}</span>
+                <span class="text-sm font-bold text-slate-900 group-hover:text-sky-600 block">${p.title}</span>
+              </a>
+            `).join('')}
+          </div>
+        </div>
+
         <!-- Post Footer CTA -->
         <div class="mt-10 p-8 bg-gradient-to-r from-medical-navy via-brand-900 to-medical-teal text-white rounded-3xl text-center space-y-4">
           <h3 class="text-2xl font-extrabold font-heading">
@@ -145,6 +200,8 @@ function renderBlogPost(post) {
 }
 
 module.exports = {
+  POSTS_BY_DATE,
+  relatedPosts,
   renderBlogOverview,
   renderBlogPost
 };

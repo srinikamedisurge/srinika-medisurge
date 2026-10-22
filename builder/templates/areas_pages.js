@@ -2,6 +2,24 @@ const CONFIG = require('../../site.config.js');
 const { pricify } = require('../data/price_lines.js');
 const AREAS = require('../data/areas.js');
 const SERVICES = require('../data/services.js');
+const { POSTS_BY_DATE } = require('./blog_pages.js');
+
+// Closest neighbours in AREAS order (the list is grouped by city zone).
+function nearbyAreas(area, count = 6) {
+  const i = AREAS.findIndex(a => a.slug === area.slug);
+  return AREAS
+    .map((a, j) => ({ a, d: Math.abs(j - i) }))
+    .filter(x => x.d > 0)
+    .sort((x, y) => x.d - y.d)
+    .slice(0, count)
+    .map(x => x.a);
+}
+
+// Rotate the guide list per area so area pages don't all link the same three articles.
+function guidesForArea(area, count = 3) {
+  const i = Math.max(0, AREAS.findIndex(a => a.slug === area.slug));
+  return Array.from({ length: Math.min(count, POSTS_BY_DATE.length) }, (_, k) => POSTS_BY_DATE[(i + k) % POSTS_BY_DATE.length]);
+}
 
 function renderAreasOverview() {
   return `
@@ -174,6 +192,38 @@ function renderAreaDetailPage(area) {
                 </div>
               </div>
             `).join('')}
+          </div>
+        </div>
+
+        <!-- Home Care Guides -->
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900 font-heading mb-4">
+            Home Care Guides for Families in ${area.name}
+          </h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            ${guidesForArea(area).map(p => `
+              <a href="/blog/${p.slug}/" class="p-4 rounded-2xl bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-300 transition block group">
+                <span class="text-[10px] font-bold text-sky-700 uppercase block mb-1">${p.category}</span>
+                <span class="text-sm font-bold text-slate-900 group-hover:text-sky-600 block mb-1">${p.title}</span>
+                <span class="text-xs text-slate-500 block">${p.readTime}</span>
+              </a>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Nearby Areas -->
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900 font-heading mb-4">
+            Nearby Areas We Also Serve
+          </h2>
+          <div class="flex flex-wrap gap-2 text-xs sm:text-sm">
+            ${nearbyAreas(area).map(a => `
+              <a href="/areas/${a.slug}/" class="px-3 py-2 rounded-lg bg-slate-100 hover:bg-sky-100 text-slate-700 hover:text-sky-800 transition">
+                <i class="fa-solid fa-location-dot text-emerald-500 mr-1 text-[10px]"></i>
+                <span>Home nursing in ${a.name} (${a.responseTime})</span>
+              </a>
+            `).join('')}
+            <a href="/areas/" class="px-3 py-2 rounded-lg bg-white border border-slate-300 hover:bg-slate-50 text-slate-800 font-semibold transition">All Lucknow areas</a>
           </div>
         </div>
 

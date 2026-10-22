@@ -5,7 +5,7 @@ const DOCTORS = require('../data/doctors.js');
 const EQUIPMENT = require('../data/equipment.js');
 const TESTIMONIALS = require('../data/testimonials.js');
 const AREAS = require('../data/areas.js');
-const BLOG_POSTS = require('../data/blog.js');
+const { POSTS_BY_DATE } = require('./blog_pages.js');
 
 // 1. HOMEPAGE BUILDER (Strictly follows TASK 2)
 function renderHomePage() {
@@ -522,6 +522,35 @@ function renderHomePage() {
               Procedure is performed painlessly following aseptic protocols, vitals recorded, and post-procedure advice provided.
             </p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7b. LATEST HOME CARE GUIDES -->
+    <section class="py-16 sm:py-20 bg-white border-t border-slate-200/80" id="guides">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <span class="text-xs font-bold text-sky-600 uppercase tracking-wider bg-sky-50 px-3.5 py-1.5 rounded-full border border-sky-100">
+            Health Guides
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-heading mt-3 mb-4">
+            Latest Home Care Guides
+          </h2>
+          <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+            Practical advice for families caring for a patient at home in Lucknow, reviewed by Dr. Piyush Saxena.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          ${POSTS_BY_DATE.slice(0, 3).map(post => `
+            <a href="/blog/${post.slug}/" class="bg-slate-50 hover:bg-sky-50 rounded-3xl p-6 border border-slate-200 hover:border-sky-300 transition block group">
+              <span class="text-[11px] font-bold text-sky-700 uppercase block mb-2">${post.category} &bull; ${post.readTime}</span>
+              <h3 class="text-lg font-bold text-slate-900 group-hover:text-sky-600 font-heading mb-2">${post.title}</h3>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">${post.excerpt}</p>
+            </a>
+          `).join('')}
+        </div>
+        <div class="mt-8 text-center">
+          <a href="/blog/" class="inline-block px-6 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm shadow transition">All Health Guides</a>
         </div>
       </div>
     </section>

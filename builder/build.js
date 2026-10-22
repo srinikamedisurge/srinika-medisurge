@@ -79,10 +79,15 @@ function buildFaqSchema(faqs) {
 // Track all generated URLs for sitemap.xml
 const sitemapEntries = [];
 
-function registerSitemap(url, priority = "0.8", changefreq = "weekly") {
+// Pages whose content last changed on a known date. Google only trusts lastmod when it
+// tracks real changes, so pages keep their own date instead of all moving on every build.
+const DEFAULT_LASTMOD = "2026-10-21";
+const CONTENT_UPDATED = "2026-10-22"; // related-guide and nearby-area links added
+
+function registerSitemap(url, priority = "0.8", changefreq = "weekly", lastmod = DEFAULT_LASTMOD) {
   sitemapEntries.push({
     url: `${CONFIG.siteUrl}${url}`,
-    lastmod: "2026-10-21",
+    lastmod,
     priority,
     changefreq
   });
@@ -123,7 +128,7 @@ const homeHtml = renderMasterLayout({
   content: renderHomePage()
 });
 writeHtml("index.html", homeHtml);
-registerSitemap("/", "1.0", "daily");
+registerSitemap("/", "1.0", "daily", CONTENT_UPDATED);
 
 // 2. SERVICES OVERVIEW
 const servicesOverviewHtml = renderMasterLayout({
@@ -184,7 +189,7 @@ SERVICES.forEach(service => {
   });
 
   writeHtml(`services/${service.slug}/index.html`, servicePageHtml);
-  registerSitemap(`/services/${service.slug}/`, "0.9", "weekly");
+  registerSitemap(`/services/${service.slug}/`, "0.9", "weekly", CONTENT_UPDATED);
 });
 
 // 4. DOCTORS PAGE
@@ -289,7 +294,7 @@ AREAS.forEach(area => {
   });
 
   writeHtml(`areas/${area.slug}/index.html`, areaPageHtml);
-  registerSitemap(`/areas/${area.slug}/`, "0.8", "weekly");
+  registerSitemap(`/areas/${area.slug}/`, "0.8", "weekly", CONTENT_UPDATED);
 });
 
 // 8. PRICING PAGE
@@ -353,7 +358,7 @@ registerSitemap("/contact/", "0.8", "monthly");
 // 12. BLOG OVERVIEW
 const blogOverviewHtml = renderMasterLayout({
   title: "Healthcare Blog & Medical Recovery Guides | Srinika Lucknow",
-  metaDescription: "Helpful, medically verified articles on home nursing, urinary catheter care, BiPAP oxygen support, post-surgery wound dressing & physiotherapy in Lucknow.",
+  metaDescription: "Doctor-reviewed home care guides for Lucknow families: dengue care, bedsore prevention, hospital discharge, catheter care, wound dressing, BiPAP & physiotherapy.",
   canonicalUrl: "/blog/",
   currentPath: "/blog/",
   breadcrumbs: [
@@ -362,9 +367,17 @@ const blogOverviewHtml = renderMasterLayout({
   content: renderBlogOverview()
 });
 writeHtml("blog/index.html", blogOverviewHtml);
-registerSitemap("/blog/", "0.8", "weekly");
+registerSitemap("/blog/", "0.8", "weekly", CONTENT_UPDATED);
 
-// 13. INDIVIDUAL BLOG POSTS (6 Articles)
+// 13. INDIVIDUAL BLOG POSTS
+// Every post page gained related-service and related-article links on CONTENT_UPDATED.
+function postModified(post) {
+  const own = post.dateModified || post.date;
+  return own > CONTENT_UPDATED ? own : CONTENT_UPDATED;
+}
+
+const reviewer = DOCTORS.find(d => d.id === "dr-piyush-saxena");
+
 BLOG_POSTS.forEach(post => {
   const blogSchema = {
     "@context": "https://schema.org",
@@ -373,14 +386,18 @@ BLOG_POSTS.forEach(post => {
         "@type": "BlogPosting",
         "headline": post.title,
         "description": post.metaDescription,
+        "image": `${CONFIG.siteUrl}/assets/images/logo.png`,
+        "inLanguage": "en-IN",
+        "articleSection": post.category,
         "datePublished": post.date,
-        "dateModified": post.date,
+        "dateModified": post.dateModified || post.date,
         "author": {
           "@type": "Organization",
           "name": post.author,
           "url": CONFIG.siteUrl
         },
         "publisher": {
+          "@id": `${CONFIG.siteUrl}/#organization`,
           "@type": "MedicalBusiness",
           "name": CONFIG.brandName,
           "logo": {
@@ -389,6 +406,21 @@ BLOG_POSTS.forEach(post => {
           }
         },
         "mainEntityOfPage": `${CONFIG.siteUrl}/blog/${post.slug}/`
+      },
+      {
+        "@type": "MedicalWebPage",
+        "@id": `${CONFIG.siteUrl}/blog/${post.slug}/#webpage`,
+        "url": `${CONFIG.siteUrl}/blog/${post.slug}/`,
+        "name": post.title,
+        "audience": { "@type": "MedicalAudience", "audienceType": "Patient" },
+        "lastReviewed": post.dateModified || post.date,
+        "reviewedBy": {
+          "@type": "Person",
+          "name": reviewer.name,
+          "jobTitle": reviewer.role,
+          "image": `${CONFIG.siteUrl}/${reviewer.image}`,
+          "url": `${CONFIG.siteUrl}/doctors/`
+        }
       },
       buildFaqSchema(post.faqs)
     ].filter(Boolean)
@@ -404,11 +436,13 @@ BLOG_POSTS.forEach(post => {
       { name: post.shortTitle, url: `/blog/${post.slug}/` }
     ],
     schema: blogSchema,
+    ogType: "article",
+    articleMeta: { published: post.date, modified: post.dateModified || post.date, section: post.category },
     content: renderBlogPost(post)
   });
 
   writeHtml(`blog/${post.slug}/index.html`, postHtml);
-  registerSitemap(`/blog/${post.slug}/`, "0.7", "monthly");
+  registerSitemap(`/blog/${post.slug}/`, "0.7", "monthly", postModified(post));
 });
 
 // 14. ABOUT PAGE
@@ -480,7 +514,7 @@ const sitemapPageHtml = renderMasterLayout({
   content: renderSitemapPage()
 });
 writeHtml("sitemap/index.html", sitemapPageHtml);
-registerSitemap("/sitemap/", "0.3", "monthly");
+registerSitemap("/sitemap/", "0.3", "monthly", CONTENT_UPDATED);
 
 // 17. CUSTOM 404 PAGE (with noindex)
 const notFoundHtml = renderMasterLayout({

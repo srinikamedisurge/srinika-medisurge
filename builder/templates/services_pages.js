@@ -2,6 +2,7 @@ const CONFIG = require('../../site.config.js');
 const { pricify } = require('../data/price_lines.js');
 const SERVICES = require('../data/services.js');
 const AREAS = require('../data/areas.js');
+const { POSTS_BY_DATE } = require('./blog_pages.js');
 
 function renderServicesOverview() {
   return `
@@ -126,6 +127,7 @@ function renderServicesOverview() {
 function renderServiceDetailPage(service) {
   const relatedServicesList = SERVICES.filter(s => service.relatedServices && service.relatedServices.includes(s.slug));
   const relatedAreasList = AREAS.filter(a => service.relatedAreas && service.relatedAreas.includes(a.slug));
+  const relatedGuides = POSTS_BY_DATE.filter(p => (p.relatedServices || []).includes(service.slug)).slice(0, 3);
 
   return `
     <!-- Hero / Header of Service Page -->
@@ -303,6 +305,21 @@ function renderServiceDetailPage(service) {
                 <a href="/services/${rel.slug}/" class="p-4 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-300 transition block group">
                   <span class="text-xs font-bold text-slate-900 group-hover:text-sky-600 block mb-1">${rel.title}</span>
                   <span class="text-[11px] text-slate-500 block">${pricify(rel.price, rel.slug)}</span>
+                </a>
+              `).join('')}
+            </div>
+          </div>
+        ` : ''}
+
+        <!-- Cross-Links: Related Blog Guides -->
+        ${relatedGuides.length > 0 ? `
+          <div class="pt-4 border-t border-slate-100">
+            <h3 class="text-lg font-bold text-slate-900 font-heading mb-4">Helpful Guides on ${service.shortTitle}</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              ${relatedGuides.map(p => `
+                <a href="/blog/${p.slug}/" class="p-4 rounded-xl bg-white hover:bg-sky-50 border border-slate-200 hover:border-sky-300 transition block group">
+                  <span class="text-xs font-bold text-slate-900 group-hover:text-sky-600 block mb-1">${p.title}</span>
+                  <span class="text-[11px] text-slate-500 block">${p.readTime}</span>
                 </a>
               `).join('')}
             </div>
