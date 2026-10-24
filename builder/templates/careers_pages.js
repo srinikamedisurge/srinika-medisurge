@@ -3,6 +3,7 @@ const JOBS = require('../data/jobs.js');
 
 const EMPLOYMENT_LABEL = { FULL_TIME: "Full Time", PART_TIME: "Part Time" };
 const PRIMARY_HIRING = CONFIG.hiringPhones[0];
+const CAREERS_POSTER = { src: "/assets/images/careers/gda-staff-requirement-lucknow.jpg", width: 1024, height: 1536 };
 
 function hiringWhatsappUrl(phone, roleTitle) {
   const text = roleTitle
@@ -17,12 +18,22 @@ function buildJobPostingSchema(job) {
   return {
     "@context": "https://schema.org",
     "@type": "JobPosting",
-    "title": job.title,
+    "title": job.schemaTitle,
+    "identifier": { "@type": "PropertyValue", "name": CONFIG.brandName, "value": job.slug },
     "description": `<p>${job.summary}</p><p><strong>Key responsibilities:</strong></p><ul>${job.responsibilities.map(r => `<li>${r.en}</li>`).join('')}</ul><p><strong>Who can apply:</strong></p><ul>${job.requirements.map(r => `<li>${r}</li>`).join('')}</ul><p>Call or WhatsApp ${CONFIG.hiringPhones.map(p => p.display).join(' / ')} to apply.</p>`,
     "datePosted": job.datePosted,
     "validThrough": `${job.validThrough}T23:59:59+05:30`,
     "employmentType": job.employmentType,
     "directApply": true,
+    "industry": "Home Healthcare",
+    ...(job.freshersWelcome ? { "experienceRequirements": "no requirements" } : {}),
+    ...(job.salary ? {
+      "baseSalary": {
+        "@type": "MonetaryAmount",
+        "currency": "INR",
+        "value": { "@type": "QuantitativeValue", "minValue": job.salary.min, "maxValue": job.salary.max, "unitText": "MONTH" }
+      }
+    } : {}),
     "hiringOrganization": {
       "@type": "Organization",
       "name": CONFIG.brandName,
@@ -53,7 +64,7 @@ function renderJobCard(job, { showDetailsLink }) {
         </div>
         <div>
           <h2 class="text-xl sm:text-2xl font-extrabold font-heading leading-tight">${job.title}</h2>
-          <p class="text-xs sm:text-sm text-${a}-100 font-semibold">${job.titleHi}</p>
+          <p lang="hi" class="text-xs sm:text-sm text-${a}-100 font-semibold">${job.titleHi}</p>
         </div>
       </div>
 
@@ -68,7 +79,7 @@ function renderJobCard(job, { showDetailsLink }) {
                 <i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 shrink-0"></i>
                 <div>
                   <p class="text-sm text-slate-800 leading-snug">${r.en}</p>
-                  <p class="text-xs text-slate-500 mt-0.5">${r.hi}</p>
+                  <p lang="hi" class="text-xs text-slate-500 mt-0.5">${r.hi}</p>
                 </div>
               </li>
             `).join('')}
@@ -112,7 +123,7 @@ function renderContactStrip(roleTitle) {
       <div>
         <p class="text-xs font-bold uppercase tracking-wider text-sky-300">Call / WhatsApp to apply</p>
         <p class="text-2xl sm:text-3xl font-extrabold font-heading mt-1">Interested? Contact us today.</p>
-        <p class="text-sm text-sky-100 mt-2">इच्छुक उम्मीदवार अधिक जानकारी के लिए कॉल या WhatsApp करें।</p>
+        <p lang="hi" class="text-sm text-sky-100 mt-2">इच्छुक उम्मीदवार अधिक जानकारी के लिए कॉल या WhatsApp करें।</p>
       </div>
       <div class="space-y-3">
         ${CONFIG.hiringPhones.map(p => `
@@ -139,7 +150,7 @@ function renderApplyForm(defaultRole) {
         <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">Quick Apply</span>
         <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 font-heading mt-3">Apply in 1 minute on WhatsApp</h2>
         <p class="text-sm text-slate-600 mt-2">Fill your details and tap the button. WhatsApp will open with your application ready to send to our hiring team.</p>
-        <p class="text-xs text-slate-500 mt-1">अपनी जानकारी भरें, बटन दबाएँ और WhatsApp पर भेज दें।</p>
+        <p lang="hi" class="text-xs text-slate-500 mt-1">अपनी जानकारी भरें, बटन दबाएँ और WhatsApp पर भेज दें।</p>
       </div>
 
       <form id="career-apply-form" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto" novalidate>
@@ -232,6 +243,17 @@ const PERKS = [
   { icon: "fa-briefcase-medical", title: "Steady work", text: "We get regular home-care requests, so good staff get continuous duties." }
 ];
 
+function renderPoster() {
+  return `
+    <figure class="bg-white rounded-3xl p-4 sm:p-6 border border-slate-200 shadow-sm max-w-md mx-auto">
+      <img src="${CAREERS_POSTER.src}" width="${CAREERS_POSTER.width}" height="${CAREERS_POSTER.height}" loading="lazy" decoding="async"
+        alt="Srinika Medisurge staff requirement poster: Senior GDA Staff and Normal GDA jobs, full time and part time, all over Lucknow. Call or WhatsApp ${CONFIG.hiringPhones.map(p => p.display).join(' / ')}"
+        class="w-full h-auto rounded-2xl">
+      <figcaption class="text-xs text-slate-500 text-center mt-3">Share this poster with anyone looking for a GDA job in Lucknow.</figcaption>
+    </figure>
+  `;
+}
+
 function renderCareersOverview() {
   return `
     <div class="bg-gradient-to-b from-brand-50 to-white py-12 sm:py-16 border-b border-slate-200">
@@ -245,7 +267,7 @@ function renderCareersOverview() {
         <p class="text-base sm:text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed">
           Be a part of our mission to provide quality healthcare at home. We are hiring <strong>Senior GDA Staff</strong> and <strong>GDA attendants</strong> for full-time and part-time home duties across Lucknow.
         </p>
-        <p class="text-sm text-slate-500 mt-2">घर पर मरीज़ों की देखभाल के लिए जीडीए स्टाफ की आवश्यकता — पूरे लखनऊ में।</p>
+        <p lang="hi" class="text-sm text-slate-500 mt-2">घर पर मरीज़ों की देखभाल के लिए जीडीए स्टाफ की आवश्यकता — पूरे लखनऊ में।</p>
         <div class="mt-6 flex flex-wrap justify-center gap-3">
           <a href="#apply" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl shadow-sm transition">
             <i class="fa-brands fa-whatsapp mr-1"></i> Apply on WhatsApp
@@ -278,6 +300,8 @@ function renderCareersOverview() {
 
         ${renderContactStrip(null)}
 
+        ${renderPoster()}
+
         <p class="text-xs text-slate-500 text-center">
           Srinika Medisurge never charges candidates any fee for a job or joining. Please report anyone asking for money in our name.
         </p>
@@ -295,7 +319,7 @@ function renderJobDetailPage(job) {
           Job Opening · Lucknow
         </span>
         <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-heading mt-4 mb-3">
-          ${job.title} Job in Lucknow
+          ${job.h1}
         </h1>
         <p class="text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">${job.summary}</p>
       </div>
@@ -306,6 +330,7 @@ function renderJobDetailPage(job) {
         ${renderJobCard(job, { showDetailsLink: false })}
         ${renderApplyForm(job.title)}
         ${renderContactStrip(job.title)}
+        ${renderPoster()}
         <div class="text-center text-sm text-slate-600">
           Also hiring:
           ${others.map(o => `<a href="/careers/${o.slug}/" class="font-bold text-sky-700 hover:underline">${o.title}</a>`).join(', ')}
@@ -319,5 +344,6 @@ function renderJobDetailPage(job) {
 module.exports = {
   renderCareersOverview,
   renderJobDetailPage,
-  buildJobPostingSchema
+  buildJobPostingSchema,
+  CAREERS_POSTER
 };

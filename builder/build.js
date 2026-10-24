@@ -22,7 +22,7 @@ const { renderBookPage } = require('./templates/book_page.js');
 const { renderContactPage } = require('./templates/contact_page.js');
 const { renderBlogOverview, renderBlogPost } = require('./templates/blog_pages.js');
 const { renderAboutPage } = require('./templates/about_page.js');
-const { renderCareersOverview, renderJobDetailPage, buildJobPostingSchema } = require('./templates/careers_pages.js');
+const { renderCareersOverview, renderJobDetailPage, buildJobPostingSchema, CAREERS_POSTER } = require('./templates/careers_pages.js');
 const {
   renderPrivacyPolicy,
   renderTermsAndConditions,
@@ -467,17 +467,23 @@ const careersHtml = renderMasterLayout({
   metaDescription: "Srinika Medisurge is hiring Senior GDA Staff and GDA attendants for full-time and part-time home patient care across Lucknow. Apply on WhatsApp in 1 minute.",
   canonicalUrl: "/careers/",
   currentPath: "/careers/",
+  ogImage: `${CONFIG.siteUrl}${CAREERS_POSTER.src}`,
+  ogImageWidth: CAREERS_POSTER.width,
+  ogImageHeight: CAREERS_POSTER.height,
   breadcrumbs: [{ name: "Careers", url: "/careers/" }],
   content: renderCareersOverview()
 });
 writeHtml("careers/index.html", careersHtml);
-registerSitemap("/careers/", "0.7", "weekly", "2026-10-25");
+registerSitemap("/careers/", "0.7", "weekly", "2026-10-26");
 
 JOBS.forEach(job => {
   const jobHtml = renderMasterLayout({
-    title: `${job.title} Job in Lucknow | Srinika Medisurge Careers`,
-    metaDescription: `${job.title} vacancy in Lucknow, full time or part time. ${job.summary}`.slice(0, 160),
+    title: job.seoTitle,
+    metaDescription: job.metaDescription,
     canonicalUrl: `/careers/${job.slug}/`,
+    ogImage: `${CONFIG.siteUrl}${CAREERS_POSTER.src}`,
+    ogImageWidth: CAREERS_POSTER.width,
+    ogImageHeight: CAREERS_POSTER.height,
     currentPath: `/careers/${job.slug}/`,
     breadcrumbs: [
       { name: "Careers", url: "/careers/" },

@@ -1,4 +1,7 @@
 // Open staff positions shown on /careers/ and each /careers/<slug>/ page.
+// title/titleHi match the hiring poster; seoTitle, h1, metaDescription and schemaTitle are the
+// search-facing wording. salary is optional ({ min, max } in INR per month) and, when set,
+// becomes baseSalary in the JobPosting schema, which Google Jobs ranks higher.
 // validThrough drives the JobPosting schema: Google drops expired postings, so push the date
 // forward (or remove the job) whenever hiring status changes.
 module.exports = [
@@ -6,6 +9,12 @@ module.exports = [
     slug: "senior-gda-staff",
     title: "Senior GDA Staff",
     titleHi: "सीनियर जीडीए स्टाफ",
+    seoTitle: "Senior GDA Staff Job in Lucknow | Srinika Medisurge",
+    h1: "Senior GDA Staff Job in Lucknow",
+    schemaTitle: "Senior GDA Staff",
+    metaDescription: "Senior GDA staff job in Lucknow: home patient care, medicines as prescribed, vitals monitoring. Full or part time duties. Apply on WhatsApp in 1 minute.",
+    salary: null,
+    freshersWelcome: false,
     tagline: "All types of patient care and medication administration",
     icon: "fa-user-nurse",
     accent: "sky",
@@ -31,6 +40,12 @@ module.exports = [
     slug: "gda-staff",
     title: "Normal GDA",
     titleHi: "जीडीए (जनरल ड्यूटी असिस्टेंट)",
+    seoTitle: "GDA / Patient Attendant Job in Lucknow | Srinika Medisurge",
+    h1: "GDA / Patient Attendant Job in Lucknow",
+    schemaTitle: "GDA (General Duty Assistant)",
+    metaDescription: "GDA / patient attendant job in Lucknow, freshers welcome. Help patients at home with hygiene, feeding and mobility. Full or part time. Apply on WhatsApp.",
+    salary: null,
+    freshersWelcome: true,
     tagline: "Basic patient care, hygiene and daily support",
     icon: "fa-hand-holding-heart",
     accent: "emerald",

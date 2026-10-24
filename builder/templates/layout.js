@@ -50,6 +50,8 @@ function renderMasterLayout({
   canonicalUrl,
   currentPath = '/',
   ogImage = `${CONFIG.siteUrl}/assets/images/logo.png`,
+  ogImageWidth = 1200,
+  ogImageHeight = 630,
   ogType = 'website',
   articleMeta = null,
   schema = null,
@@ -185,8 +187,8 @@ function renderMasterLayout({
   <meta property="og:title" content="${title}">
   <meta property="og:description" content="${metaDescription}">
   <meta property="og:image" content="${ogImage}">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="${ogImageWidth}">
+  <meta property="og:image:height" content="${ogImageHeight}">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
