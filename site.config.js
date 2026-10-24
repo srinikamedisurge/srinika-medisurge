@@ -34,6 +34,12 @@ const SITE_CONFIG = {
   drPiyushPhoneTel: "+918931985484",
   drPiyushWhatsappUrl: "https://wa.me/918931985484",
 
+  // Staff hiring numbers (ONLY for the /careers/ pages, as printed on the staff-requirement poster)
+  hiringPhones: [
+    { display: "+91 89319 85484", tel: "+918931985484", whatsapp: "918931985484" },
+    { display: "+91 84218 28920", tel: "+918421828920", whatsapp: "918421828920" }
+  ],
+
   address: {
     street: "Kaushal Puri Rd, Khargapur, Gomti Nagar",
     city: "Lucknow",

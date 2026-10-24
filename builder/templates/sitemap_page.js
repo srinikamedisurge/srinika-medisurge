@@ -16,7 +16,8 @@ function renderSitemapPage() {
     { title: "Patient Reviews", url: "/reviews/", desc: "Genuine patient testimonials and verified clinical care stories." },
     { title: "Healthcare Blog", url: "/blog/", desc: "Clinical advice, elderly care guidance, and procedure protocols." },
     { title: "Book Medical Visit", url: "/book/", desc: "Online doctor video consultations and doorstep visit scheduling." },
-    { title: "Contact & Clinic Location", url: "/contact/", desc: "Clinic address in Gomti Nagar, helpline phone numbers, and WhatsApp." }
+    { title: "Contact & Clinic Location", url: "/contact/", desc: "Clinic address in Gomti Nagar, helpline phone numbers, and WhatsApp." },
+    { title: "Careers", url: "/careers/", desc: "Open Senior GDA and GDA staff jobs for home patient care across Lucknow." }
   ];
 
   const policyPages = [

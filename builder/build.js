@@ -8,6 +8,7 @@ const EQUIPMENT = require('./data/equipment.js');
 const TESTIMONIALS = require('./data/testimonials.js');
 const AREAS = require('./data/areas.js');
 const BLOG_POSTS = require('./data/blog.js');
+const JOBS = require('./data/jobs.js');
 
 const { renderMasterLayout } = require('./templates/layout.js');
 const { renderHomePage } = require('./templates/homepage.js');
@@ -21,6 +22,7 @@ const { renderBookPage } = require('./templates/book_page.js');
 const { renderContactPage } = require('./templates/contact_page.js');
 const { renderBlogOverview, renderBlogPost } = require('./templates/blog_pages.js');
 const { renderAboutPage } = require('./templates/about_page.js');
+const { renderCareersOverview, renderJobDetailPage, buildJobPostingSchema } = require('./templates/careers_pages.js');
 const {
   renderPrivacyPolicy,
   renderTermsAndConditions,
@@ -458,6 +460,35 @@ const aboutHtml = renderMasterLayout({
 });
 writeHtml("about/index.html", aboutHtml);
 registerSitemap("/about/", "0.8", "monthly");
+
+// 14b. CAREERS PAGES (overview + one page per opening so each carries its own JobPosting schema)
+const careersHtml = renderMasterLayout({
+  title: "GDA Staff Jobs in Lucknow | Careers at Srinika Medisurge",
+  metaDescription: "Srinika Medisurge is hiring Senior GDA Staff and GDA attendants for full-time and part-time home patient care across Lucknow. Apply on WhatsApp in 1 minute.",
+  canonicalUrl: "/careers/",
+  currentPath: "/careers/",
+  breadcrumbs: [{ name: "Careers", url: "/careers/" }],
+  content: renderCareersOverview()
+});
+writeHtml("careers/index.html", careersHtml);
+registerSitemap("/careers/", "0.7", "weekly", "2026-10-25");
+
+JOBS.forEach(job => {
+  const jobHtml = renderMasterLayout({
+    title: `${job.title} Job in Lucknow | Srinika Medisurge Careers`,
+    metaDescription: `${job.title} vacancy in Lucknow, full time or part time. ${job.summary}`.slice(0, 160),
+    canonicalUrl: `/careers/${job.slug}/`,
+    currentPath: `/careers/${job.slug}/`,
+    breadcrumbs: [
+      { name: "Careers", url: "/careers/" },
+      { name: job.title, url: `/careers/${job.slug}/` }
+    ],
+    schema: buildJobPostingSchema(job),
+    content: renderJobDetailPage(job)
+  });
+  writeHtml(`careers/${job.slug}/index.html`, jobHtml);
+  registerSitemap(`/careers/${job.slug}/`, "0.6", "weekly", job.datePosted);
+});
 
 // 15. TRUST & LEGAL POLICY PAGES
 const privacyHtml = renderMasterLayout({
