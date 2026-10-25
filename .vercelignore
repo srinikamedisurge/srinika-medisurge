@@ -27,3 +27,6 @@ firebase.json
 android-partner/
 android-app/
 android-release/
+
+# Print catalog (source + PDF), not part of the website
+catalog/
