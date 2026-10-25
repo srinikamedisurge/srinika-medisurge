@@ -2,9 +2,9 @@ const DOCTORS = [
   {
     id: "dr-piyush-saxena",
     name: "Dr. Piyush Saxena",
-    role: "Founder & Lead Medical Practitioner",
+    role: "Founder",
     specialty: "General & Surgical Care Lead",
-    degrees: "Lead Medical Practitioner",
+    degrees: "Founder · Srinika Medisurge",
     experience: "Founder of Srinika Medisurge",
     image: "assets/images/dr-piyush-saxena.jpg",
     bio: "Founder of Srinika Medisurge, dedicated to hospital-grade home care, minor surgical procedures, IV therapy, and critical vital monitoring. Dr. Piyush Saxena established Srinika Medisurge to ensure no patient in Lucknow has to endure excruciating hospital queues for essential clinical procedures like catheter changes, injections, IV drips, and surgical dressing.",

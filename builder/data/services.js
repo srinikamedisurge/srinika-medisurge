@@ -929,11 +929,11 @@ const SERVICES = [
     badge: "Emergency Trained",
     price: "From ₹25,000 / month",
     priceNumber: 25000,
-    priceNote: "12 hours shift: ₹25,000 / month. 24 hours shift: ₹30,000 - ₹35,000 / month. For exact pricing, contact us on WhatsApp.",
+    priceNote: "12 hours shift: ₹25,000 / month. 24 hours shift: ₹32,000 - ₹36,000 / month. For exact pricing, contact us on WhatsApp.",
     duration: "12h / 24h Monthly",
     responseTime: "Deployment within 24 - 48 hours",
     metaTitle: "EMT Staff Service Lucknow | Monthly 12h/24h Emergency Care at Home",
-    metaDescription: "Emergency Medical Technician (EMT) staff at home in Lucknow by Srinika Medisurge. 12 hours ₹25,000/month, 24 hours from ₹30,000/month. Call +91 96530 01359.",
+    metaDescription: "Emergency Medical Technician (EMT) staff at home in Lucknow by Srinika Medisurge. 12 hours ₹25,000/month, 24 hours from ₹32,000/month. Call +91 96530 01359.",
     summary: "Emergency Medical Technician (EMT) staff at home for critical, post-ICU and high-dependency patients in Lucknow, on monthly 12-hour and 24-hour plans.",
     whoNeedsIt: [
       "Patients discharged from ICU who still need close monitoring at home.",
@@ -959,7 +959,7 @@ const SERVICES = [
       {
         step: 2,
         title: "Plan & Rate Confirmation",
-        desc: "We confirm the monthly rate: 12 hours ₹25,000, 24 hours ₹30,000 - ₹35,000, based on the patient's condition."
+        desc: "We confirm the monthly rate: 12 hours ₹25,000, 24 hours ₹32,000 - ₹36,000, based on the patient's condition."
       },
       {
         step: 3,
@@ -982,7 +982,7 @@ const SERVICES = [
     faqs: [
       {
         q: "What is the monthly charge for EMT staff in Lucknow?",
-        a: "A 12-hour EMT shift costs ₹25,000 per month, and 24-hour EMT care costs ₹30,000 to ₹35,000 per month, depending on the patient's condition. Contact us on WhatsApp for the exact rate."
+        a: "A 12-hour EMT shift costs ₹25,000 per month, and 24-hour EMT care costs ₹32,000 to ₹36,000 per month, depending on the patient's condition. Contact us on WhatsApp for the exact rate."
       },
       {
         q: "How is EMT staff different from a GDA?",

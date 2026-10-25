@@ -45,8 +45,8 @@ const LINES = [
   { key: "gda-24h-min",           group: "Monthly Staff (GDA / EMT)", label: "GDA - 24 hours (from)", unit: "/ month", price: 30000 },
   { key: "gda-24h-max",           group: "Monthly Staff (GDA / EMT)", label: "GDA - 24 hours (up to)", unit: "/ month", price: 35000 },
   { key: "emt-12h",               group: "Monthly Staff (GDA / EMT)", label: "EMT Staff - 12 hours", unit: "/ month", price: 25000 },
-  { key: "emt-24h-min",           group: "Monthly Staff (GDA / EMT)", label: "EMT Staff - 24 hours (from)", unit: "/ month", price: 30000 },
-  { key: "emt-24h-max",           group: "Monthly Staff (GDA / EMT)", label: "EMT Staff - 24 hours (up to)", unit: "/ month", price: 35000 },
+  { key: "emt-24h-min",           group: "Monthly Staff (GDA / EMT)", label: "EMT Staff - 24 hours (from)", unit: "/ month", price: 32000 },
+  { key: "emt-24h-max",           group: "Monthly Staff (GDA / EMT)", label: "EMT Staff - 24 hours (up to)", unit: "/ month", price: 36000 },
 
   // ---- Respiratory / misc
   { key: "bipap-setup",           group: "Other", label: "BiPAP setup & titration (from)", unit: "", price: 1200 },
@@ -87,16 +87,16 @@ const WEBSITE_PAGE_CONTEXT = {
   "nebulization-vitals-ecg-at-home": { 500: "nebulization" },
   "patient-attendant-lucknow": { 999: "patient-care-12h", 1799: "patient-care-24h" },
   "gda-service-lucknow": { 20000: "gda-12h-min", 24000: "gda-12h-max", 30000: "gda-24h-min", 35000: "gda-24h-max" },
-  "emt-staff-service-lucknow": { 25000: "emt-12h", 30000: "emt-24h-min", 35000: "emt-24h-max" }
+  "emt-staff-service-lucknow": { 25000: "emt-12h", 32000: "emt-24h-min", 36000: "emt-24h-max" }
 };
 
 /** Pages outside /services/: matched by URL prefix. */
 const WEBSITE_PATH_CONTEXT = {
   "/areas/": {
     2000: "consult-doorstep", 600: "physiotherapy-doorstep", 500: "consult-online",
-    // area FAQ: GDA 12h / 24h, then EMT 12h / 24h (30,000 and 35,000 appear once for each)
+    // area FAQ: GDA 12h / 24h, then EMT 12h / 24h
     20000: "gda-12h-min", 24000: "gda-12h-max", 25000: "emt-12h",
-    30000: ["gda-24h-min", "emt-24h-min"], 35000: ["gda-24h-max", "emt-24h-max"]
+    30000: "gda-24h-min", 35000: "gda-24h-max", 32000: "emt-24h-min", 36000: "emt-24h-max"
   },
   "/blog/home-physiotherapy-stroke-surgery-recovery/": { 600: "physiotherapy-doorstep" },
   "/blog/doorstep-doctor-visit-vs-hospital-opd-elderly/": { 2000: "consult-doorstep" }

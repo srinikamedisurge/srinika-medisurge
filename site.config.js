@@ -15,7 +15,7 @@ const SITE_CONFIG = {
   
   // Leadership & Team
   founderName: "Dr. Piyush Saxena",
-  founderRole: "Founder & Lead Medical Practitioner",
+  founderRole: "Founder",
   
   // MAIN Business Numbers (NAP Consistency)
   businessPhone: "9653001359",

@@ -398,7 +398,7 @@ function wideArea(a) {
       },
       {
         q: `Can I hire a GDA or EMT staff on a monthly basis in ${a.name}?`,
-        a: "Yes. A 12-hour GDA costs ₹20,000 - ₹24,000 per month and a 24-hour GDA ₹30,000 - ₹35,000 per month. EMT staff costs ₹25,000 per month for 12 hours and ₹30,000 - ₹35,000 per month for 24 hours. Contact us on WhatsApp for details."
+        a: "Yes. A 12-hour GDA costs ₹20,000 - ₹24,000 per month and a 24-hour GDA ₹30,000 - ₹35,000 per month. EMT staff costs ₹25,000 per month for 12 hours and ₹32,000 - ₹36,000 per month for 24 hours. Contact us on WhatsApp for details."
       }
     ]
   };

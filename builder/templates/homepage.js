@@ -148,7 +148,7 @@ function renderHomePage() {
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Doctor On-Call Active
                   </div>
                   <p class="text-2xl font-bold font-heading">Dr. Piyush Saxena</p>
-                  <p class="text-xs text-slate-200">Founder & Lead Medical Practitioner • Srinika Medisurge</p>
+                  <p class="text-xs text-slate-200">Founder • Srinika Medisurge</p>
                   <p class="text-[11px] text-slate-300 pt-0.5">Kaushal Puri Rd, Khargapur, Gomti Nagar HQ</p>
                 </div>
               </div>
