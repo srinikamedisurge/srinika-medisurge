@@ -30,3 +30,6 @@ android-release/
 
 # Print catalog (source + PDF), not part of the website
 catalog/
+
+# Signed agreements / MoUs, not part of the website
+agreements/

@@ -1,7 +1,7 @@
 const CONFIG = require('../../site.config.js');
 const BLOG_POSTS = require('../data/blog.js');
 const SERVICES = require('../data/services.js');
-const { pricify } = require('../data/price_lines.js');
+const { askPriceText, askPriceLink, askPriceBox } = require('./ask_price.js');
 
 // Newest first, so fresh articles get the most prominent links.
 const POSTS_BY_DATE = [...BLOG_POSTS].sort((a, b) => b.date.localeCompare(a.date));
@@ -152,7 +152,7 @@ function renderBlogPost(post) {
               ${relatedServicesOf(post).map(s => `
                 <a href="/services/${s.slug}/" class="p-4 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-300 transition block group">
                   <span class="text-sm font-bold text-slate-900 group-hover:text-sky-600 block mb-1">${s.shortTitle}</span>
-                  <span class="text-[11px] text-slate-500 block">${pricify(s.price, s.slug)}</span>
+                  ${askPriceText("text-[11px] text-slate-500")}
                 </a>
               `).join('')}
             </div>

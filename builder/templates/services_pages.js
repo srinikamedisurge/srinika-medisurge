@@ -1,5 +1,5 @@
 const CONFIG = require('../../site.config.js');
-const { pricify } = require('../data/price_lines.js');
+const { askPriceText, askPriceLink, askPriceBox } = require('./ask_price.js');
 const SERVICES = require('../data/services.js');
 const AREAS = require('../data/areas.js');
 const { POSTS_BY_DATE } = require('./blog_pages.js');
@@ -85,8 +85,8 @@ function renderServicesOverview() {
               <div class="pt-5 border-t border-slate-100">
                 <div class="flex items-center justify-between mb-4">
                   <div>
-                    <span class="text-[10px] text-slate-400 block uppercase font-bold">Estimated Pricing</span>
-                    <span class="text-base font-bold text-slate-900">${pricify(service.price, service.slug)}</span>
+                    <span class="text-[10px] text-slate-400 block uppercase font-bold">Charges</span>
+                    ${askPriceLink(service.shortTitle, "text-emerald-700 hover:text-emerald-800 font-bold text-sm")}
                   </div>
                   <div class="text-right">
                     <span class="text-[10px] text-slate-400 block uppercase font-bold">Avg Duration</span>
@@ -111,7 +111,7 @@ function renderServicesOverview() {
 
                 <div class="text-center pt-2">
                   <a href="/services/${service.slug}/" class="text-xs font-bold text-sky-600 hover:text-sky-800 hover:underline inline-flex items-center gap-1">
-                    <span>Full procedure details, pricing & FAQs</span>
+                    <span>Full procedure details & FAQs</span>
                     <i class="fa-solid fa-arrow-right text-[10px]"></i>
                   </a>
                 </div>
@@ -149,8 +149,8 @@ function renderServiceDetailPage(service) {
         <!-- Quick Summary Bar -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 bg-white rounded-2xl border border-slate-200 shadow-sm text-xs">
           <div>
-            <span class="text-slate-400 uppercase font-bold block text-[10px]">Transparent Fee</span>
-            <strong class="text-sm font-extrabold text-slate-900">${pricify(service.price, service.slug)}</strong>
+            <span class="text-slate-400 uppercase font-bold block text-[10px]">Charges</span>
+            ${askPriceLink(service.shortTitle, "text-sm font-extrabold text-emerald-700 hover:text-emerald-800")}
           </div>
           <div>
             <span class="text-slate-400 uppercase font-bold block text-[10px]">Doorstep Response</span>
@@ -253,11 +253,9 @@ function renderServiceDetailPage(service) {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="p-6 bg-sky-50 rounded-2xl border border-sky-100 space-y-3">
             <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
-              <i class="fa-solid fa-indian-rupee-sign text-sky-600"></i>
-              <span>Transparent Pricing Guarantee</span>
-            </h3>
-            <p class="text-2xl font-black text-brand-700">${pricify(service.price, service.slug)}</p>
-            <p class="text-xs text-slate-600 leading-relaxed">${pricify(service.priceNote, service.slug)}</p>
+              <i class="fa-brands fa-whatsapp text-emerald-600"></i>
+              <span>Charges for ${service.shortTitle}</span>
+            </h3>${askPriceBox(service.shortTitle)}
             <p class="text-[11px] text-slate-500 font-medium">Payment accepted via Cash, UPI (GPay/PhonePe/Paytm), or Razorpay online.</p>
           </div>
 
@@ -304,7 +302,7 @@ function renderServiceDetailPage(service) {
               ${relatedServicesList.map(rel => `
                 <a href="/services/${rel.slug}/" class="p-4 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-300 transition block group">
                   <span class="text-xs font-bold text-slate-900 group-hover:text-sky-600 block mb-1">${rel.title}</span>
-                  <span class="text-[11px] text-slate-500 block">${pricify(rel.price, rel.slug)}</span>
+                  ${askPriceText("text-[11px] text-slate-500")}
                 </a>
               `).join('')}
             </div>

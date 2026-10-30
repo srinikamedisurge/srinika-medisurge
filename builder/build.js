@@ -165,12 +165,6 @@ SERVICES.forEach(service => {
         "areaServed": {
           "@type": "City",
           "name": "Lucknow"
-        },
-        "offers": {
-          "@type": "Offer",
-          "price": service.priceNumber,
-          "priceCurrency": "INR",
-          "availability": "https://schema.org/InStock"
         }
       },
       buildFaqSchema(service.faqs)
@@ -301,8 +295,8 @@ AREAS.forEach(area => {
 
 // 8. PRICING PAGE
 const pricingHtml = renderMasterLayout({
-  title: "Pricing & Cost Estimator Lucknow | Home Nursing & Doctor Visit",
-  metaDescription: "Transparent doorstep healthcare pricing in Lucknow: Doctor visit ₹2000, Online consult ₹500, Physio ₹600, Dressing ₹399, Catheter ₹599. Calculate visit cost.",
+  title: "Home Nursing & Doctor Visit Charges Lucknow | Get a Quote",
+  metaDescription: "Doorstep doctor visit, nursing, physiotherapy, dressing, catheter care and equipment rental charges in Lucknow. Get the exact price on WhatsApp or call +91 96530 01359.",
   canonicalUrl: "/pricing/",
   currentPath: "/pricing/",
   breadcrumbs: [
@@ -331,7 +325,7 @@ registerSitemap("/reviews/", "0.8", "weekly");
 // 10. BOOK VISIT / ONLINE CONSULTATION PAGE
 const bookHtml = renderMasterLayout({
   title: "Book Doorstep Visit or Online Consultation | Srinika Lucknow",
-  metaDescription: "Book doorstep medical care or online doctor consultation in Lucknow. 30-45 min rapid nursing dispatch or ₹500 video consult with Dr. Piyush Saxena.",
+  metaDescription: "Book doorstep medical care or online doctor consultation in Lucknow. 30-45 min rapid nursing dispatch or online video consult with Dr. Piyush Saxena.",
   canonicalUrl: "/book/",
   currentPath: "/book/",
   includeRazorpay: false,
@@ -521,7 +515,7 @@ registerSitemap("/terms-and-conditions/", "0.4", "yearly");
 
 const refundHtml = renderMasterLayout({
   title: "Refund and Cancellation Policy | Srinika Medisurge",
-  metaDescription: "Refund and cancellation guidelines for online doctor video consultations (₹500 fee) and doorstep medical nursing visits in Lucknow.",
+  metaDescription: "Refund and cancellation guidelines for online doctor video consultations and doorstep medical nursing visits in Lucknow.",
   canonicalUrl: "/refund-and-cancellation-policy/",
   currentPath: "/refund-and-cancellation-policy/",
   breadcrumbs: [{ name: "Refund Policy", url: "/refund-and-cancellation-policy/" }],

@@ -9,7 +9,7 @@ const DOCTORS = [
     image: "assets/images/dr-piyush-saxena.jpg",
     bio: "Founder of Srinika Medisurge, dedicated to hospital-grade home care, minor surgical procedures, IV therapy, and critical vital monitoring. Dr. Piyush Saxena established Srinika Medisurge to ensure no patient in Lucknow has to endure excruciating hospital queues for essential clinical procedures like catheter changes, injections, IV drips, and surgical dressing.",
     badges: ["Founder & Lead", "Critical & Surgical Care", "On-Call Active"],
-    pricing: "Doorstep Consultation: ₹2,000 (within 5km) • Online: ₹500",
+    pricing: "Doorstep & Online Consultation",
     schemaSpecialty: "Emergency Medicine, General Practice",
     actions: {
       call: true,
@@ -35,7 +35,7 @@ const DOCTORS = [
     image: "assets/images/dr-harshit-nigam.jpg",
     bio: "8+ years of clinical experience with expertise in diagnosis, patient care, treatment planning, and medical consultation.",
     badges: ["MBBS, MD (Medicine)", "Senior Medical Officer", "General Practitioner"],
-    pricing: "Online Consultation: ₹500 • Doorstep Consultation: ₹2,000 (within 5 km)",
+    pricing: "Online & Doorstep Consultation",
     schemaSpecialty: "General Practice, Internal Medicine",
     actions: {
       call: true,
@@ -54,7 +54,7 @@ const DOCTORS = [
     image: "assets/images/dr-desh-deepak-singh.jpg",
     bio: "Specialized in neurological rehabilitation, post-stroke recovery, paralysis mobilization, orthopedic joint recovery, and home physiotherapy sessions. Helps elderly and post-op patients regain independent mobility in their own home.",
     badges: ["Neuro Specialist", "B.P.T., M.P.T. (NEURO)", "Mobility Care"],
-    pricing: "₹600 / session at doorstep",
+    pricing: "Physiotherapy at Doorstep",
     schemaSpecialty: "Physiotherapy, Neurological Rehabilitation",
     actions: {
       call: true,
@@ -72,7 +72,7 @@ const DOCTORS = [
     image: "assets/images/dr-akash.jpg",
     bio: "Specialized in emergency triage, trauma management, LP puncture, catheterization, IV drips, acute febrile illnesses, and home clinical visits across Lucknow.",
     badges: ["M.B.B.S. • UP Medical Council Reg.", "Emergency & ICU", "Ex-Max Hospital"],
-    pricing: "Online Consultation: ₹500 • Doorstep Consultation: ₹2,000",
+    pricing: "Online & Doorstep Consultation",
     schemaSpecialty: "Emergency Medicine, General Physician",
     actions: {
       call: true,
@@ -91,7 +91,7 @@ const DOCTORS = [
     image: "assets/images/dr-reshmi-r.jpg",
     bio: "Clinical expertise in women's wellness, surgical wound recovery, diagnostic analysis, vital stabilization, and compassionate doorstep and online consultations.",
     badges: ["M.B.B.S. • UP Medical Council Reg.", "Women's Health", "Ex-Medanta & Ex-Max"],
-    pricing: "Online Consultation: ₹500 • Doorstep Care: As per service",
+    pricing: "Online Consultation • Doorstep Care",
     schemaSpecialty: "Obstetrics and Gynecology, General Medicine",
     actions: {
       call: true,
@@ -109,7 +109,7 @@ const DOCTORS = [
     image: "assets/images/logo-white-bg.png",
     bio: "100% certified clinical nurses (GNM/B.Sc Nursing) trained in hospital hygiene, gentle catheterization, IV cannulation, surgical wound dressing, and continuous vital monitoring under the supervision of Dr. Piyush Saxena.",
     badges: ["100% Certified Nurses", "Sterile Disposables", "Direct Doctor Oversight"],
-    pricing: "Procedures from ₹299 • Shifts from ₹999",
+    pricing: "Nursing Procedures • Shifts",
     schemaSpecialty: "Nursing, Critical Care Nursing",
     actions: {
       call: true,

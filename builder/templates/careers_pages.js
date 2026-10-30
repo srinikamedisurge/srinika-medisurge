@@ -54,7 +54,7 @@ function buildJobPostingSchema(job) {
   };
 }
 
-function renderJobCard(job, { showDetailsLink }) {
+function renderJobCard(job) {
   const a = job.accent;
   return `
     <article id="${job.slug}" class="bg-white rounded-3xl border-2 border-${a}-200 shadow-sm overflow-hidden flex flex-col">
@@ -107,10 +107,48 @@ function renderJobCard(job, { showDetailsLink }) {
           <a href="#apply" data-role="${job.title}" class="apply-role-link flex-1 text-center px-5 py-3 bg-${a}-600 hover:bg-${a}-700 text-white font-bold text-sm rounded-xl shadow-sm transition">
             Apply for ${job.title}
           </a>
-          ${showDetailsLink ? `
-          <a href="/careers/${job.slug}/" class="flex-1 text-center px-5 py-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-sm rounded-xl transition">
-            Full job details
-          </a>` : ''}
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+// Short listing card for the overview page. Responsibilities and requirements live only on
+// the role's own page, so the overview doesn't duplicate the job pages' content.
+function renderJobSummaryCard(job) {
+  const a = job.accent;
+  const inr = n => n.toLocaleString('en-IN');
+  return `
+    <article id="${job.slug}" class="bg-white rounded-3xl border-2 border-${a}-200 shadow-sm overflow-hidden flex flex-col">
+      <div class="bg-${a}-600 text-white px-6 py-5 flex items-center gap-4">
+        <div class="w-14 h-14 rounded-2xl bg-white/15 flex items-center justify-center text-2xl shrink-0">
+          <i class="fa-solid ${job.icon}"></i>
+        </div>
+        <div>
+          <h2 class="text-xl sm:text-2xl font-extrabold font-heading leading-tight">
+            <a href="/careers/${job.slug}/" class="hover:underline">${job.title}</a>
+          </h2>
+          <p lang="hi" class="text-xs sm:text-sm text-${a}-100 font-semibold">${job.titleHi}</p>
+        </div>
+      </div>
+
+      <div class="p-6 sm:p-7 flex-1 flex flex-col gap-5">
+        <p class="text-sm font-semibold text-${a}-800 bg-${a}-50 border border-${a}-100 rounded-xl px-4 py-2.5">${job.tagline}</p>
+
+        <div class="flex flex-wrap gap-2 text-xs font-semibold">
+          ${job.employmentType.map(t => `<span class="px-3 py-1.5 rounded-full bg-slate-100 text-slate-700"><i class="fa-solid fa-briefcase mr-1 text-slate-400"></i>${EMPLOYMENT_LABEL[t]}</span>`).join('')}
+          <span class="px-3 py-1.5 rounded-full bg-slate-100 text-slate-700"><i class="fa-solid fa-location-dot mr-1 text-slate-400"></i>All over Lucknow</span>
+          ${job.salary ? `<span class="px-3 py-1.5 rounded-full bg-slate-100 text-slate-700"><i class="fa-solid fa-indian-rupee-sign mr-1 text-slate-400"></i>${inr(job.salary.min)}–${inr(job.salary.max)} / month</span>` : ''}
+          <span class="px-3 py-1.5 rounded-full bg-slate-100 text-slate-700"><i class="fa-solid fa-user-graduate mr-1 text-slate-400"></i>${job.freshersWelcome ? 'Freshers welcome' : 'Experience needed'}</span>
+        </div>
+
+        <div class="mt-auto pt-2 flex flex-col sm:flex-row gap-3">
+          <a href="/careers/${job.slug}/" class="flex-1 text-center px-5 py-3 bg-${a}-600 hover:bg-${a}-700 text-white font-bold text-sm rounded-xl shadow-sm transition">
+            View ${job.title} job
+          </a>
+          <a href="#apply" data-role="${job.title}" class="apply-role-link flex-1 text-center px-5 py-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-sm rounded-xl transition">
+            Quick apply
+          </a>
         </div>
       </div>
     </article>
@@ -283,7 +321,7 @@ function renderCareersOverview() {
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          ${JOBS.map(job => renderJobCard(job, { showDetailsLink: true })).join('')}
+          ${JOBS.map(renderJobSummaryCard).join('')}
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -327,7 +365,7 @@ function renderJobDetailPage(job) {
 
     <div class="py-12 sm:py-16 bg-slate-50">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-        ${renderJobCard(job, { showDetailsLink: false })}
+        ${renderJobCard(job)}
         ${renderApplyForm(job.title)}
         ${renderContactStrip(job.title)}
         ${renderPoster()}

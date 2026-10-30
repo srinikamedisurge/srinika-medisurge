@@ -1,5 +1,5 @@
 const CONFIG = require('../../site.config.js');
-const { P, pricify } = require('../data/price_lines.js');
+const { askPriceText, askPriceLink, askPriceBox } = require('./ask_price.js');
 const SERVICES = require('../data/services.js');
 const DOCTORS = require('../data/doctors.js');
 const EQUIPMENT = require('../data/equipment.js');
@@ -65,7 +65,7 @@ function renderHomePage() {
             <div class="pt-1 flex items-center justify-center lg:justify-start">
               <a href="/book/?service=online-consultation#booking-form" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-50 hover:bg-teal-100 text-teal-800 border border-teal-200 text-xs sm:text-sm font-bold shadow-2xs transition group">
                 <i class="fa-solid fa-video text-teal-600 group-hover:scale-110 transition-transform"></i>
-                <span>Need immediate teleconsultation? Consult Online (${P('consult-online')})</span>
+                <span>Need immediate teleconsultation? Consult Online</span>
                 <i class="fa-solid fa-arrow-right text-[11px] text-teal-600 ml-0.5"></i>
               </a>
             </div>
@@ -79,7 +79,7 @@ function renderHomePage() {
                   </div>
                   <div>
                     <strong class="text-xs font-bold text-slate-900 block leading-tight">Doctor Visit</strong>
-                    <span class="text-[10px] text-sky-600 font-semibold block">${P('consult-doorstep')}</span>
+                    <span class="text-[10px] text-sky-600 font-semibold block">At your doorstep</span>
                   </div>
                 </a>
 
@@ -89,7 +89,7 @@ function renderHomePage() {
                   </div>
                   <div>
                     <strong class="text-xs font-bold text-slate-900 block leading-tight">Home Nursing</strong>
-                    <span class="text-[10px] text-emerald-600 font-semibold block">From ${P('im-injection')}</span>
+                    <span class="text-[10px] text-emerald-600 font-semibold block">Procedures & shifts</span>
                   </div>
                 </a>
 
@@ -99,7 +99,7 @@ function renderHomePage() {
                   </div>
                   <div>
                     <strong class="text-xs font-bold text-slate-900 block leading-tight">Catheter Care</strong>
-                    <span class="text-[10px] text-amber-600 font-semibold block">${P('catheter-insertion')}</span>
+                    <span class="text-[10px] text-amber-600 font-semibold block">Foley / silicone</span>
                   </div>
                 </a>
 
@@ -109,7 +109,7 @@ function renderHomePage() {
                   </div>
                   <div>
                     <strong class="text-xs font-bold text-slate-900 block leading-tight">Tele-Consult</strong>
-                    <span class="text-[10px] text-teal-600 font-semibold block">${P('consult-online')}</span>
+                    <span class="text-[10px] text-teal-600 font-semibold block">Video / phone call</span>
                   </div>
                 </a>
               </div>
@@ -176,7 +176,7 @@ function renderHomePage() {
             <i class="fa-solid fa-phone mr-1.5"></i> Call ${CONFIG.businessPhoneFormatted}
           </a>
           <a href="/services/online-doctor-consultation/" class="px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm rounded-xl transition border border-white/20">
-            Consult Online (${P('consult-online')})
+            Consult Online
           </a>
         </div>
       </div>
@@ -230,7 +230,7 @@ function renderHomePage() {
 
               <div class="pt-4 border-t border-slate-200/80">
                 <div class="flex items-center justify-between mb-3 text-xs">
-                  <span class="font-bold text-slate-900 text-sm">${pricify(service.price, service.slug)}</span>
+                  ${askPriceLink(service.shortTitle, "text-emerald-700 hover:text-emerald-800 font-bold text-xs")}
                   <span class="text-slate-500"><i class="fa-regular fa-clock mr-1 text-slate-400"></i>${service.duration}</span>
                 </div>
 
@@ -337,7 +337,7 @@ function renderHomePage() {
             Meet Our Dedicated Specialist Doctors & Clinicians
           </h2>
           <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
-            Expert care delivered with empathy. Consult online (${P('consult-online')}) or request personal doorstep doctor visits (${P('consult-doorstep')} within 5km) and physiotherapy sessions (${P('physiotherapy-doorstep')}) across Lucknow.
+            Expert care delivered with empathy. Consult online or request personal doorstep doctor visits and physiotherapy sessions across Lucknow. Message us on WhatsApp or call for charges.
           </p>
         </div>
 

@@ -75,7 +75,7 @@
   .meta i{font-style:normal;color:var(--teal-d);font-weight:600}
   .badge{position:absolute;top:10px;right:10px;font-size:7pt;font-weight:600;color:var(--teal-d);background:var(--teal-l);padding:2px 7px;border-radius:10px}
 
-  .tight .inner{padding-top:9mm}.tight .card{padding:9px 11px}.tight .card ul{margin-top:4px}.tight .price{margin-top:6px}
+  .tight .inner{padding-top:7mm}.tight .price span.sc{background:#fff7ea;color:#6b4a12;font-family:Inter;font-weight:500;font-size:7.6pt}.tight .grid3 .ic{display:none}.tight .grid2,.tight .grid3{gap:7px}.tight .bar{margin:5px 0 9px}.tight .ic{width:26px;height:26px;margin-bottom:5px}.tight .ic svg{width:15px;height:15px}.tight .card{padding:8px 11px}.tight .badge{top:8px}.tight .card p{margin-top:2px}.tight .card ul{margin-top:4px}.tight .price{margin-top:6px}
   /* about page */
   .about-hero{display:grid;grid-template-columns:1.25fr 1fr;gap:14px;align-items:stretch}
   .quote{background:linear-gradient(150deg,var(--blue),var(--teal));color:#fff;border-radius:16px;padding:16px 16px;display:flex;flex-direction:column;justify-content:space-between}
@@ -119,6 +119,9 @@
   .rates b{font-family:Poppins;font-size:9pt;color:var(--blue-d)}
   .rates div.hl{background:var(--blue);}
   .rates div.hl small{color:#cfe0f5} .rates div.hl b{color:#fff}
+  .scnote{background:var(--blue-l);border:1px dashed #9db6d8;border-radius:12px;padding:11px 13px;display:flex;flex-direction:column;justify-content:center}
+  .scnote h3{font-size:10.6pt;color:var(--blue-d)}
+  .scnote p{font-size:8.4pt;color:#334458;margin-top:4px}
   .note{margin-top:10px;background:#fff7ea;border:1px solid #f7d9a8;border-radius:10px;padding:8px 11px;font-size:8.3pt;color:#6b4a12}
 
   /* steps */
@@ -292,9 +295,9 @@
 
     <div class="sec"><h3 class="t">Consultation fees</h3></div>
     <div class="grid3">
-      <div class="card"><div class="ic"><svg><use href="#i-doc"/></svg></div><h3>Doctor Home Visit</h3><p>Full check-up, vitals and prescription at home.</p><div class="price"><span>₹2,000 / visit</span></div><div class="meta">Within 5 km · small distance charge beyond</div></div>
-      <div class="card"><div class="ic"><svg><use href="#i-video"/></svg></div><h3>Online Consultation</h3><p>WhatsApp video or phone call, digital prescription.</p><div class="price"><span>₹500 / consult</span></div><div class="meta">Slots within 15–30 min</div></div>
-      <div class="card"><div class="ic"><svg><use href="#i-walk"/></svg></div><h3>Physiotherapy</h3><p>45–60 min targeted session at your doorstep.</p><div class="price"><span>₹600 / session</span></div><div class="meta">10-session &amp; monthly plans</div></div>
+      <div class="card"><div class="ic"><svg><use href="#i-doc"/></svg></div><h3>Doctor Home Visit</h3><p>Full check-up, vitals and prescription at home.</p><div class="price"><span>₹2,000 / visit</span></div><div class="meta">Within 5 km · small distance charge beyond</div><div class="meta"><i>Service charge only</i> · materials &amp; consumables by patient</div></div>
+      <div class="card"><div class="ic"><svg><use href="#i-video"/></svg></div><h3>Online Consultation</h3><p>WhatsApp video or phone call, digital prescription.</p><div class="price"><span>₹500 / consult</span></div><div class="meta">Slots within 15–30 min</div><div class="meta"><i>Service charge only</i> · materials &amp; consumables by patient</div></div>
+      <div class="card"><div class="ic"><svg><use href="#i-walk"/></svg></div><h3>Physiotherapy</h3><p>45–60 min targeted session at your doorstep.</p><div class="price"><span>₹600 / session</span></div><div class="meta">Within 5 km · 10-session &amp; monthly plans</div><div class="meta"><i>Service charge only</i> · materials &amp; consumables by patient</div></div>
     </div>
 
     <div class="note" style="margin-top:12px"><b>Doctor visit includes:</b> complete physical examination, BP / SpO2 / pulse / temperature / blood sugar check, review of old reports &amp; discharge papers, prescription, and a clear recovery plan explained in Hindi &amp; English.</div>
@@ -308,41 +311,46 @@
   <div class="inner">
     <div class="kicker">Services</div>
     <h2 class="h2">Nursing &amp; home treatments</h2>
-    <p class="lead">Clinical procedures done at home by certified staff, with sealed sterile kits and doctor oversight.</p>
+    <p class="lead">Certified staff, doctor oversight. Rates below are service charges only.</p>
     <div class="bar"></div>
 
     <div class="grid2">
-      <div class="card"><span class="badge">Certified Nurses</span><div class="ic"><svg><use href="#i-nurse"/></svg></div><h3>Home Nursing Care</h3><p>Dedicated GNM / B.Sc nurses for elderly, bedridden and post-surgery patients.</p>
-        <ul><li>Vitals charting – BP, pulse, SpO2, sugar</li><li>Medicines, injections &amp; IV fluids on schedule</li><li>Catheter / Ryle's tube care, bedsore prevention</li></ul>
-        <div class="price"><span>Morning ₹999</span><span>Evening ₹999</span><span>Night ₹1,299</span></div></div>
+      <div class="card"><span class="badge">Certified Nurses</span><div class="ic"><svg><use href="#i-nurse"/></svg></div><h3>Home Nursing Care</h3><p>Dedicated GNM / B.Sc / EMT nurses for elderly, bedridden and post-surgery patients, as per availability.</p>
+        <ul><li>Vitals charting – BP, pulse, SpO2, sugar</li><li>Medicines, injections &amp; IV fluids on schedule</li></ul>
+        <div class="price"><span>Morning ₹799</span><span>Evening ₹799</span><span>Night ₹1,299</span><span class="sc">Service charge only · materials by patient</span></div></div>
 
       <div class="card"><span class="badge">Hospital-Grade</span><div class="ic"><svg><use href="#i-drop"/></svg></div><h3>IV Drip &amp; Injections</h3><p>Safe IV infusion and IM / SC injections following hospital protocol.</p>
-        <ul><li>IV cannula (20G–24G) with sterile dressing</li><li>NS, RL, DNS fluids as prescribed</li><li>Drip-rate &amp; vitals monitoring throughout</li></ul>
-        <div class="price"><span>IV ₹399</span><span>IM / SC ₹299</span><span>Fluids: as needed</span></div></div>
+        <ul><li>IV cannula (20G–24G) with sterile dressing</li><li>NS, RL, DNS fluids as prescribed</li></ul>
+        <div class="price"><span>IV drip ₹599 / IV</span><span>IV inj. ₹499</span><span>IM / SC ₹299</span><span class="sc">Service charge only · materials by patient</span></div></div>
 
       <div class="card"><span class="badge">100% Sterile</span><div class="ic"><svg><use href="#i-band"/></svg></div><h3>Surgical Wound Dressing</h3><p>Aseptic dressing of surgical wounds, ulcers and bed sores at home.</p>
-        <ul><li>Single-use sealed dressing kit</li><li>Betadine / saline / chlorhexidine cleansing</li><li>Hydrogel, silver, foam or collagen dressings</li></ul>
-        <div class="price"><span>Small ₹500</span><span>Medium ₹1,000</span><span>Large ₹1,500</span></div></div>
+        <ul><li>Aseptic technique, sterile gloves &amp; drape</li><li>Betadine / saline / chlorhexidine cleansing</li></ul>
+        <div class="price"><span>Small ₹500</span><span>Medium ₹1,000</span><span>Large ₹1,500</span><span class="sc">Service charge only · materials by patient</span></div></div>
 
       <div class="card"><span class="badge">Gentle &amp; Sterile</span><div class="ic"><svg><use href="#i-syringe"/></svg></div><h3>Urinary Catheterization</h3><p>Foley / silicone catheter insertion, change or removal at home.</p>
-        <ul><li>Catheter (12–18 Fr), urobag included</li><li>2% Lignocaine jelly for painless insertion</li><li>Sterile drape, gloves &amp; antiseptic</li></ul>
-        <div class="price"><span>₹999 / procedure</span></div></div>
+        <ul><li>Catheter (12–18 Fr) &amp; urobag by patient</li><li>2% Lignocaine jelly for painless insertion</li></ul>
+        <div class="price"><span>₹999 / procedure</span><span class="sc">Service charge only · materials by patient</span></div></div>
 
       <div class="card"><span class="badge">Clinical Precision</span><div class="ic"><svg><use href="#i-pulse"/></svg></div><h3>Ryle's Tube / NG Tube</h3><p>Nasogastric feeding tube insertion &amp; replacement for patients unable to swallow.</p>
-        <ul><li>Sterile Ryle's tube included</li><li>Placement confirmed by whoosh &amp; pH test</li><li>Feeding demonstration for family</li></ul>
-        <div class="price"><span>₹999 / procedure</span></div></div>
+        <ul><li>Ryle's tube by patient, inserted sterile</li><li>Placement confirmed by whoosh &amp; pH test</li></ul>
+        <div class="price"><span>₹999 / procedure</span><span class="sc">Service charge only · materials by patient</span></div></div>
 
-      <div class="card"><span class="badge">Breathing Relief</span><div class="ic"><svg><use href="#i-lungs"/></svg></div><h3>Nebulization, Vitals &amp; ECG</h3><p>Nebulizer therapy, 12-lead ECG and full vitals at your doorstep.</p>
-        <ul><li>Hospital-grade compressor nebulizer</li><li>Levosalbutamol / Budesonide as prescribed</li><li>SpO2 &amp; chest check before and after</li></ul>
-        <div class="price"><span>₹500 one-time</span></div></div>
 
       <div class="card"><span class="badge">ICU Respiratory</span><div class="ic"><svg><use href="#i-wind"/></svg></div><h3>BiPAP &amp; Oxygen Support</h3><p>BiPAP setup, pressure titration, mask fitting and oxygen at home.</p>
-        <ul><li>IPAP / EPAP titration by clinical team</li><li>Mask sizing &amp; humidifier setup</li><li>Dispatch under 60 min in Lucknow</li></ul>
-        <div class="price"><span>Setup from ₹1,200</span><span>Rental: see page 6</span></div></div>
+        <ul><li>IPAP / EPAP titration by clinical team</li><li>Mask sizing &amp; humidifier setup</li></ul>
+        <div class="price"><span>Setup from ₹1,200</span><span>Rental: see page 6</span><span class="sc">Service charge only · materials by patient</span></div></div>
 
       <div class="card"><span class="badge">Compassionate Care</span><div class="ic"><svg><use href="#i-hand"/></svg></div><h3>Patient Attendant</h3><p>Bedside caregivers for elderly, paralysed and bedridden patients.</p>
-        <ul><li>Bathing, grooming, diaper &amp; bedpan care</li><li>Feeding help and safe bed-to-chair transfer</li><li>Deployed same day (2–4 hours)</li></ul>
-        <div class="price"><span>12h from ₹999</span><span>24h from ₹1,799</span></div></div>
+        <ul><li>Bathing, grooming, diaper &amp; bedpan care</li><li>Feeding help and safe bed-to-chair transfer</li></ul>
+        <div class="price"><span>12h ₹699</span><span>24h ₹1,299</span><span class="sc">Service charge only · materials by patient</span></div></div>
+
+      <div class="scnote"><h3>About our charges</h3><p>All rates on this page are <b>service charges</b> for our staff's time and skill. Medicines, IV fluids, catheters, tubes, dressings and other materials are the patient's / customer's own, as prescribed.</p><p>Nebulization, vitals &amp; ECG below include our equipment.</p></div>
+    </div>
+
+    <div class="grid3" style="margin-top:9px">
+      <div class="card"><div class="ic"><svg><use href="#i-lungs"/></svg></div><h3>Nebulization</h3><p>Nebulizer therapy + family demo.</p><div class="price"><span>₹500 one-time</span></div></div>
+      <div class="card"><div class="ic"><svg><use href="#i-pulse"/></svg></div><h3>Vitals Check</h3><p>BP, pulse, SpO2, temp &amp; sugar.</p><div class="price"><span>Rate on call</span></div></div>
+      <div class="card"><div class="ic"><svg><use href="#i-monitor"/></svg></div><h3>ECG at Home</h3><p>12-lead ECG, report on WhatsApp.</p><div class="price"><span>Rate on call</span></div></div>
     </div>
   </div>
   <div class="pf"><span><b>Srinika Medisurge</b> · Doorstep Healthcare, Lucknow</span><span>04</span></div>
@@ -354,7 +362,7 @@
   <div class="inner">
     <div class="kicker">Transparent pricing</div>
     <h2 class="h2">Complete service rate card</h2>
-    <p class="lead">Fixed rates for Lucknow. No hidden charges — the price you see is the price you pay.</p>
+    <p class="lead">Fixed service charges for Lucknow. Medicines, materials and consumables are the patient's own — no hidden charges.</p>
     <div class="bar"></div>
 
     <div class="grid2" style="align-items:start">
@@ -363,15 +371,15 @@
         <tr class="tgroup"><td colspan="2">Doctor &amp; Therapy</td></tr>
         <tr><td>Online doctor video consultation</td><td>500 / consult</td></tr>
         <tr><td>Doctor home visit (within 5 km)</td><td>2,000 / visit</td></tr>
-        <tr><td>Physiotherapy at doorstep</td><td>600 / session</td></tr>
+        <tr><td>Physiotherapy at doorstep (within 5 km)</td><td>600 / session</td></tr>
         <tr class="tgroup"><td colspan="2">Surgical Dressing</td></tr>
         <tr><td>Wound dressing – small</td><td>500 / session</td></tr>
         <tr><td>Wound dressing – medium</td><td>1,000 / session</td></tr>
         <tr><td>Wound dressing – large / bed sore</td><td>1,500 / session</td></tr>
         <tr class="tgroup"><td colspan="2">Injections</td></tr>
-        <tr><td>IV injection administration</td><td>399 / visit</td></tr>
+        <tr><td>IV injection administration</td><td>499 / visit</td></tr>
         <tr><td>IM / SC injection administration</td><td>299 / visit</td></tr>
-        <tr><td>IV fluid therapy</td><td>As per need</td></tr>
+        <tr><td>IV drip / fluid therapy</td><td>599 / IV</td></tr>
         <tr class="tgroup"><td colspan="2">Other</td></tr>
         <tr><td>BiPAP setup &amp; titration</td><td>from 1,200</td></tr>
         <tr><td>Urgent priority dispatch surcharge</td><td>150</td></tr>
@@ -388,23 +396,23 @@
         <tr><td>Tracheostomy tube change</td><td>2,000 / proc.</td></tr>
         <tr><td>Tracheostomy out (decannulation)</td><td>2,000 / proc.</td></tr>
         <tr class="tgroup"><td colspan="2">Nursing &amp; Attendant Shifts</td></tr>
-        <tr><td>Nursing duty – morning (7h)</td><td>999 / shift</td></tr>
-        <tr><td>Nursing duty – evening (7h)</td><td>999 / shift</td></tr>
+        <tr><td>Nursing duty – morning (7h)</td><td>799 / shift</td></tr>
+        <tr><td>Nursing duty – evening (7h)</td><td>799 / shift</td></tr>
         <tr><td>Nursing duty – night (10h)</td><td>1,299 / shift</td></tr>
         <tr><td>Diaper change &amp; urine bag emptying</td><td>500 / session</td></tr>
-        <tr><td>Patient attendant – 12 hours</td><td>999 / shift</td></tr>
-        <tr><td>Patient attendant – 24 hours</td><td>1,799 / day</td></tr>
+        <tr><td>Patient attendant – 12 hours</td><td>699 / shift</td></tr>
+        <tr><td>Patient attendant – 24 hours</td><td>1,299 / day</td></tr>
       </table>
     </div>
 
     <div class="sec"><h3 class="t">Average time at home</h3></div>
     <div class="grid3">
-      <div class="card"><h3>Doctor visit</h3><p>45–60 minutes</p></div>
-      <div class="card"><h3>Dressing / Catheter / NG tube</h3><p>30–50 minutes</p></div>
+      <div class="card"><h3>Doctor visit</h3><p>1–2 hours</p></div>
+      <div class="card"><h3>Dressing / Catheter / NG tube</h3><p>1–1.5 hours</p></div>
       <div class="card"><h3>IV drip &amp; injections</h3><p>45–75 minutes</p></div>
     </div>
 
-    <div class="note">Doctor home visit is a flat fee within 5 km; a small distance charge applies beyond that. Medicines, IV fluids and special consumables prescribed by the doctor are charged at actual cost. Rates may be revised — the latest rates are always on <b>srinikamedisurge.in/pricing</b>.</div>
+    <div class="note">Doctor home visit is a flat fee within 5 km; a small distance charge applies beyond that. All rates are service charges only — medicines, IV fluids, catheters, dressings and other materials are arranged by the patient / customer. Rates may be revised — the latest rates are always on <b>srinikamedisurge.in/pricing</b>.</div>
   </div>
   <div class="pf"><span><b>Srinika Medisurge</b> · Doorstep Healthcare, Lucknow</span><span>05</span></div>
 </section>
@@ -423,25 +431,25 @@
         <div class="rates"><div><small>Day</small><b>₹750</b></div><div><small>7 Days</small><b>₹4,500</b></div><div class="hl"><small>Month</small><b>₹18,000</b></div></div></div></div>
 
       <div class="card eq"><div class="ic"><svg><use href="#i-wind"/></svg></div><div><h3>Oxygen Concentrator (5 L)</h3><p>Medical-grade 93% ± 3% purity. Nasal cannula &amp; bubble humidifier included. No cylinder refills.</p>
-        <div class="rates"><div><small>Day</small><b>₹500</b></div><div><small>7 Days</small><b>₹3,000</b></div><div class="hl"><small>Month</small><b>₹12,000</b></div></div></div></div>
+        <div class="rates"><div><small>Day</small><b>₹350</b></div><div><small>7 Days</small><b>₹3,000</b></div><div class="hl"><small>Month</small><b>₹12,000</b></div></div></div></div>
 
-      <div class="card eq"><div class="ic"><svg><use href="#i-cyl"/></svg></div><div><h3>B-Type Oxygen Cylinder</h3><p>Portable cylinder with regulator, flow meter and humidifier. Emergency backup with home refill.</p>
+      <div class="card eq"><div class="ic"><svg><use href="#i-cyl"/></svg></div><div><h3>B-Type Oxygen Cylinder</h3><p>Portable cylinder with regulator, flow meter and humidifier. Emergency backup with one-time home refill.</p>
         <div class="rates"><div><small>Day</small><b>₹150</b></div><div><small>7 Days</small><b>₹800</b></div><div class="hl"><small>Month</small><b>₹2,000</b></div></div></div></div>
 
       <div class="card eq"><div class="ic"><svg><use href="#i-monitor"/></svg></div><div><h3>Multi-Para Vital Monitor</h3><p>Real-time ECG, pulse, NIBP, SpO2 and temperature with high/low alarms. Bedside display.</p>
-        <div class="rates"><div><small>Day</small><b>₹300</b></div><div><small>7 Days</small><b>₹1,800</b></div><div class="hl"><small>Month</small><b>₹7,500</b></div></div></div></div>
+        <div class="rates"><div><small>Day</small><b>₹400</b></div><div><small>7 Days</small><b>₹1,800</b></div><div class="hl"><small>Month</small><b>₹7,500</b></div></div></div></div>
 
       <div class="card eq"><div class="ic"><svg><use href="#i-pump"/></svg></div><div><h3>Medical Suction Machine</h3><p>Clears phlegm and secretions for tracheostomy, stroke and bedridden patients. Silent operation.</p>
         <div class="rates"><div><small>Day</small><b>₹150</b></div><div><small>7 Days</small><b>₹900</b></div><div class="hl"><small>Month</small><b>₹3,500</b></div></div></div></div>
 
-      <div class="card eq"><div class="ic"><svg><use href="#i-bed"/></svg></div><div><h3>Hospital Patient Bed</h3><p>Manual / semi-fowler bed with backrest, side railings, locking wheels and waterproof mattress.</p>
-        <div class="rates"><div><small>Day</small><b>₹200</b></div><div><small>7 Days</small><b>₹1,200</b></div><div class="hl"><small>Month</small><b>₹5,000</b></div></div></div></div>
+      <div class="card eq"><div class="ic"><svg><use href="#i-bed"/></svg></div><div><h3>Hospital Patient Bed</h3><p>Manual / semi-fowler bed with backrest, side railings and waterproof mattress.</p>
+        <div class="rates"><div><small>Day</small><b>₹200</b></div><div><small>7 Days</small><b>₹1,200</b></div><div class="hl"><small>Month</small><b>₹7,500</b></div></div></div></div>
 
       <div class="card eq"><div class="ic"><svg><use href="#i-syringe"/></svg></div><div><h3>Infusion / Syringe Pump</h3><p>Precise ml/hr dosing with occlusion &amp; air-in-line alarms and battery backup.</p>
-        <div class="rates"><div><small>Day</small><b>₹300</b></div><div><small>7 Days</small><b>₹1,800</b></div><div class="hl"><small>Month</small><b>₹7,500</b></div></div></div></div>
+        <div class="rates"><div><small>Day</small><b>₹500</b></div><div><small>7 Days</small><b>₹1,800</b></div><div class="hl"><small>Month</small><b>₹7,500</b></div></div></div></div>
 
-      <div class="card eq"><div class="ic"><svg><use href="#i-vent"/></svg></div><div><h3>ICU Ventilator Machine</h3><p>Invasive &amp; non-invasive modes (CPAP, SIMV, Bi-Level). Installed under physician oversight.</p>
-        <div class="rates"><div><small>Day</small><b>₹3,000</b></div><div><small>7 Days</small><b>₹18,000</b></div><div class="hl"><small>Month</small><b>₹75,000</b></div></div></div></div>
+      <div class="card eq"><div class="ic"><svg><use href="#i-vent"/></svg></div><div><h3>ICU Ventilator Machine</h3><p>Invasive &amp; non-invasive modes (CPAP, SIMV, BiLevel).</p>
+        <div class="rates"><div><small>Day</small><b>₹3,000</b></div><div><small>7 Days</small><b>₹18,000</b></div><div class="hl"><small>Month</small><b>₹5,000</b></div></div></div></div>
     </div>
 
     <div class="sec"><h3 class="t">Every rental includes</h3></div>
