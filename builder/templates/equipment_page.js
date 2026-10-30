@@ -1,22 +1,6 @@
 const CONFIG = require('../../site.config.js');
-const { P } = require('../data/price_lines.js');
+const { askPriceText, askPriceLink, askPriceBox } = require('./ask_price.js');
 const EQUIPMENT = require('../data/equipment.js');
-
-const EQUIPMENT_PRICE_KEY = {
-  "bipap-machine": "eq-bipap-daily",
-  "oxygen-concentrator": "eq-o2-concentrator-daily",
-  "oxygen-cylinder": "eq-o2-cylinder-monthly",
-  "multipara-monitor": "eq-vital-monitor-daily",
-  "suction-machine": "eq-suction-daily",
-  "patient-bed": "eq-bed-daily",
-  "infusion-pump": "eq-infusion-pump-daily",
-  "ventilator-machine": "eq-ventilator-daily"
-};
-
-function equipmentPricing(item) {
-  const key = EQUIPMENT_PRICE_KEY[item.id];
-  return key ? item.pricing.replace(/₹[\d,]+/, P(key)) : item.pricing;
-}
 
 function renderEquipmentPage() {
   return `
@@ -67,8 +51,8 @@ function renderEquipmentPage() {
               <div class="pt-4 border-t border-slate-100 space-y-3">
                 <div class="flex items-center justify-between text-xs">
                   <div>
-                    <span class="text-[10px] text-slate-400 font-bold block uppercase">Pricing</span>
-                    <strong class="text-slate-900 font-bold">${equipmentPricing(item)}</strong>
+                    <span class="text-[10px] text-slate-400 font-bold block uppercase">Rental Charges</span>
+                    ${askPriceLink(item.title + " (rental)", "text-emerald-700 hover:text-emerald-800 font-bold")}
                   </div>
                   <div class="text-right">
                     <span class="text-[10px] text-slate-400 font-bold block uppercase">Dispatch</span>

@@ -1,4 +1,3 @@
-const { P } = require('./price_lines.js');
 
 // Shared markup for the newer posts (older posts inline their classes).
 const H2 = 'class="text-2xl font-bold text-slate-900 mt-8 mb-4"';
@@ -178,7 +177,7 @@ const BLOG_POSTS = [
         <li>Pus, spreading redness, or fever in the patient.</li>
       </ul>
       <p ${PARA}>
-        Open bedsores need proper cleaning and dressing with sterile material. Our nurses provide <a href="/services/wound-dressing-at-home-lucknow/" ${LINK}>sterile wound and bedsore dressing at home</a>; a large wound or complex bedsore dressing costs ${P("wound-dressing-large")} per session.
+        Open bedsores need proper cleaning and dressing with sterile material. Our nurses provide <a href="/services/wound-dressing-at-home-lucknow/" ${LINK}>sterile wound and bedsore dressing at home</a>; message us on WhatsApp or call for dressing charges.
       </p>
 
       <h2 ${H2}>Getting Help With Daily Care</h2>
@@ -260,22 +259,22 @@ const BLOG_POSTS = [
 
       <h2 ${H2}>When You Need a Nurse</h2>
       <p ${PARA}>
-        Choose a certified nurse whenever the patient needs a medical procedure: IV antibiotics or fluids, injections, catheter insertion or change, Ryle's tube insertion, surgical or bedsore dressing, or close monitoring after surgery. A nurse can come for a single procedure or stay for a shift. Our <a href="/services/home-nursing-lucknow/" ${LINK}>home nursing shifts</a> are ${P("nurse-morning")} for a 7-hour morning shift, ${P("nurse-evening")} for a 7-hour evening shift and ${P("nurse-night")} for a 10-hour night shift.
+        Choose a certified nurse whenever the patient needs a medical procedure: IV antibiotics or fluids, injections, catheter insertion or change, Ryle's tube insertion, surgical or bedsore dressing, or close monitoring after surgery. A nurse can come for a single procedure or stay for a shift. Our <a href="/services/home-nursing-lucknow/" ${LINK}>home nursing shifts</a> are available as a 7-hour morning shift, a 7-hour evening shift and a 10-hour night shift.
       </p>
 
       <h2 ${H2}>When a Patient Attendant Is Enough</h2>
       <p ${PARA}>
-        If the patient is medically stable but needs help with daily life (bathing, toilet, feeding, walking and company), a <a href="/services/patient-attendant-lucknow/" ${LINK}>patient attendant</a> is the right choice. Attendants work in shifts, which suits short-term needs such as the first few weeks after discharge. A 12-hour attendant shift starts from ${P("patient-care-12h")} and 24-hour care from ${P("patient-care-24h")}. Attendants do not give injections or do any medical procedure.
+        If the patient is medically stable but needs help with daily life (bathing, toilet, feeding, walking and company), a <a href="/services/patient-attendant-lucknow/" ${LINK}>patient attendant</a> is the right choice. Attendants work in shifts, which suits short-term needs such as the first few weeks after discharge. Attendants are available for 12-hour shifts or 24-hour care. Attendants do not give injections or do any medical procedure.
       </p>
 
       <h2 ${H2}>When to Choose a GDA</h2>
       <p ${PARA}>
-        A GDA is trained in hospital-style bedside care and is usually hired on a monthly basis for patients who need care for many weeks or months, such as stroke, paralysis, dementia or long-term bedridden patients. Along with personal care, a GDA can do 2-hourly turning, back care, basic vitals checks and Ryle's tube feeds as instructed. A <a href="/services/gda-service-lucknow/" ${LINK}>12-hour GDA</a> costs ${P("gda-12h-min")} to ${P("gda-12h-max")} per month and a 24-hour GDA ${P("gda-24h-min")} to ${P("gda-24h-max")} per month.
+        A GDA is trained in hospital-style bedside care and is usually hired on a monthly basis for patients who need care for many weeks or months, such as stroke, paralysis, dementia or long-term bedridden patients. Along with personal care, a GDA can do 2-hourly turning, back care, basic vitals checks and Ryle's tube feeds as instructed. A <a href="/services/gda-service-lucknow/" ${LINK}>12-hour GDA</a> or a 24-hour GDA is hired on a monthly basis.
       </p>
 
       <h2 ${H2}>When You Need EMT Staff</h2>
       <p ${PARA}>
-        If the patient has come home from the ICU, is on oxygen, BiPAP, suction or a tracheostomy tube, or has a risk of sudden emergencies like seizures or heart problems, an emergency-trained EMT is the safer choice. EMT staff monitor vitals, run the equipment and give first response until a doctor or ambulance arrives. <a href="/services/emt-staff-service-lucknow/" ${LINK}>EMT staff</a> costs ${P("emt-12h")} per month for 12 hours and ${P("emt-24h-min")} to ${P("emt-24h-max")} per month for 24 hours.
+        If the patient has come home from the ICU, is on oxygen, BiPAP, suction or a tracheostomy tube, or has a risk of sudden emergencies like seizures or heart problems, an emergency-trained EMT is the safer choice. EMT staff monitor vitals, run the equipment and give first response until a doctor or ambulance arrives. <a href="/services/emt-staff-service-lucknow/" ${LINK}>EMT staff</a> is available on a monthly basis for 12 or 24 hours.
       </p>
 
       <h2 ${H2}>Many Families Use a Combination</h2>
@@ -823,7 +822,7 @@ const BLOG_POSTS = [
       </ul>
 
       <p class="text-slate-600 leading-relaxed mb-4">
-        At ₹600 per session across Lucknow, Srinika Medisurge provides compassionate, evidence-based home physiotherapy designed to help patients walk again with confidence. Discover our <a href="/services/physiotherapy-at-home-lucknow/" class="text-sky-600 font-semibold hover:underline">home physiotherapy sessions</a>.
+        Across Lucknow, Srinika Medisurge provides compassionate, evidence-based home physiotherapy designed to help patients walk again with confidence. Discover our <a href="/services/physiotherapy-at-home-lucknow/" class="text-sky-600 font-semibold hover:underline">home physiotherapy sessions</a>.
       </p>
 
       <div class="p-6 bg-amber-50 border-l-4 border-amber-500 rounded-r-xl my-8">
@@ -844,7 +843,7 @@ const BLOG_POSTS = [
       },
       {
         q: "What is the fee for home physiotherapy in Lucknow?",
-        a: "Our home physiotherapy session fee is ₹600 flat per session across Lucknow, conducted by qualified B.P.T. / M.P.T. therapists."
+        a: "Sessions are conducted by qualified B.P.T. / M.P.T. therapists across Lucknow. Charges depend on the patient's condition and rehab plan. Message us on WhatsApp or call +91 96530 01359 for the exact rate."
       },
       {
         q: "Does the therapist teach family members exercises to do between visits?",
@@ -950,7 +949,7 @@ const BLOG_POSTS = [
       },
       {
         q: "How much does a doctor visit at home cost in Lucknow?",
-        a: "Our comprehensive doorstep doctor visit is ₹2,000 for locations within a 5 km radius of Gomti Nagar. If your location is further, a minor travel adjustment applies."
+        a: "The doctor visit fee depends on your location and the patient's needs. Message us on WhatsApp or call +91 96530 01359 and we will share the exact charges."
       },
       {
         q: "Can the doctor write a valid prescription during the home visit?",

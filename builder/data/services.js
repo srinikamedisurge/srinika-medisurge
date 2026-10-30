@@ -61,7 +61,7 @@ const SERVICES = [
       },
       {
         q: "How much does a doctor home visit cost in Lucknow?",
-        a: "Our doorstep doctor visit fee is ₹2,000 for visits within a 5 km radius of our Gomti Nagar hub. If you live further away, a nominal travel adjustment applies. There are no hidden charges."
+        a: "The doctor visit fee depends on your location and the patient's needs. Message us on WhatsApp or call +91 96530 01359 and we will share the exact charges for your case. There are no hidden charges."
       },
       {
         q: "Can the doctor write a valid prescription during the home visit?",
@@ -92,8 +92,8 @@ const SERVICES = [
     priceNote: "₹500 flat online fee. Direct consultation via WhatsApp Video Call or Phone Call.",
     duration: "20 - 30 mins",
     responseTime: "Within 15 - 30 Mins (Same-day immediate slots)",
-    metaTitle: "Online Doctor Consultation Lucknow ₹500 | Dr. Piyush Saxena",
-    metaDescription: "Instant online doctor video consultation in Lucknow for ₹500. Direct consultation with Dr. Piyush Saxena & specialist physicians. Digital prescription on WhatsApp.",
+    metaTitle: "Online Doctor Consultation Lucknow | Dr. Piyush Saxena",
+    metaDescription: "Instant online doctor video consultation in Lucknow. Direct consultation with Dr. Piyush Saxena & specialist physicians. Digital prescription on WhatsApp.",
     summary: "Connect face-to-face with our experienced medical specialists from the comfort of your home via HD Video or tele-call. Fast, private, and convenient consultation.",
     whoNeedsIt: [
       "Patients needing quick second opinions on diagnosis, lab reports (CBC, KFT, LFT, Lipid Profile), or X-rays.",
@@ -113,7 +113,7 @@ const SERVICES = [
       {
         step: 1,
         title: "Book & Pay Online",
-        desc: "Fill patient details, select preferred doctor, and securely pay ₹500 via Razorpay (Cards/NetBanking/UPI) or direct UPI QR code."
+        desc: "Fill patient details, select preferred doctor, and securely pay the consultation fee via Razorpay (Cards/NetBanking/UPI) or direct UPI QR code."
       },
       {
         step: 2,
@@ -547,8 +547,8 @@ const SERVICES = [
     priceNote: "₹600 flat per targeted 45-60 minute session at your doorstep. Discounted 10-session and monthly rehab plans available.",
     duration: "45 - 60 mins",
     responseTime: "Scheduled at your convenience (Same-day appointments available)",
-    metaTitle: "Physiotherapy at Home Lucknow ₹600 | Dr. Desh Deepak Singh",
-    metaDescription: "Certified home physiotherapy in Lucknow for ₹600/session by Dr. Desh Deepak Singh (BPT, MPT Neuro). Stroke rehab, knee replacement & paralysis mobility. Call +91 96530 01359.",
+    metaTitle: "Physiotherapy at Home Lucknow | Dr. Desh Deepak Singh",
+    metaDescription: "Certified home physiotherapy in Lucknow by Dr. Desh Deepak Singh (BPT, MPT Neuro). Stroke rehab, knee replacement & paralysis mobility. Call +91 96530 01359.",
     summary: "Targeted bedside physical therapy by certified physiotherapists (B.P.T., M.P.T. Neuro) for neurological rehabilitation, post-stroke recovery, paralysis mobilization, and orthopedic pain relief.",
     whoNeedsIt: [
       "Stroke survivors experiencing hemiplegia, paralysis, balance loss, or motor coordination deficits.",
@@ -592,7 +592,7 @@ const SERVICES = [
     faqs: [
       {
         q: "What is the fee for a home physiotherapy session in Lucknow?",
-        a: "Our home physiotherapy session fee is ₹600 per session across Lucknow. We also offer economical 10-session and monthly recovery packages for long-term rehabilitation."
+        a: "Session charges depend on the patient's condition and the rehab plan. We also offer economical 10-session and monthly recovery packages. Message us on WhatsApp or call +91 96530 01359 and we will share the exact charges for your case."
       },
       {
         q: "Does the physiotherapist bring therapeutic machines to the house?",
@@ -820,7 +820,7 @@ const SERVICES = [
     faqs: [
       {
         q: "What is the fee for a patient attendant in Lucknow?",
-        a: "Our 12-hour patient attendant shifts start from ₹999, and 24-hour round-the-clock live-in care starts from ₹1,799. We also offer discounted monthly caregiver packages."
+        a: "We offer 12-hour shifts, 24-hour live-in care and discounted monthly caregiver packages. Charges depend on the patient's needs. Message us on WhatsApp or call +91 96530 01359 and we will share the exact charges for your case."
       },
       {
         q: "Can an attendant perform medical procedures like injections or catheterization?",
@@ -852,7 +852,7 @@ const SERVICES = [
     duration: "12h / 24h Monthly",
     responseTime: "Deployment within 24 - 48 hours",
     metaTitle: "GDA Service Lucknow | Monthly 12h/24h General Duty Assistant",
-    metaDescription: "Trained GDA (General Duty Assistant) at home in Lucknow by Srinika Medisurge. 12 hours from ₹20,000/month, 24 hours from ₹30,000/month. Call +91 96530 01359.",
+    metaDescription: "Trained GDA (General Duty Assistant) at home in Lucknow by Srinika Medisurge. 12-hour and 24-hour monthly staff. Call +91 96530 01359.",
     summary: "Trained General Duty Assistants (GDA) for long-term daily patient care at home in Lucknow, available on monthly 12-hour and 24-hour plans.",
     whoNeedsIt: [
       "Elderly parents who need daily help with bathing, feeding, walking and medicine reminders for many weeks or months.",
@@ -878,7 +878,7 @@ const SERVICES = [
       {
         step: 2,
         title: "Plan & Rate Confirmation",
-        desc: "We confirm the monthly rate based on the patient's care needs: 12 hours ₹20,000 - ₹24,000, 24 hours ₹30,000 - ₹35,000."
+        desc: "We confirm the monthly rate on WhatsApp or call, based on the patient's care needs and 12-hour or 24-hour shift."
       },
       {
         step: 3,
@@ -901,7 +901,7 @@ const SERVICES = [
     faqs: [
       {
         q: "What is the monthly charge for a GDA in Lucknow?",
-        a: "A 12-hour GDA costs ₹20,000 to ₹24,000 per month, and a 24-hour GDA costs ₹30,000 to ₹35,000 per month, depending on the patient's care needs. Contact us on WhatsApp for the exact rate."
+        a: "The monthly charge depends on the patient's care needs and whether you need a 12-hour or 24-hour GDA. Message us on WhatsApp or call +91 96530 01359 and we will share the exact charges for your case."
       },
       {
         q: "What is the difference between a GDA and a nurse?",
@@ -933,7 +933,7 @@ const SERVICES = [
     duration: "12h / 24h Monthly",
     responseTime: "Deployment within 24 - 48 hours",
     metaTitle: "EMT Staff Service Lucknow | Monthly 12h/24h Emergency Care at Home",
-    metaDescription: "Emergency Medical Technician (EMT) staff at home in Lucknow by Srinika Medisurge. 12 hours ₹25,000/month, 24 hours from ₹32,000/month. Call +91 96530 01359.",
+    metaDescription: "Emergency Medical Technician (EMT) staff at home in Lucknow by Srinika Medisurge. 12-hour and 24-hour monthly staff. Call +91 96530 01359.",
     summary: "Emergency Medical Technician (EMT) staff at home for critical, post-ICU and high-dependency patients in Lucknow, on monthly 12-hour and 24-hour plans.",
     whoNeedsIt: [
       "Patients discharged from ICU who still need close monitoring at home.",
@@ -959,7 +959,7 @@ const SERVICES = [
       {
         step: 2,
         title: "Plan & Rate Confirmation",
-        desc: "We confirm the monthly rate: 12 hours ₹25,000, 24 hours ₹32,000 - ₹36,000, based on the patient's condition."
+        desc: "We confirm the monthly rate on WhatsApp or call, based on the patient's condition and 12-hour or 24-hour shift."
       },
       {
         step: 3,
@@ -982,7 +982,7 @@ const SERVICES = [
     faqs: [
       {
         q: "What is the monthly charge for EMT staff in Lucknow?",
-        a: "A 12-hour EMT shift costs ₹25,000 per month, and 24-hour EMT care costs ₹32,000 to ₹36,000 per month, depending on the patient's condition. Contact us on WhatsApp for the exact rate."
+        a: "The monthly charge depends on the patient's condition and whether you need 12-hour or 24-hour EMT care. Message us on WhatsApp or call +91 96530 01359 and we will share the exact charges for your case."
       },
       {
         q: "How is EMT staff different from a GDA?",

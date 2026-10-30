@@ -95,7 +95,7 @@ const AREAS = [
       },
       {
         q: "Can a doctor visit my house in Vibhuti Khand?",
-        a: "Yes. Dr. Piyush Saxena and our emergency physicians provide doorstep clinical consultations in Vibhuti Khand for ₹2,000 within 5km."
+        a: "Yes. Dr. Piyush Saxena and our emergency physicians provide doorstep clinical consultations in Vibhuti Khand. Message us on WhatsApp or call for charges."
       },
       {
         q: "Can you provide daily surgical dressing after discharge from Lohia Hospital?",
@@ -135,7 +135,7 @@ const AREAS = [
       },
       {
         q: "How much is a home physiotherapy session in Indira Nagar?",
-        a: "Home physiotherapy sessions by our certified neuro/ortho physiotherapists are ₹600 per session."
+        a: "Yes, our certified neuro/ortho physiotherapists provide sessions at home. Message us on WhatsApp or call for charges."
       },
       {
         q: "Is emergency night care available in Indira Nagar?",
@@ -175,7 +175,7 @@ const AREAS = [
       },
       {
         q: "Can we book online doctor consultations from Hazratganj?",
-        a: "Yes. Online video consultation with Dr. Piyush Saxena or Dr. Akash Shrivastav is available for ₹500."
+        a: "Yes. Online video consultation with Dr. Piyush Saxena or Dr. Akash Shrivastav is available. Message us on WhatsApp or call for charges."
       }
     ]
   },
@@ -228,7 +228,7 @@ const AREAS = [
     landmarks: "Kapoorthala, Dandiya Bazar, Engineering College Chauraha, Kursi Road, Jankipuram Ext.",
     highlights: [
       "Consistent 35-45 minute dispatch to northern Lucknow colonies.",
-      "Comprehensive neuro-rehab and orthopedic physiotherapy at home (₹600).",
+      "Comprehensive neuro-rehab and orthopedic physiotherapy at home.",
       "Sterile catheter changes and NG tube feeding support.",
       "Compassionate care by verified male and female nursing staff."
     ],
@@ -301,7 +301,7 @@ const AREAS = [
     highlights: [
       "Dedicated South Lucknow dispatch for scheduled and emergency care (30-45 mins).",
       "Gentle catheter replacement and Ryle's tube feeding support.",
-      "Affordable home physiotherapy sessions (₹600) for stroke recovery.",
+      "Affordable home physiotherapy sessions for stroke recovery.",
       "Direct doctor follow-up on recovery progress."
     ],
     faqs: [
@@ -398,7 +398,7 @@ function wideArea(a) {
       },
       {
         q: `Can I hire a GDA or EMT staff on a monthly basis in ${a.name}?`,
-        a: "Yes. A 12-hour GDA costs ₹20,000 - ₹24,000 per month and a 24-hour GDA ₹30,000 - ₹35,000 per month. EMT staff costs ₹25,000 per month for 12 hours and ₹32,000 - ₹36,000 per month for 24 hours. Contact us on WhatsApp for details."
+        a: "Yes. We provide 12-hour and 24-hour GDA and EMT staff on a monthly basis. The monthly charge depends on the patient's care needs. Message us on WhatsApp or call for the exact rate."
       }
     ]
   };

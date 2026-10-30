@@ -12,7 +12,7 @@ function renderBookPage() {
           Book Doorstep Care or Online Doctor Consultation
         </h1>
         <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-          Select your required service below. For doorstep care in Lucknow, we dispatch within 30-45 minutes. For online consultation, connect directly via video/tele-call for ${P('consult-online')}.
+          Select your required service below. For doorstep care in Lucknow, we dispatch within 30-45 minutes. For online consultation, connect directly via video/tele-call. For charges, message us on WhatsApp or call.
         </p>
       </div>
     </div>
@@ -46,9 +46,9 @@ function renderBookPage() {
                   <i class="fa-solid fa-video text-xs"></i>
                 </div>
                 <div>
-                  <strong class="font-bold text-slate-900 block">Online Tele-Consultation (${P('consult-online')} Fee)</strong>
+                  <strong class="font-bold text-slate-900 block">Online Tele-Consultation</strong>
                   <span class="text-slate-600 text-xs leading-relaxed">
-                    Connect directly via video or tele-call. Pay ${P('consult-online')} securely via Razorpay (UPI, Debit/Credit Cards, NetBanking) to generate your confirmed invoice & instant doctor slot.
+                    Connect directly via video or tele-call. Pay the consultation fee securely via Razorpay (UPI, Debit/Credit Cards, NetBanking) to generate your confirmed invoice & instant doctor slot.
                   </span>
                 </div>
               </div>
@@ -83,9 +83,9 @@ function renderBookPage() {
               <div>
                 <label for="modal-service-select" class="block text-xs font-bold text-slate-700 uppercase mb-1">Required Service *</label>
                 <select id="modal-service-select" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
-                  <option value="Doctor Consultation At Door Step (Within 5km - ₹2000)">Doctor Consultation At Door Step (Within 5km - ₹2000)</option>
-                  <option value="Online Doctor Consultation (₹500)">Online Doctor Consultation (₹500)</option>
-                  <option value="Physiotherapy At Door Step (₹600)">Physiotherapy At Door Step (₹600)</option>
+                  <option value="Doctor Consultation At Door Step (Within 5km)">Doctor Consultation At Door Step (Within 5km)</option>
+                  <option value="Online Doctor Consultation">Online Doctor Consultation</option>
+                  <option value="Physiotherapy At Door Step">Physiotherapy At Door Step</option>
                   <option value="BiPAP Machine & Mechanical Support">BiPAP Machine & Mechanical Support</option>
                   <option value="IV Fluids & Infusions (NS/RL/D5)">IV Fluids & Infusions (NS/RL/D5)</option>
                   <option value="Nebulization Therapy At Home">Nebulization Therapy At Home</option>
@@ -99,7 +99,7 @@ function renderBookPage() {
                 <!-- Payment clarity notice -->
                 <p class="text-[11px] text-slate-500 mt-1.5 flex items-center gap-1.5">
                   <i class="fa-solid fa-circle-info text-sky-500"></i>
-                  <span><strong>Online Consultation (${P('consult-online')})</strong> is paid upfront securely via Razorpay. All <strong>doorstep visits and nursing procedures</strong> are confirmed directly on WhatsApp/call first, with payment after service confirmation.</span>
+                  <span><strong>Online Consultation</strong> is paid upfront securely via Razorpay. All <strong>doorstep visits and nursing procedures</strong> are confirmed directly on WhatsApp/call first, with payment after service confirmation.</span>
                 </p>
               </div>
 
@@ -337,7 +337,7 @@ function renderBookPage() {
           if (serviceParam && select) {
             const isOnline = serviceParam.toLowerCase().includes("online");
             if (isOnline) {
-              select.value = "Online Doctor Consultation (₹500)";
+              select.value = "Online Doctor Consultation";
             } else {
               for (let opt of select.options) {
                 if (opt.value.toLowerCase().includes(serviceParam.toLowerCase()) || opt.text.toLowerCase().includes(serviceParam.toLowerCase())) {

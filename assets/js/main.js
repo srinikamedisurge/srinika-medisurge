@@ -150,12 +150,10 @@ const SERVICES_DATA = [
     iconColor: "text-brand-600 bg-sky-50",
     description: "Connect face-to-face with our experienced medical specialists from the comfort of your home via HD Video or Tele-call.",
     features: [
-      "Consultation Fee: ₹500 Only",
       "Digital Prescription shared instantly on WhatsApp",
       "Specialist Medical Advice & Symptom Evaluation",
       "Follow-up Guidance & Medicine Review"
     ],
-    pricing: "₹500 / consultation",
     estimatedDuration: "20 - 30 mins",
     includesKit: false
   },
@@ -169,12 +167,10 @@ const SERVICES_DATA = [
     iconColor: "text-emerald-600 bg-emerald-50",
     description: "Doctor visits your residence directly for physical assessment, examination, diagnosis, and treatment planning in Lucknow.",
     features: [
-      "Doorstep Doctor Visit (Up to 5 km): ₹2000",
       "Complete Physical & Clinical Examination",
       "On-spot Treatment Plan & Prescription Writing",
       "Family Counseling & Recovery Roadmap"
     ],
-    pricing: "₹2,000 / visit (Within 5km)",
     estimatedDuration: "45 - 60 mins",
     includesKit: true
   },
@@ -188,12 +184,10 @@ const SERVICES_DATA = [
     iconColor: "text-purple-600 bg-purple-50",
     description: "Certified Physiotherapist home visit for neuro rehabilitation, joint pain relief, paralysis recovery, and post-op mobility.",
     features: [
-      "Home Physiotherapy Session: ₹600 Only",
       "Neuro Rehab, Stroke Recovery & Bedridden Mobilization",
       "Post-Surgical Joint & Muscle Rehabilitation",
       "Advanced Physiotherapy Medical Equipment Support"
     ],
-    pricing: "₹600 / session",
     estimatedDuration: "45 - 60 mins",
     includesKit: true
   },
@@ -212,7 +206,6 @@ const SERVICES_DATA = [
       "Oxygen Saturation (SpO2) Continuous Monitoring",
       "Mask Fit & Airway Hygiene Support"
     ],
-    pricing: "Charges as per requirement / ₹1,200",
     estimatedDuration: "As required / Shift",
     includesKit: true
   },
@@ -231,7 +224,6 @@ const SERVICES_DATA = [
       "Dehydration, Post-operative & Weakness Recovery",
       "Single-use Hospital Grade Sterile Disposables"
     ],
-    pricing: "From ₹299 / visit",
     estimatedDuration: "45 - 75 mins",
     includesKit: true
   },
@@ -250,7 +242,6 @@ const SERVICES_DATA = [
       "Pre & Post SpO2 / Pulse / Respiratory Rate Check",
       "Chest Percussion & Airway Clearance Guidance"
     ],
-    pricing: "From ₹350 / session",
     estimatedDuration: "20 - 30 mins",
     includesKit: true
   },
@@ -269,7 +260,6 @@ const SERVICES_DATA = [
       "Elderly Mobility, Hygiene & Feeding Assistance",
       "Palliative & Bedridden Patient Daily Support"
     ],
-    pricing: "From ₹999 / shift",
     estimatedDuration: "12h / 24h / Custom",
     includesKit: true
   },
@@ -288,7 +278,6 @@ const SERVICES_DATA = [
       "Vitals Tracking Before & After Medication",
       "Hospital Grade Sterile Protocol"
     ],
-    pricing: "From ₹299 / visit",
     estimatedDuration: "30 - 45 mins",
     includesKit: true
   },
@@ -307,7 +296,6 @@ const SERVICES_DATA = [
       "Closed Sterile Urobag Drainage System",
       "Bladder Wash & Catheter Hygiene Maintenance"
     ],
-    pricing: "From ₹599 / procedure",
     estimatedDuration: "35 - 50 mins",
     includesKit: true
   },
@@ -326,7 +314,6 @@ const SERVICES_DATA = [
       "Secure Nose-Bridge Hypoallergenic Taping",
       "Caregiver Enteral Feeding Demonstration"
     ],
-    pricing: "From ₹699 / procedure",
     estimatedDuration: "30 - 45 mins",
     includesKit: true
   },
@@ -345,7 +332,6 @@ const SERVICES_DATA = [
       "Bed Sore / Pressure Ulcer (Grades 1-4) Care",
       "Burn Dressing & Traumatic Wound Debridement"
     ],
-    pricing: "From ₹399 / session",
     estimatedDuration: "30 - 45 mins",
     includesKit: true
   },
@@ -364,7 +350,6 @@ const SERVICES_DATA = [
       "Tracheostomy & Stoma Clinical Care",
       "Supervised Directly by Dr. Piyush Saxena"
     ],
-    pricing: "From ₹999 / shift",
     estimatedDuration: "12h / 24h / Shift",
     includesKit: true
   },
@@ -378,12 +363,9 @@ const SERVICES_DATA = [
     iconColor: "text-indigo-600 bg-indigo-50",
     description: "Trained General Duty Assistants for daily patient care, hygiene, feeding and mobility support at home on a monthly basis.",
     features: [
-      "12 Hours Shift: ₹20,000 - ₹24,000 / month",
-      "24 Hours Shift: ₹30,000 - ₹35,000 / month",
       "Bedside Hygiene, Feeding & Mobility Assistance",
       "For Details, Contact Us on WhatsApp"
     ],
-    pricing: "From ₹20,000 / month",
     estimatedDuration: "12h / 24h / Monthly",
     includesKit: false
   },
@@ -397,12 +379,9 @@ const SERVICES_DATA = [
     iconColor: "text-red-600 bg-red-50",
     description: "Emergency Medical Technician (EMT) staff for critical, post-ICU and high-dependency patients at home on a monthly basis.",
     features: [
-      "12 Hours Shift: ₹25,000 / month",
-      "24 Hours Shift: ₹30,000 - ₹35,000 / month",
       "Emergency Response, Vitals & Oxygen Support",
       "For Details, Contact Us on WhatsApp"
     ],
-    pricing: "From ₹25,000 / month",
     estimatedDuration: "12h / 24h / Monthly",
     includesKit: false
   }
@@ -433,39 +412,12 @@ const LUCKNOW_AREAS = [
   { name: "Cantt & Dilkusha", slug: "home-nursing-cantt-dilkusha", time: "30 - 40 Mins", status: "Standard", badge: "Available" }
 ];
 
-// Service Calculator Base Rates
-const PRICING_CATALOG = {
-  "consultation-online": { label: "Online Doctor Video Consultation", price: 500 },
-  "consultation-doorstep": { label: "Doctor Consultation At Door Step (Within 5km)", price: 2000 },
-  "physiotherapy-doorstep": { label: "Physiotherapy At Door Step Session", price: 600 },
-  "wound-dressing-small": { label: "Surgical Wound Dressing (Small)", price: 500 },
-  "wound-dressing-medium": { label: "Surgical Wound Dressing (Medium)", price: 1000 },
-  "wound-dressing-large": { label: "Surgical Wound Dressing (Large)", price: 1500 },
-  "catheter-insertion": { label: "Urinary Catheterization (Foley/Silicone)", price: 999 },
-  "ryles-tube": { label: "Ryle's Tube / NG Feeding Tube Insertion", price: 999 },
-  "drain-out": { label: "Surgical Drain Out / Drainage Care", price: 999 },
-  "nebulization": { label: "Nebulization & Demonstration", price: 500 },
-  "enema-pr": { label: "Enema PR Insertion", price: 600 },
-  "tracheostomy-care": { label: "Tracheostomy Care & Suctioning", price: 300 },
-  "tracheostomy-change": { label: "Tracheostomy Tube Change", price: 2000 },
-  "tracheostomy-out": { label: "Tracheostomy Out (Decannulation)", price: 2000 },
-  "iv-injection": { label: "IV Injection Administration", price: 399 },
-  "im-injection": { label: "IM / SC Injection Administration", price: 299 },
-  "nurse-morning": { label: "Nursing Duty - Morning Shift (7h)", price: 999 },
-  "nurse-evening": { label: "Nursing Duty - Evening Shift (7h)", price: 999 },
-  "nurse-night": { label: "Nursing Duty - Night Shift (10h)", price: 1299 },
-  "diaper-urine": { label: "Diaper Change & Urine Empty", price: 500 },
-  "patient-care-12h": { label: "12-Hour Patient Care / Attendant", price: 999 },
-  "patient-care-24h": { label: "24-Hour Patient Care / Attendant", price: 1799 }
-};
-
 // Initialize DOM Events safely
 document.addEventListener("DOMContentLoaded", () => {
   SrinikaPrices.init();
   renderServices("all");
   renderCoverageAreas("");
   setupEventListeners();
-  initCalculator();
   setupAnalyticsTracking();
 
   // Prices: show cached owner prices immediately, then refresh from Firestore and re-apply.
@@ -473,7 +425,6 @@ document.addEventListener("DOMContentLoaded", () => {
   SrinikaPrices.onChange(() => {
     renderServices(currentServiceCategory);
     SrinikaPrices.applyDom();
-    if (typeof window.__recalcEstimate === "function") window.__recalcEstimate();
     syncModalServiceMode();
   });
   SrinikaPrices.refresh();
@@ -482,47 +433,12 @@ document.addEventListener("DOMContentLoaded", () => {
 // Render Services dynamically based on category
 let currentServiceCategory = "all";
 
-// Visible price text of the /services/ cards comes from the live price list (never hard-coded)
-const SERVICE_PRICE_TEXT = {
-  "consultation-online": p => p("consult-online") + " / consultation",
-  "consultation-doorstep": p => p("consult-doorstep") + " / visit (Within 5km)",
-  "physiotherapy-doorstep": p => p("physiotherapy-doorstep") + " / session",
-  "bipap-therapy": p => "Charges as per requirement / " + p("bipap-setup"),
-  "iv-fluids": p => "From " + p("im-injection") + " / visit",
-  "nebulization-therapy": p => p("nebulization") + " / session",
-  "patient-care": p => "From " + p("patient-care-12h") + " / shift",
-  "drug-admin": p => "From " + p("im-injection") + " / visit",
-  "catheterization": p => "From " + p("catheter-insertion") + " / procedure",
-  "ryles-tube": p => "From " + p("ryles-tube") + " / procedure",
-  "wound-dressing": p => "From " + p("wound-dressing-small") + " / session",
-  "home-nursing-care": p => "From " + p("nurse-morning") + " / shift",
-  "gda-service": p => "From " + p("gda-12h-min") + " / month",
-  "emt-staff-service": p => "From " + p("emt-12h") + " / month"
-};
-const SERVICE_FEATURE_CTX = {
-  "consultation-online": { 500: "consult-online" },
-  "consultation-doorstep": { 2000: "consult-doorstep" },
-  "physiotherapy-doorstep": { 600: "physiotherapy-doorstep" },
-  "gda-service": { 20000: "gda-12h-min", 24000: "gda-12h-max", 30000: "gda-24h-min", 35000: "gda-24h-max" },
-  "emt-staff-service": { 25000: "emt-12h", 30000: "emt-24h-min", 35000: "emt-24h-max" }
-};
-
-function livePricedService(s) {
-  const asText = k => SrinikaPrices.fmt(SrinikaPrices.price(k));
-  const t = SERVICE_PRICE_TEXT[s.id];
-  const ctx = SERVICE_FEATURE_CTX[s.id];
-  return Object.assign({}, s, {
-    pricing: t ? t(asText) : s.pricing,
-    features: ctx ? s.features.map(f => SrinikaPrices.replaceText(f, ctx)) : s.features
-  });
-}
-
 function renderServices(filterCategory = "all") {
   currentServiceCategory = filterCategory;
   const container = document.getElementById("services-container");
   if (!container) return;
 
-  const filtered = (filterCategory === "all" ? SERVICES_DATA : SERVICES_DATA.filter(s => s.category === filterCategory)).map(livePricedService);
+  const filtered = (filterCategory === "all" ? SERVICES_DATA : SERVICES_DATA.filter(s => s.category === filterCategory));
 
   container.innerHTML = filtered.map(service => `
     <div class="service-card bg-white rounded-2xl p-6 sm:p-7 border border-slate-100 shadow-sm flex flex-col justify-between relative group hover:border-sky-300">
@@ -557,8 +473,8 @@ function renderServices(filterCategory = "all") {
       <div class="pt-5 border-t border-slate-100">
         <div class="flex items-center justify-between mb-4">
           <div>
-            <span class="text-xs text-slate-500 block uppercase font-medium">Estimated Pricing</span>
-            <span class="text-base font-bold text-slate-900">${service.pricing}</span>
+            <span class="text-xs text-slate-500 block uppercase font-medium">Charges</span>
+            <button type="button" onclick="quickWhatsAppPrice('${service.title}')" class="text-sm font-bold text-emerald-700 hover:text-emerald-800 inline-flex items-center gap-1"><i class="fa-brands fa-whatsapp"></i> Price on WhatsApp / Call</button>
           </div>
           <div class="text-right">
             <span class="text-xs text-slate-500 block uppercase font-medium">Avg Duration</span>
@@ -699,58 +615,6 @@ function setupEventListeners() {
   }
 }
 
-// Interactive Cost Estimator with fixed Bug (a): Direct WhatsApp generation
-function initCalculator() {
-  const serviceSelect = document.getElementById("calc-service");
-  const areaSelect = document.getElementById("calc-area");
-  const urgentCheckbox = document.getElementById("calc-urgent");
-  const totalDisplay = document.getElementById("calc-total-display");
-  const whatsappCalcBtn = document.getElementById("calc-whatsapp-btn");
-
-  if (!serviceSelect || !totalDisplay) return;
-
-  function updateEstimate() {
-    const selectedKey = serviceSelect.value;
-    const cat = PRICING_CATALOG[selectedKey];
-    const baseItem = cat ? { label: cat.label, price: SrinikaPrices.price(selectedKey) } : { price: SrinikaPrices.price("wound-dressing-small"), label: "Doorstep Care" };
-    let total = baseItem.price;
-
-    const isUrgent = urgentCheckbox && urgentCheckbox.checked;
-    if (isUrgent) {
-      total += SrinikaPrices.price("urgent-fee"); // Priority dispatch fee
-    }
-
-    totalDisplay.innerText = SrinikaPrices.fmt(total);
-
-    const area = areaSelect ? areaSelect.value : "Gomti Nagar";
-    const urgentText = isUrgent ? " (URGENT DISPATCH REQUEST)" : "";
-    const text = `Namaste Dr. Piyush Saxena,\nI checked your website cost estimator for *${baseItem.label}* in *${area}, Lucknow*.\nEstimated amount: *₹${total}*${urgentText}.\nPlease confirm availability for home visit.`;
-    const url = `https://wa.me/${CLINIC_INFO.whatsappNumber}?text=${encodeURIComponent(text)}`;
-
-    if (whatsappCalcBtn) {
-      whatsappCalcBtn.href = url;
-      whatsappCalcBtn.target = "_blank";
-      whatsappCalcBtn.rel = "noopener noreferrer";
-    }
-
-    return { text, url };
-  }
-
-  serviceSelect.addEventListener("change", updateEstimate);
-  if (areaSelect) areaSelect.addEventListener("change", updateEstimate);
-  if (urgentCheckbox) urgentCheckbox.addEventListener("change", updateEstimate);
-
-  if (whatsappCalcBtn) {
-    whatsappCalcBtn.addEventListener("click", (e) => {
-      const { url } = updateEstimate();
-      whatsappCalcBtn.href = url;
-    });
-  }
-
-  window.__recalcEstimate = updateEstimate;
-  updateEstimate();
-}
-
 // Update dynamic WhatsApp prefilled links across modal/page
 function updateDynamicWhatsAppLinks() {
   const name = document.getElementById("booking-name")?.value.trim() || "Patient";
@@ -827,7 +691,7 @@ function syncModalServiceMode() {
 
   if (isOnline) {
     if (alertBox) alertBox.classList.remove("hidden");
-    if (submitText) submitText.textContent = "Proceed to Pay " + SrinikaPrices.fmt(SrinikaPrices.price("consult-online")) + " Online";
+    if (submitText) submitText.textContent = "Proceed to Payment";
     if (submitIcon) submitIcon.className = "fa-solid fa-lock";
     if (addressLabel) addressLabel.textContent = "City / Locality (Optional for Online)";
     if (addressInput) {
@@ -868,9 +732,9 @@ function openBookingModal(defaultServiceId = null, defaultDoctor = null) {
     const select = document.getElementById("modal-service-select");
     if (select) {
       const mapping = {
-        "consultation-online": "Online Doctor Consultation (₹500)",
-        "consultation-doorstep": "Doctor Consultation At Door Step (Within 5km - ₹2000)",
-        "physiotherapy-doorstep": "Physiotherapy At Door Step (₹600)",
+        "consultation-online": "Online Doctor Consultation",
+        "consultation-doorstep": "Doctor Consultation At Door Step (Within 5km)",
+        "physiotherapy-doorstep": "Physiotherapy At Door Step",
         "bipap-therapy": "BiPAP Machine & Mechanical Support",
         "iv-fluids": "IV Fluids & Infusions (NS/RL/D5)",
         "nebulization-therapy": "Nebulization Therapy At Home",
@@ -925,6 +789,12 @@ function bookForArea(areaName) {
 // Quick WhatsApp Links
 function quickWhatsAppService(serviceTitle) {
   const msg = `Namaste Dr. Piyush Saxena,\nI need to book *${serviceTitle}* at my home in Lucknow.\nPlease let me know the earliest time a nursing professional can visit.`;
+  const url = `https://wa.me/${CLINIC_INFO.whatsappNumber}?text=${encodeURIComponent(msg)}`;
+  window.open(url, "_blank");
+}
+
+function quickWhatsAppPrice(serviceTitle) {
+  const msg = `Namaste Srinika Medisurge,\nPlease share the charges for *${serviceTitle}* in Lucknow.`;
   const url = `https://wa.me/${CLINIC_INFO.whatsappNumber}?text=${encodeURIComponent(msg)}`;
   window.open(url, "_blank");
 }

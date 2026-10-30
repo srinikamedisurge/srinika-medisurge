@@ -1,5 +1,4 @@
 const CONFIG = require('../../site.config.js');
-const { P } = require('../data/price_lines.js');
 
 function renderPrivacyPolicy() {
   return `
@@ -81,7 +80,7 @@ function renderTermsAndConditions() {
 
           <h2 class="text-lg font-bold text-slate-900 mt-6">4. Pricing & Payment Terms</h2>
           <p>
-            All fees listed on our website are in Indian Rupees (INR). Payment for doorstep visits is due upon completion of the clinical procedure via Cash or UPI. Online doctor consultations require upfront payment (₹500) via Razorpay secure checkout (UPI, cards, netbanking) prior to appointment connection.
+            All fees are quoted in Indian Rupees (INR) and confirmed with you on WhatsApp or call before the service. Payment for doorstep visits is due upon completion of the clinical procedure via Cash or UPI. Online doctor consultations require upfront payment of the consultation fee via Razorpay secure checkout (UPI, cards, netbanking) prior to appointment connection.
           </p>
 
           <h2 class="text-lg font-bold text-slate-900 mt-6">5. Jurisdictional Law</h2>
@@ -108,7 +107,7 @@ function renderRefundPolicy() {
             At <strong>${CONFIG.brandName}</strong>, we strive to deliver compassionate, prompt, and reliable medical care. We understand that medical schedules and patient conditions can change rapidly. Our refund and cancellation policy is outlined below.
           </p>
 
-          <h2 class="text-lg font-bold text-slate-900 mt-6">1. Online Doctor Video Consultation (${P('consult-online')} Fee)</h2>
+          <h2 class="text-lg font-bold text-slate-900 mt-6">1. Online Doctor Video Consultation</h2>
           <ul class="list-disc pl-5 space-y-2">
             <li><strong>Cancellation by Patient:</strong> If you cancel your online consultation at least 30 minutes before the scheduled time slot, a 100% full refund will be processed to your original payment method.</li>
             <li><strong>Doctor Unavailability:</strong> If our doctor is unable to connect due to an unforeseen emergency, you may choose to reschedule or receive an immediate 100% refund.</li>
@@ -118,7 +117,7 @@ function renderRefundPolicy() {
           <h2 class="text-lg font-bold text-slate-900 mt-6">2. Doorstep Medical & Nursing Visits</h2>
           <ul class="list-disc pl-5 space-y-2">
             <li><strong>Cancellation Prior to Dispatch:</strong> If a scheduled home visit is cancelled before our medical staff departs the dispatch hub, no cancellation fee applies.</li>
-            <li><strong>Cancellation After Staff Arrival:</strong> If staff arrives at your residence and the procedure is declined or cancelled, a nominal conveyance assessment fee (₹200) applies to cover travel expenses.</li>
+            <li><strong>Cancellation After Staff Arrival:</strong> If staff arrives at your residence and the procedure is declined or cancelled, a nominal conveyance assessment fee (communicated at the time of booking) applies to cover travel expenses.</li>
             <li><strong>Completed Clinical Procedures:</strong> Fees for completed clinical procedures and opened single-use sterile consumable packs are non-refundable.</li>
           </ul>
 
