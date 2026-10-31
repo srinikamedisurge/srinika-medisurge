@@ -53,7 +53,6 @@
   "razorpay": {
     "keyId": "rzp_live_Tn6PZUwraJ9021"
   },
-  "googleSheetWebhookUrl": "https://script.google.com/macros/s/AKfycbwIKwcF-eVAOvOgM3dS6B6KfpqHmezv8p4vBPINIVPtywSnEAJQhtA1c9wKNk2-nGw/exec",
   "stats": {
     "doorstepResponse": "30-45 min",
     "doorstepResponsePrimary": "15-25 min (Gomti Nagar)",
