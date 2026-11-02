@@ -79,9 +79,6 @@ const SITE_CONFIG = {
     keyId: "rzp_live_Tn6PZUwraJ9021" // Public Live Key ID
   },
 
-  // Google Sheets Webhook for Bookings and Feedback
-  googleSheetWebhookUrl: "https://script.google.com/macros/s/AKfycbwIKwcF-eVAOvOgM3dS6B6KfpqHmezv8p4vBPINIVPtywSnEAJQhtA1c9wKNk2-nGw/exec",
-
   // Hard Stats (UNTOUCHED & PRESERVED)
   stats: {
     doorstepResponse: "30-45 min",

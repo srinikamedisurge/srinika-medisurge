@@ -33,3 +33,6 @@ catalog/
 
 # Signed agreements / MoUs, not part of the website
 agreements/
+
+# Staff ID card prints (generator lives in the admin panel)
+id-card/

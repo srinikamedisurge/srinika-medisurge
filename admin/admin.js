@@ -72,7 +72,7 @@ document.querySelectorAll(".tab-btn").forEach(b => {
 });
 function showTab(name) {
   document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === name));
-  ["overview", "bookings", "payments", "prices", "staff"].forEach(t => $("tab-" + t).classList.toggle("hidden", t !== name));
+  ["overview", "bookings", "payments", "prices", "staff", "idcard"].forEach(t => $("tab-" + t).classList.toggle("hidden", t !== name));
 }
 
 // ================= data =================
@@ -137,6 +137,7 @@ async function reloadAll() {
   renderPayments();
   renderPrices();
   renderStaff();
+  renderIdCard();
 }
 
 // ================= overview =================
@@ -570,6 +571,7 @@ function renderStaff() {
       </div>
       <div class="flex flex-wrap gap-1.5">
         <button data-edit="${esc(s.id)}" class="px-3 py-1.5 text-xs font-bold bg-sky-50 text-sky-800 border border-sky-200 rounded-lg"><i class="fa-solid fa-pen mr-1"></i>Edit</button>
+        <button data-idcard="${esc(s.id)}" class="px-3 py-1.5 text-xs font-bold bg-teal-50 text-teal-800 border border-teal-200 rounded-lg"><i class="fa-solid fa-id-badge mr-1"></i>ID card</button>
         ${isOwner ? "" : `
           <button data-toggle="${esc(s.id)}" class="px-3 py-1.5 text-xs font-bold ${inactive ? "bg-emerald-50 text-emerald-800 border-emerald-200" : "bg-amber-50 text-amber-800 border-amber-200"} border rounded-lg">${inactive ? '<i class="fa-solid fa-user-check mr-1"></i>Activate' : '<i class="fa-solid fa-user-slash mr-1"></i>Deactivate'}</button>
           <button data-staff-delete="${esc(s.id)}" class="px-3 py-1.5 text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200 rounded-lg"><i class="fa-solid fa-trash mr-1"></i>Delete</button>`}
@@ -585,6 +587,7 @@ function renderStaff() {
   $("staff-add").onclick = () => openStaffModal(null);
   const tab = $("tab-staff");
   tab.querySelectorAll("[data-edit]").forEach(b => { b.onclick = () => openStaffModal(staff.find(s => s.id === b.dataset.edit)); });
+  tab.querySelectorAll("[data-idcard]").forEach(b => { b.onclick = () => openIdCard(b.dataset.idcard); });
   tab.querySelectorAll("[data-toggle]").forEach(b => { b.onclick = () => toggleStaff(b.dataset.toggle); });
   tab.querySelectorAll("[data-staff-delete]").forEach(b => { b.onclick = () => deleteStaff(b.dataset.staffDelete); });
 }
@@ -599,6 +602,8 @@ function openStaffModal(member) {
   fillQualification(member ? member.designation || "" : "");
   $("sf-specialty").value = member ? member.specialty || "" : "";
   $("sf-regno").value = member ? member.regNo || "" : "";
+  $("sf-empid").value = member ? member.empId || "" : nextEmpId();
+  $("sf-blood").value = member ? member.bloodGroup || "" : "";
   updateRoleHint();
   $("staff-modal").classList.remove("hidden");
   $("staff-modal").classList.add("flex");
@@ -624,6 +629,8 @@ $("staff-form").onsubmit = async e => {
     designation: $("sf-designation").value.trim() || (role === "doctor" ? "Consulting Physician" : (admin ? roleLabel(role) : "Certified Healthcare Staff")),
     specialty: $("sf-specialty").value.trim() || (admin ? "Operations & Administration" : "Doorstep Clinical Care"),
     regNo: $("sf-regno").value.trim(),
+    empId: $("sf-empid").value.trim(),
+    bloodGroup: $("sf-blood").value,
     status: existing ? (existing.status || "active") : "active",
     avatarBg: (existing && existing.role === role && existing.avatarBg) ||
       (admin ? "bg-amber-600 text-white" : (role === "doctor" ? "bg-sky-600 text-white" : "bg-teal-600 text-white"))
@@ -681,4 +688,171 @@ async function deleteStaff(id) {
     renderStaff();
     toast(s.name + " deleted.");
   } catch (e) { toast("Could not delete: " + (e.code || e.message)); }
+}
+
+// ================= ID cards =================
+// Printable staff ID card (front + back). Details come from the staff profile and can be edited here;
+// the photo stays in this browser only (it is not uploaded anywhere).
+const ID_PREFIX = "SMS-";
+const idPhotos = {};      // staffId -> photo data URL, for this session only
+let idc = null;           // card being edited
+
+function nextEmpId() {
+  const nums = staff.map(s => parseInt(String(s.empId || "").replace(/\D/g, ""), 10)).filter(n => !isNaN(n));
+  return ID_PREFIX + String((nums.length ? Math.max(...nums) : 0) + 1).padStart(4, "0");
+}
+const isoDay = d => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+const dmy = iso => iso ? iso.split("-").reverse().join("/") : "";
+
+function idcFromStaff(s) {
+  const today = new Date(), valid = new Date(today);
+  valid.setFullYear(valid.getFullYear() + 1);
+  valid.setDate(valid.getDate() - 1);
+  return {
+    staffId: s ? s.id : "",
+    name: s ? s.name || "" : "",
+    role: s ? s.roleBadge || roleLabel(s.role) : "",
+    empId: s ? s.empId || "" : "",
+    qual: s ? s.designation || "" : "",
+    blood: s ? s.bloodGroup || "" : "",
+    phone: s ? s.phone || "" : "",
+    issued: isoDay(today),
+    valid: isoDay(valid)
+  };
+}
+
+function openIdCard(staffId) {
+  idc = idcFromStaff(staff.find(s => s.id === staffId));
+  renderIdCard();
+  showTab("idcard");
+}
+
+function renderIdCard() {
+  if (!idc) idc = idcFromStaff(staff.find(s => s.status !== "inactive"));
+  const field = (k, label, extra = "") => `<label class="block text-xs font-bold text-slate-600">${label}
+      <input data-idc="${k}" value="${esc(idc[k])}" ${extra} class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm"></label>`;
+  $("tab-idcard").innerHTML = `
+    <div class="idc-head mb-3"><h2 class="font-extrabold">Staff ID cards</h2>
+      <p class="text-xs text-slate-500">Pick a team member, add their photo, check the details and print. Print at <strong>100% / Actual size</strong> for a true card size (54 x 85.6 mm).</p></div>
+    <div class="flex flex-wrap gap-5 items-start">
+      <form id="idc-form" class="card p-4 space-y-2.5 w-full sm:w-80" onsubmit="return false">
+        <label class="block text-xs font-bold text-slate-600">Staff member
+          <select id="idc-staff" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm bg-white">
+            <option value="">Someone else (type details)</option>
+            ${staff.map(s => `<option value="${esc(s.id)}" ${s.id === idc.staffId ? "selected" : ""}>${esc(s.name)}${s.status === "inactive" ? " (deactivated)" : ""}</option>`).join("")}
+          </select></label>
+        <label class="block text-xs font-bold text-slate-600">Photo
+          <input id="idc-photo" type="file" accept="image/*" class="mt-1 w-full text-xs"></label>
+        ${field("name", "Full name")}
+        ${field("role", "Designation (on badge)")}
+        <div class="grid grid-cols-2 gap-2">${field("empId", "Employee ID", 'placeholder="' + esc(nextEmpId()) + '"')}${field("blood", "Blood group", 'placeholder="B+"')}</div>
+        ${field("qual", "Qualification")}
+        ${field("phone", "Mobile")}
+        <div class="grid grid-cols-2 gap-2">${field("issued", "Issued", 'type="date"')}${field("valid", "Valid till", 'type="date"')}</div>
+        <button type="button" id="idc-save" class="${idc.staffId ? "" : "hidden "}w-full py-2 text-xs font-bold bg-white border border-slate-300 rounded-xl hover:bg-slate-50"><i class="fa-solid fa-floppy-disk mr-1"></i>Save Employee ID &amp; blood group to profile</button>
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <button type="button" id="idc-print-a4" class="py-2.5 bg-sky-700 hover:bg-sky-800 text-white rounded-xl text-xs font-bold"><i class="fa-solid fa-print mr-1"></i>Print (A4)</button>
+          <button type="button" id="idc-print-cr80" class="py-2.5 bg-teal-700 hover:bg-teal-800 text-white rounded-xl text-xs font-bold"><i class="fa-solid fa-id-card mr-1"></i>Card size PDF</button>
+        </div>
+        <p class="text-[11px] text-slate-500">A4 = front and back on one sheet to cut. Card size = 2 pages for a PVC card printer or print shop. In the print window choose <strong>Save as PDF</strong> to get a file. The photo is not uploaded or saved.</p>
+      </form>
+      <div id="idc-sheet" class="flex flex-wrap gap-6 justify-center flex-1"></div>
+    </div>`;
+
+  $("idc-staff").onchange = e => { idc = idcFromStaff(staff.find(s => s.id === e.target.value)); renderIdCard(); };
+  $("tab-idcard").querySelectorAll("[data-idc]").forEach(i => { i.oninput = () => { idc[i.dataset.idc] = i.value; drawIdCard(); }; });
+  $("idc-photo").onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const r = new FileReader();
+    r.onload = () => { idPhotos[idc.staffId || "_custom"] = r.result; drawIdCard(); };
+    r.readAsDataURL(file);
+  };
+  $("idc-save").onclick = saveIdCardFields;
+  $("idc-print-a4").onclick = () => printIdCard(false);
+  $("idc-print-cr80").onclick = () => printIdCard(true);
+  drawIdCard();
+}
+
+function drawIdCard() {
+  const photo = idPhotos[idc.staffId || "_custom"];
+  const logo = "/assets/images/logo.png";
+  $("idc-sheet").innerHTML = `
+    <div class="text-center"><div class="idc-cap text-[11px] font-bold tracking-widest text-slate-500 uppercase mb-2">Front</div>
+      <div class="idc">
+        <div class="hdr">
+          <span class="ring" style="width:30mm;height:30mm;right:-12mm;top:-14mm"></span>
+          <span class="ring" style="width:18mm;height:18mm;right:-4mm;top:-6mm"></span>
+          <div class="brand">
+            <div class="logo"><img src="${logo}" alt="Srinika Medisurge logo"></div>
+            <div><div class="nm">SRINIKA<br>MEDISURGE</div><div class="sub">DOORSTEP HEALTHCARE SERVICES</div></div>
+          </div>
+        </div>
+        <div class="photo">${photo ? `<img src="${photo}" alt="">`
+          : '<svg viewBox="0 0 24 24" fill="#315d99"><circle cx="12" cy="8" r="4.2"/><path d="M3.5 21c.8-4.4 4.3-7 8.5-7s7.7 2.6 8.5 7z"/></svg>'}</div>
+        <div class="body">
+          <div class="pname">${esc(idc.name || "Full Name")}</div>
+          ${idc.role ? `<div class="role">${esc(idc.role)}</div>` : ""}
+          <dl class="facts">
+            <dt>Emp. ID</dt><dd>${esc(idc.empId || "-")}</dd>
+            ${idc.qual ? `<dt>Qual.</dt><dd>${esc(idc.qual)}</dd>` : ""}
+            <dt>Blood</dt><dd class="blood">${esc(idc.blood || "-")}</dd>
+            <dt>Mobile</dt><dd>${esc(idc.phone || "-")}</dd>
+          </dl>
+        </div>
+        <div class="stripe"></div>
+        <div class="foot"><span>Valid till <b>${esc(dmy(idc.valid))}</b></span><b>STAFF</b></div>
+      </div></div>
+    <div class="text-center"><div class="idc-cap text-[11px] font-bold tracking-widest text-slate-500 uppercase mb-2">Back</div>
+      <div class="idc back">
+        <img class="watermark" src="${logo}" alt="">
+        <div class="top"><img src="${logo}" alt="">SRINIKA MEDISURGE</div>
+        <div class="inner">
+          <h3>Terms of use</h3>
+          <ol>
+            <li>This card is the property of Srinika Medisurge and is non-transferable.</li>
+            <li>Must be worn visibly during all patient visits and on duty.</li>
+            <li>Loss of card must be reported to the office immediately.</li>
+            <li>Return the card on resignation or termination.</li>
+          </ol>
+          <div class="qrblock">
+            <div class="qr" id="idc-qr"></div>
+            <div class="qrtext"><b>Verify this staff</b>Scan or call<br>+91 96530 01359<br>24/7 Doorstep Service</div>
+          </div>
+          <div class="sign"><span>Issued: <b>${esc(dmy(idc.issued))}</b></span><span class="line">Authorised Signatory</span></div>
+        </div>
+        <div class="addr"><b>If found, please return to:</b><br>Kaushal Puri Rd, Khargapur, Gomti Nagar,<br>Lucknow, UP 226010 · srinikamedisurge.in</div>
+      </div></div>`;
+  if (window.QRCode) {
+    new QRCode($("idc-qr"), {
+      text: "https://srinikamedisurge.in/?staff=" + encodeURIComponent(idc.empId || ""),
+      width: 256, height: 256, colorDark: "#1d3a66", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.M
+    });
+  }
+}
+
+function printIdCard(cardSize) {
+  $("idc-page").textContent = cardSize
+    ? "@media print { @page { size: 54mm 85.6mm; margin: 0; } }"
+    : "@media print { @page { size: A4; margin: 15mm; } }";
+  document.body.classList.add("idc-print");
+  document.body.classList.toggle("idc-cr80", cardSize);
+  const done = () => { document.body.classList.remove("idc-print", "idc-cr80"); $("idc-page").textContent = ""; };
+  window.addEventListener("afterprint", done, { once: true });
+  // let the photo and QR image finish decoding before the print dialog snapshots the page
+  setTimeout(() => window.print(), 150);
+}
+
+async function saveIdCardFields() {
+  const s = staff.find(x => x.id === idc.staffId);
+  if (!s) return;
+  const empId = idc.empId.trim();
+  const clash = empId && staff.find(x => x.id !== s.id && (x.empId || "").toLowerCase() === empId.toLowerCase());
+  if (clash) { toast(empId + " already belongs to " + clash.name); return; }
+  try {
+    s.empId = empId;
+    s.bloodGroup = idc.blood.trim();
+    await saveStaff(s, s.email);
+    toast("Saved to " + s.name + "'s profile.");
+  } catch (e) { toast("Could not save: " + (e.code || e.message)); }
 }
