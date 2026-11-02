@@ -691,11 +691,51 @@ async function deleteStaff(id) {
 }
 
 // ================= ID cards =================
-// Printable staff ID card (front + back). Details come from the staff profile and can be edited here;
-// the photo stays in this browser only (it is not uploaded anywhere).
+// Printable staff ID card (front + back). Details come from the staff profile and can be edited here.
+// Edits and the photo are remembered in this browser (localStorage), never uploaded anywhere.
 const ID_PREFIX = "SMS-";
-const idPhotos = {};      // staffId -> photo data URL, for this session only
+const IDC_STORE_KEY = "srinika.idcards.v1";   // { last: staffId, cards: { staffId|"_custom": { fields, photo } } }
+const idPhotos = {};      // staffId -> photo data URL
 let idc = null;           // card being edited
+
+function readIdcStore() {
+  try { return JSON.parse(localStorage.getItem(IDC_STORE_KEY)) || { cards: {} }; } catch (e) { return { cards: {} }; }
+}
+function persistIdc() {
+  const key = idc.staffId || "_custom";
+  const store = readIdcStore();
+  const { staffId, ...fields } = idc;
+  store.cards = store.cards || {};
+  store.cards[key] = { fields, photo: idPhotos[key] || "" };
+  store.last = idc.staffId;
+  try { localStorage.setItem(IDC_STORE_KEY, JSON.stringify(store)); }
+  catch (e) {
+    store.cards[key].photo = "";
+    try { localStorage.setItem(IDC_STORE_KEY, JSON.stringify(store)); } catch (e2) {}
+    toast("Details remembered, but the photo is too big to keep in this browser.");
+  }
+}
+function forgetIdc(key) {
+  const store = readIdcStore();
+  if (store.cards) delete store.cards[key];
+  delete idPhotos[key];
+  try { localStorage.setItem(IDC_STORE_KEY, JSON.stringify(store)); } catch (e) {}
+}
+// Shrink the photo (max 600 px tall, JPEG) so many cards fit in localStorage.
+function shrinkPhoto(dataUrl) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, 600 / img.height);
+      const c = document.createElement("canvas");
+      c.width = Math.round(img.width * scale); c.height = Math.round(img.height * scale);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      resolve(c.toDataURL("image/jpeg", 0.85));
+    };
+    img.onerror = () => resolve(dataUrl);
+    img.src = dataUrl;
+  });
+}
 
 function nextEmpId() {
   const nums = staff.map(s => parseInt(String(s.empId || "").replace(/\D/g, ""), 10)).filter(n => !isNaN(n));
@@ -708,8 +748,18 @@ function idcFromStaff(s) {
   const today = new Date(), valid = new Date(today);
   valid.setFullYear(valid.getFullYear() + 1);
   valid.setDate(valid.getDate() - 1);
+  const key = s ? s.id : "_custom";
+  const saved = (readIdcStore().cards || {})[key];
+  if (saved && saved.photo) idPhotos[key] = saved.photo;
   return {
-    staffId: s ? s.id : "",
+    ...defaultIdc(s, today, valid),
+    ...(saved ? saved.fields : {}),
+    staffId: s ? s.id : ""
+  };
+}
+
+function defaultIdc(s, today, valid) {
+  return {
     name: s ? s.name || "" : "",
     role: s ? s.roleBadge || roleLabel(s.role) : "",
     empId: s ? s.empId || "" : "",
@@ -728,7 +778,10 @@ function openIdCard(staffId) {
 }
 
 function renderIdCard() {
-  if (!idc) idc = idcFromStaff(staff.find(s => s.status !== "inactive"));
+  if (!idc) {
+    const last = readIdcStore().last;
+    idc = idcFromStaff(last === "" ? null : staff.find(s => s.id === last) || staff.find(s => s.status !== "inactive"));
+  }
   const field = (k, label, extra = "") => `<label class="block text-xs font-bold text-slate-600">${label}
       <input data-idc="${k}" value="${esc(idc[k])}" ${extra} class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm"></label>`;
   $("tab-idcard").innerHTML = `
@@ -754,19 +807,27 @@ function renderIdCard() {
           <button type="button" id="idc-print-a4" class="py-2.5 bg-sky-700 hover:bg-sky-800 text-white rounded-xl text-xs font-bold"><i class="fa-solid fa-print mr-1"></i>Print (A4)</button>
           <button type="button" id="idc-print-cr80" class="py-2.5 bg-teal-700 hover:bg-teal-800 text-white rounded-xl text-xs font-bold"><i class="fa-solid fa-id-card mr-1"></i>Card size PDF</button>
         </div>
-        <p class="text-[11px] text-slate-500">A4 = front and back on one sheet to cut. Card size = 2 pages for a PVC card printer or print shop. In the print window choose <strong>Save as PDF</strong> to get a file. The photo is not uploaded or saved.</p>
+        <p class="text-[11px] text-slate-500">A4 = front and back on one sheet to cut. Card size = 2 pages for a PVC card printer or print shop. In the print window choose <strong>Save as PDF</strong> to get a file.</p>
+        <p class="text-[11px] text-slate-500"><i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i>Changes and the photo are remembered in this browser (not uploaded). <button type="button" id="idc-reset" class="font-bold text-sky-700 underline">Reset to profile details</button></p>
       </form>
       <div id="idc-sheet" class="flex flex-wrap gap-6 justify-center flex-1"></div>
     </div>`;
 
-  $("idc-staff").onchange = e => { idc = idcFromStaff(staff.find(s => s.id === e.target.value)); renderIdCard(); };
-  $("tab-idcard").querySelectorAll("[data-idc]").forEach(i => { i.oninput = () => { idc[i.dataset.idc] = i.value; drawIdCard(); }; });
+  $("idc-staff").onchange = e => { idc = idcFromStaff(staff.find(s => s.id === e.target.value)); persistIdc(); renderIdCard(); };
+  $("tab-idcard").querySelectorAll("[data-idc]").forEach(i => { i.oninput = () => { idc[i.dataset.idc] = i.value; persistIdc(); drawIdCard(); }; });
   $("idc-photo").onchange = e => {
     const file = e.target.files[0];
     if (!file) return;
+    const key = idc.staffId || "_custom";
     const r = new FileReader();
-    r.onload = () => { idPhotos[idc.staffId || "_custom"] = r.result; drawIdCard(); };
+    r.onload = async () => { idPhotos[key] = await shrinkPhoto(r.result); persistIdc(); drawIdCard(); };
     r.readAsDataURL(file);
+  };
+  $("idc-reset").onclick = () => {
+    if (!confirm("Clear the photo and card edits for " + (idc.name || "this card") + "?")) return;
+    forgetIdc(idc.staffId || "_custom");
+    idc = idcFromStaff(staff.find(s => s.id === idc.staffId));
+    renderIdCard();
   };
   $("idc-save").onclick = saveIdCardFields;
   $("idc-print-a4").onclick = () => printIdCard(false);
@@ -832,6 +893,9 @@ function drawIdCard() {
 }
 
 function printIdCard(cardSize) {
+  // A printed card is official: keep its Employee ID and blood group on the staff profile too.
+  const s = staff.find(x => x.id === idc.staffId);
+  if (s && ((s.empId || "") !== idc.empId.trim() || (s.bloodGroup || "") !== idc.blood.trim())) saveIdCardFields();
   $("idc-page").textContent = cardSize
     ? "@media print { @page { size: 54mm 85.6mm; margin: 0; } }"
     : "@media print { @page { size: A4; margin: 15mm; } }";
