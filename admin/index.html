@@ -15,7 +15,65 @@
     input, select { outline: none; }
     input:focus, select:focus { box-shadow: 0 0 0 2px #0ea5e9; }
     .changed { background: #fffbeb; border-color: #f59e0b; }
+
+    /* ---------- Staff ID card (CR80: 54 x 85.6 mm, portrait) ---------- */
+    .idc { --teal: #4a9599; --teal-dark: #2f7478; --blue: #315d99; --navy: #1d3a66; --ink: #13233d; --muted: #5b6b82; --line: #dbe4ee;
+      font-family: 'Poppins', system-ui, sans-serif; color: var(--ink); text-align: left;
+      width: 54mm; height: 85.6mm; border-radius: 3.2mm; overflow: hidden; position: relative; background: #fff;
+      box-shadow: 0 14px 40px rgba(19,35,61,.18); font-size: 2.4mm; zoom: 1.5; flex: none;
+      -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .idc .hdr { position: relative; height: 27mm; background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 45%, var(--teal) 100%); color: #fff; overflow: hidden; }
+    .idc .hdr::after { content: ""; position: absolute; left: -10%; right: -10%; bottom: -9mm; height: 16mm; background: #fff; border-radius: 50% 50% 0 0 / 100% 100% 0 0; }
+    .idc .ring { position: absolute; border-radius: 50%; border: .5mm solid rgba(255,255,255,.12); }
+    .idc .brand { position: relative; z-index: 1; display: flex; align-items: center; gap: 2mm; padding: 3.2mm 3.5mm 0; }
+    .idc .brand .logo { width: 8.5mm; height: 8.5mm; background: #fff; border-radius: 2mm; display: grid; place-items: center; flex: none; box-shadow: 0 1mm 2.5mm rgba(0,0,0,.18); }
+    .idc .brand .logo img { width: 7.4mm; height: 7.4mm; }
+    .idc .brand .nm { font-weight: 800; font-size: 3.35mm; letter-spacing: .25mm; line-height: 1.05; }
+    .idc .brand .sub { font-size: 1.55mm; font-weight: 500; opacity: .9; letter-spacing: .12mm; margin-top: .5mm; }
+    .idc .photo { position: absolute; z-index: 2; top: 15mm; left: 50%; transform: translateX(-50%); width: 22mm; height: 25mm; border-radius: 3mm; background: linear-gradient(160deg, #e7eef6, #cfdbe8); border: .8mm solid #fff; box-shadow: 0 1.2mm 3mm rgba(19,35,61,.22); overflow: hidden; display: grid; place-items: center; }
+    .idc .photo img { width: 100%; height: 100%; object-fit: cover; }
+    .idc .photo svg { width: 13mm; height: 13mm; opacity: .45; }
+    .idc .body { position: absolute; top: 41.5mm; left: 0; right: 0; text-align: center; padding: 0 3.5mm; }
+    .idc .pname { font-size: 3.6mm; font-weight: 700; color: var(--navy); line-height: 1.15; }
+    .idc .role { display: table; margin: 1mm auto 0; padding: .5mm 2.4mm; border-radius: 5mm; background: rgba(74,149,153,.14); color: var(--teal-dark); font-size: 1.9mm; font-weight: 600; letter-spacing: .15mm; text-transform: uppercase; }
+    .idc .facts { margin-top: 2.6mm; display: inline-grid; min-width: 34mm; grid-template-columns: auto 1fr; gap: .9mm 2mm; text-align: left; font-size: 2mm; }
+    .idc .facts dt { color: var(--muted); font-weight: 500; }
+    .idc .facts dd { color: var(--ink); font-weight: 600; margin: 0; }
+    .idc .facts .blood { color: #c62828; }
+    .idc .foot { position: absolute; left: 0; right: 0; bottom: 0; height: 7.2mm; background: linear-gradient(90deg, var(--blue), var(--teal)); color: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 3.5mm; font-size: 1.75mm; font-weight: 500; }
+    .idc .foot b { font-weight: 700; letter-spacing: .1mm; }
+    .idc .stripe { position: absolute; left: 0; right: 0; bottom: 7.2mm; height: .7mm; background: linear-gradient(90deg, var(--teal), var(--blue)); opacity: .35; }
+    .idc.back { background: linear-gradient(180deg, #fff 0%, #f5f9fc 100%); }
+    .idc .top { height: 9mm; background: linear-gradient(90deg, var(--navy), var(--blue) 55%, var(--teal)); display: flex; align-items: center; justify-content: center; gap: 1.6mm; color: #fff; font-weight: 700; font-size: 2.3mm; letter-spacing: .3mm; }
+    .idc .top img { width: 5mm; height: 5mm; background: #fff; border-radius: 1.2mm; padding: .4mm; }
+    .idc .inner { padding: 3mm 3.5mm 0; position: relative; }
+    .idc h3 { font-size: 1.8mm; font-weight: 700; color: var(--teal-dark); text-transform: uppercase; letter-spacing: .25mm; margin-bottom: 1mm; }
+    .idc ol { list-style: decimal; padding-left: 3mm; font-size: 1.68mm; color: var(--muted); line-height: 1.45; }
+    .idc .qrblock { display: flex; gap: 2.6mm; align-items: center; margin-top: 2.6mm; padding: 2mm; border: .25mm solid var(--line); border-radius: 2mm; background: #fff; }
+    .idc .qr { width: 13mm; height: 13mm; flex: none; }
+    .idc .qr img, .idc .qr canvas { width: 13mm !important; height: 13mm !important; }
+    .idc .qrtext { font-size: 1.68mm; color: var(--muted); line-height: 1.4; }
+    .idc .qrtext b { display: block; color: var(--navy); font-size: 1.9mm; }
+    .idc .sign { margin-top: 8mm; display: flex; justify-content: space-between; align-items: flex-end; font-size: 1.6mm; color: var(--muted); }
+    .idc .sign .line { width: 19mm; border-top: .25mm solid var(--ink); padding-top: .6mm; text-align: center; }
+    .idc .addr { position: absolute; left: 0; right: 0; bottom: 0; padding: 2mm 3.5mm; background: var(--navy); color: #dbe7f5; font-size: 1.6mm; line-height: 1.45; text-align: center; }
+    .idc .addr b { color: #fff; }
+    .idc .watermark { position: absolute; right: -8mm; top: 26mm; width: 34mm; opacity: .05; pointer-events: none; }
+    @media (max-width: 640px) { .idc { zoom: 1.15; } }
+
+    @media print {
+      body.idc-print { background: #fff; }
+      body.idc-print > *:not(#app), body.idc-print #app > *:not(#tab-idcard), body.idc-print #idc-form,
+      body.idc-print .idc-cap, body.idc-print .idc-head { display: none !important; }
+      body.idc-print #app { max-width: none; padding: 0; }
+      body.idc-print #idc-sheet { display: flex; gap: 10mm; padding: 0; }
+      body.idc-print .idc { zoom: 1; box-shadow: none; outline: .1mm dashed #bbb; outline-offset: 1mm; }
+      body.idc-cr80 #idc-sheet { display: block; }
+      body.idc-cr80 .idc { outline: none; border-radius: 0; break-after: page; }
+    }
   </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style id="idc-page"></style>
 </head>
 <body class="text-slate-900 font-sans antialiased">
 
@@ -53,6 +111,7 @@
       <button class="tab-btn px-4 py-2 rounded-xl font-bold bg-white border border-slate-200 whitespace-nowrap" data-tab="payments"><i class="fa-solid fa-indian-rupee-sign mr-1.5"></i>Payments</button>
       <button class="tab-btn px-4 py-2 rounded-xl font-bold bg-white border border-slate-200 whitespace-nowrap" data-tab="prices"><i class="fa-solid fa-tags mr-1.5"></i>Prices</button>
       <button class="tab-btn px-4 py-2 rounded-xl font-bold bg-white border border-slate-200 whitespace-nowrap" data-tab="staff"><i class="fa-solid fa-user-doctor mr-1.5"></i>Staff</button>
+      <button class="tab-btn px-4 py-2 rounded-xl font-bold bg-white border border-slate-200 whitespace-nowrap" data-tab="idcard"><i class="fa-solid fa-id-badge mr-1.5"></i>ID Cards</button>
     </nav>
 
     <section id="tab-overview"></section>
@@ -60,6 +119,7 @@
     <section id="tab-payments" class="hidden"></section>
     <section id="tab-prices" class="hidden"></section>
     <section id="tab-staff" class="hidden"></section>
+    <section id="tab-idcard" class="hidden"></section>
   </div>
 
   <!-- Staff modal -->
@@ -93,6 +153,13 @@
       </label>
       <label class="block text-xs font-bold text-slate-600">Specialty<input id="sf-specialty" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm"></label>
       <label class="block text-xs font-bold text-slate-600">Registration no.<input id="sf-regno" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm"></label>
+      <div class="grid grid-cols-2 gap-2">
+        <label class="block text-xs font-bold text-slate-600">Employee ID (ID card)<input id="sf-empid" placeholder="SMS-0001" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm"></label>
+        <label class="block text-xs font-bold text-slate-600">Blood group
+          <select id="sf-blood" class="mt-1 w-full border border-slate-300 rounded-xl px-3 py-2 text-sm bg-white">
+            <option value="">-</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+          </select></label>
+      </div>
       <button type="submit" class="w-full py-3 bg-sky-700 hover:bg-sky-800 text-white rounded-xl font-bold text-sm">Save</button>
     </form>
   </div>
@@ -121,6 +188,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="/assets/js/price-lines.js"></script>
   <script src="/admin/admin.js"></script>
 </body>
