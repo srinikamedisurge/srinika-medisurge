@@ -137,6 +137,17 @@ service cloud.firestore {
       allow read, delete: if isOwner();
     }
 
+    // ---------- Staff ID cards made in the admin panel: card details + compressed photo kept
+    // in the doc (like rxUploads). Holds blood group and photo, so owner-only, not readable by staff.
+    match /idCards/{id} {
+      allow read, delete: if isOwner();
+      allow create, update: if isOwner()
+                    && request.resource.data.keys().hasOnly(["fields","photo","updatedAtMs"])
+                    && request.resource.data.fields is map
+                    && str(request.resource.data.photo, 700000)
+                    && request.resource.data.updatedAtMs is number;
+    }
+
     // ---------- Patient feedback ----------
     match /feedback/{id} {
       allow create: if request.resource.data.keys().hasOnly(
