@@ -747,12 +747,13 @@ async function forgetIdc(key) {
   delete idPhotos[key];
   await db.collection("idCards").doc(key).delete();
 }
-// Shrink the photo (max 500 px tall, JPEG, ~50 KB) to stay well under the Firestore 1 MB doc limit.
+// Shrink the photo (max 700 px tall so zooming in stays sharp, JPEG, ~100 KB) to stay well under
+// the Firestore 1 MB doc limit.
 function shrinkPhoto(dataUrl) {
   return new Promise(resolve => {
     const img = new Image();
     img.onload = () => {
-      const scale = Math.min(1, 500 / img.height);
+      const scale = Math.min(1, 700 / img.height);
       const c = document.createElement("canvas");
       c.width = Math.round(img.width * scale); c.height = Math.round(img.height * scale);
       c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
@@ -764,11 +765,34 @@ function shrinkPhoto(dataUrl) {
 }
 
 function nextEmpId() {
-  const nums = staff.map(s => parseInt(String(s.empId || "").replace(/\D/g, ""), 10)).filter(n => !isNaN(n));
+  const ids = staff.map(s => s.empId).concat(Object.values(idCards).map(c => c.fields && c.fields.empId));
+  const nums = ids.map(v => parseInt(String(v || "").replace(/\D/g, ""), 10)).filter(n => !isNaN(n));
   return ID_PREFIX + String((nums.length ? Math.max(...nums) : 0) + 1).padStart(4, "0");
 }
 const isoDay = d => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
 const dmy = iso => iso ? iso.split("-").reverse().join("/") : "";
+
+// Team members already shown on the website (/doctors/): their photo and qualification fill the card
+// automatically. Keyed by staff id (same ids as the Partner app team), matched by name as a fallback.
+const WEBSITE_TEAM = {
+  "dr-piyush-saxena": { name: "Dr. Piyush Saxena", photo: "/assets/images/dr-piyush-saxena.jpg", role: "Founder", qual: "General & Surgical Care Lead" },
+  "dr-harshit-nigam": { name: "Dr. Harshit Nigam", photo: "/assets/images/dr-harshit-nigam.jpg", role: "Doctor", qual: "MBBS, MD (Medicine)" },
+  "dr-desh-deepak-singh": { name: "Dr. Desh Deepak Singh (P.T.)", photo: "/assets/images/dr-desh-deepak-singh.jpg", role: "Physiotherapist", qual: "B.P.T., M.P.T. (Neuro)" },
+  "dr-akash-shrivastav": { name: "Dr. Akash Shrivastav", photo: "/assets/images/dr-akash.jpg", role: "Doctor", qual: "M.B.B.S." },
+  "dr-reshmi-r": { name: "Dr. Reshmi R", photo: "/assets/images/dr-reshmi-r.jpg", role: "Doctor", qual: "M.B.B.S." }
+};
+const personKey = n => String(n || "").toLowerCase().replace(/\(.*?\)|\bdr\.?\s*|[^a-z]/g, "");
+function websiteInfo(s) {
+  if (!s) return null;
+  return WEBSITE_TEAM[s.id] || Object.values(WEBSITE_TEAM).find(w => personKey(w.name) === personKey(s.name)) || null;
+}
+
+const DEFAULT_CROP = { x: 50, y: 30, z: 1 };
+// Photo position on the card: x/y = which part of the photo is in view (0-100 %), z = zoom.
+const cropStyle = c => {
+  const { x, y, z } = { ...DEFAULT_CROP, ...(c || {}) };
+  return `object-position:${x}% ${y}%;transform:scale(${z});transform-origin:${x}% ${y}%`;
+};
 
 function idcFromStaff(s) {
   const today = new Date(), valid = new Date(today);
@@ -776,24 +800,28 @@ function idcFromStaff(s) {
   valid.setDate(valid.getDate() - 1);
   const key = s ? s.id : "_custom";
   const saved = idCards[key];
-  if (saved && saved.photo) idPhotos[key] = saved.photo;
+  const web = websiteInfo(s);
+  idPhotos[key] = (saved && saved.photo) || (web && web.photo) || "";
   return {
-    ...defaultIdc(s, today, valid),
+    ...defaultIdc(s, web, today, valid),
     ...(saved ? saved.fields : {}),
     staffId: s ? s.id : ""
   };
 }
 
-function defaultIdc(s, today, valid) {
+// Card starts from the website details, then the staff profile. Card edits are saved only in
+// idCards/{staffId} and never change the staff profile or the Staff list.
+function defaultIdc(s, web, today, valid) {
   return {
     name: s ? s.name || "" : "",
-    role: s ? s.roleBadge || roleLabel(s.role) : "",
+    role: (web && web.role) || (s ? s.roleBadge || roleLabel(s.role) : ""),
     empId: s ? s.empId || "" : "",
-    qual: s ? s.designation || "" : "",
+    qual: (web && web.qual) || (s ? String(s.designation || "").split("•")[0].trim() : ""),
     blood: s ? s.bloodGroup || "" : "",
     phone: s ? s.phone || "" : "",
     issued: isoDay(today),
-    valid: isoDay(valid)
+    valid: isoDay(valid),
+    crop: { ...DEFAULT_CROP }
   };
 }
 
@@ -821,21 +849,27 @@ function renderIdCard() {
             <option value="">Someone else (type details)</option>
             ${staff.map(s => `<option value="${esc(s.id)}" ${s.id === idc.staffId ? "selected" : ""}>${esc(s.name)}${s.status === "inactive" ? " (deactivated)" : ""}</option>`).join("")}
           </select></label>
-        <label class="block text-xs font-bold text-slate-600">Photo
-          <input id="idc-photo" type="file" accept="image/*" class="mt-1 w-full text-xs"></label>
+        <div>
+          <div class="text-xs font-bold text-slate-600 mb-1">Photo</div>
+          <div class="flex gap-2">
+            <label class="flex-1 py-2 text-center text-xs font-bold bg-white border border-slate-300 rounded-xl hover:bg-slate-50 cursor-pointer"><i class="fa-solid fa-upload mr-1"></i>${idPhotos[idc.staffId || "_custom"] ? "Change" : "Upload"}
+              <input id="idc-photo" type="file" accept="image/*" class="hidden"></label>
+            <button type="button" id="idc-adjust" class="${idPhotos[idc.staffId || "_custom"] ? "" : "hidden "}flex-1 py-2 text-xs font-bold bg-white border border-slate-300 rounded-xl hover:bg-slate-50"><i class="fa-solid fa-crop-simple mr-1"></i>Crop / adjust</button>
+          </div>
+          ${websiteInfo(staff.find(s => s.id === idc.staffId)) ? '<p class="text-[11px] text-emerald-700 mt-1"><i class="fa-solid fa-globe mr-1"></i>Photo and qualification filled from the website.</p>' : ""}
+        </div>
         ${field("name", "Full name")}
         ${field("role", "Designation (on badge)")}
         <div class="grid grid-cols-2 gap-2">${field("empId", "Employee ID", 'placeholder="' + esc(nextEmpId()) + '"')}${field("blood", "Blood group", 'placeholder="B+"')}</div>
         ${field("qual", "Qualification")}
         ${field("phone", "Mobile")}
         <div class="grid grid-cols-2 gap-2">${field("issued", "Issued", 'type="date"')}${field("valid", "Valid till", 'type="date"')}</div>
-        <button type="button" id="idc-save" class="${idc.staffId ? "" : "hidden "}w-full py-2 text-xs font-bold bg-white border border-slate-300 rounded-xl hover:bg-slate-50"><i class="fa-solid fa-floppy-disk mr-1"></i>Save Employee ID &amp; blood group to profile</button>
         <div class="grid grid-cols-2 gap-2 pt-1">
           <button type="button" id="idc-print-a4" class="py-2.5 bg-sky-700 hover:bg-sky-800 text-white rounded-xl text-xs font-bold"><i class="fa-solid fa-print mr-1"></i>Print (A4)</button>
           <button type="button" id="idc-print-cr80" class="py-2.5 bg-teal-700 hover:bg-teal-800 text-white rounded-xl text-xs font-bold"><i class="fa-solid fa-id-card mr-1"></i>Card size PDF</button>
         </div>
         <p class="text-[11px] text-slate-500">A4 = front and back on one sheet to cut. Card size = 2 pages for a PVC card printer or print shop. In the print window choose <strong>Save as PDF</strong> to get a file.</p>
-        <p class="text-[11px] text-slate-500"><i class="fa-solid fa-cloud text-sky-600 mr-1"></i>Changes and the photo are saved to the admin account and show on every device. <span id="idc-status"></span> <button type="button" id="idc-reset" class="font-bold text-sky-700 underline">Reset to profile details</button></p>
+        <p class="text-[11px] text-slate-500"><i class="fa-solid fa-cloud text-sky-600 mr-1"></i>Card changes are saved for this card only (every device) and do not change the staff profile or Staff list. <span id="idc-status"></span> <button type="button" id="idc-reset" class="font-bold text-sky-700 underline">Reset card</button></p>
       </form>
       <div id="idc-sheet" class="flex flex-wrap gap-6 justify-center flex-1"></div>
     </div>`;
@@ -851,9 +885,16 @@ function renderIdCard() {
     if (!file) return;
     const key = idc.staffId || "_custom";
     const r = new FileReader();
-    r.onload = async () => { idPhotos[key] = await shrinkPhoto(r.result); persistIdc(true); drawIdCard(); };
+    r.onload = async () => {
+      idPhotos[key] = await shrinkPhoto(r.result);
+      idc.crop = { ...DEFAULT_CROP };
+      persistIdc(true);
+      renderIdCard();
+      openCropper();
+    };
     r.readAsDataURL(file);
   };
+  $("idc-adjust").onclick = openCropper;
   $("idc-reset").onclick = async () => {
     if (!confirm("Clear the photo and card edits for " + (idc.name || "this card") + "?")) return;
     clearTimeout(idcSaveTimer);
@@ -861,7 +902,6 @@ function renderIdCard() {
     idc = idcFromStaff(staff.find(s => s.id === idc.staffId));
     renderIdCard();
   };
-  $("idc-save").onclick = saveIdCardFields;
   $("idc-print-a4").onclick = () => printIdCard(false);
   $("idc-print-cr80").onclick = () => printIdCard(true);
   drawIdCard();
@@ -881,7 +921,7 @@ function drawIdCard() {
             <div><div class="nm">SRINIKA<br>MEDISURGE</div><div class="sub">DOORSTEP HEALTHCARE SERVICES</div></div>
           </div>
         </div>
-        <div class="photo">${photo ? `<img src="${photo}" alt="">`
+        <div class="photo">${photo ? `<img src="${esc(photo)}" alt="" style="${cropStyle(idc.crop)}">`
           : '<svg viewBox="0 0 24 24" fill="#315d99"><circle cx="12" cy="8" r="4.2"/><path d="M3.5 21c.8-4.4 4.3-7 8.5-7s7.7 2.6 8.5 7z"/></svg>'}</div>
         <div class="body">
           <div class="pname">${esc(idc.name || "Full Name")}</div>
@@ -894,7 +934,7 @@ function drawIdCard() {
           </dl>
         </div>
         <div class="stripe"></div>
-        <div class="foot"><span>Valid till <b>${esc(dmy(idc.valid))}</b></span><b>STAFF</b></div>
+        <div class="foot"><span>Valid till <b>${esc(dmy(idc.valid))}</b></span></div>
       </div></div>
     <div class="text-center"><div class="idc-cap text-[11px] font-bold tracking-widest text-slate-500 uppercase mb-2">Back</div>
       <div class="idc back">
@@ -925,9 +965,6 @@ function drawIdCard() {
 }
 
 function printIdCard(cardSize) {
-  // A printed card is official: keep its Employee ID and blood group on the staff profile too.
-  const s = staff.find(x => x.id === idc.staffId);
-  if (s && ((s.empId || "") !== idc.empId.trim() || (s.bloodGroup || "") !== idc.blood.trim())) saveIdCardFields();
   $("idc-page").textContent = cardSize
     ? "@media print { @page { size: 54mm 85.6mm; margin: 0; } }"
     : "@media print { @page { size: A4; margin: 15mm; } }";
@@ -939,16 +976,63 @@ function printIdCard(cardSize) {
   setTimeout(() => window.print(), 150);
 }
 
-async function saveIdCardFields() {
-  const s = staff.find(x => x.id === idc.staffId);
-  if (!s) return;
-  const empId = idc.empId.trim();
-  const clash = empId && staff.find(x => x.id !== s.id && (x.empId || "").toLowerCase() === empId.toLowerCase());
-  if (clash) { toast(empId + " already belongs to " + clash.name); return; }
-  try {
-    s.empId = empId;
-    s.bloodGroup = idc.blood.trim();
-    await saveStaff(s, s.email);
-    toast("Saved to " + s.name + "'s profile.");
-  } catch (e) { toast("Could not save: " + (e.code || e.message)); }
+// Crop / adjust: drag the photo inside a frame shaped like the card photo, zoom with the slider.
+// Only the position (idc.crop) is saved; the original photo is kept, so it can be re-adjusted any time.
+function openCropper() {
+  const src = idPhotos[idc.staffId || "_custom"];
+  if (!src) return;
+  const c = { ...DEFAULT_CROP, ...(idc.crop || {}) };
+  const FW = 220, FH = 250;   // same 22:25 shape as the photo on the card
+  const wrap = document.createElement("div");
+  wrap.className = "fixed inset-0 z-[70] bg-black/60 flex items-center justify-center p-4";
+  wrap.innerHTML = `
+    <div class="bg-white rounded-2xl w-full max-w-sm p-5 space-y-3">
+      <div class="flex items-center justify-between">
+        <h3 class="font-extrabold">Crop / adjust photo</h3>
+        <button type="button" data-crop="cancel" class="w-8 h-8 rounded-full bg-slate-100"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <p class="text-[11px] text-slate-500">Drag the photo to move it. Use the slider to zoom in or out.</p>
+      <div id="crop-frame" style="width:${FW}px;height:${FH}px;border-radius:14px;overflow:hidden;margin:0 auto;touch-action:none;cursor:grab;background:#e7eef6;box-shadow:0 0 0 3px #4a9599">
+        <img id="crop-img" src="${src}" alt="" draggable="false" style="width:100%;height:100%;object-fit:cover;user-select:none;pointer-events:none">
+      </div>
+      <label class="flex items-center gap-2 text-xs font-bold text-slate-600"><i class="fa-solid fa-magnifying-glass-minus"></i>
+        <input id="crop-zoom" type="range" min="1" max="3" step="0.01" value="${c.z}" class="flex-1 accent-teal-700">
+        <i class="fa-solid fa-magnifying-glass-plus"></i></label>
+      <div class="grid grid-cols-3 gap-2">
+        <button type="button" data-crop="reset" class="py-2 text-xs font-bold bg-white border border-slate-300 rounded-xl">Reset</button>
+        <button type="button" data-crop="cancel" class="py-2 text-xs font-bold bg-white border border-slate-300 rounded-xl">Cancel</button>
+        <button type="button" data-crop="apply" class="py-2 text-xs font-bold bg-teal-700 hover:bg-teal-800 text-white rounded-xl">Apply</button>
+      </div>
+    </div>`;
+  document.body.appendChild(wrap);
+  const img = wrap.querySelector("#crop-img"), frame = wrap.querySelector("#crop-frame"), zoom = wrap.querySelector("#crop-zoom");
+  const show = () => { img.style.cssText = "width:100%;height:100%;object-fit:cover;user-select:none;pointer-events:none;" + cropStyle(c); zoom.value = c.z; };
+  const clamp = v => Math.max(0, Math.min(100, v));
+  // How many pixels the photo can travel per axis, so dragging follows the finger roughly 1:1.
+  const travel = () => {
+    const w = img.naturalWidth || FW, h = img.naturalHeight || FH, s = Math.max(FW / w, FH / h);
+    return { x: Math.max(40, (w * s - FW) * c.z + FW * (c.z - 1)), y: Math.max(40, (h * s - FH) * c.z + FH * (c.z - 1)) };
+  };
+  let drag = null;
+  frame.onpointerdown = e => { drag = { x: e.clientX, y: e.clientY }; frame.setPointerCapture(e.pointerId); frame.style.cursor = "grabbing"; };
+  frame.onpointermove = e => {
+    if (!drag) return;
+    const t = travel();
+    c.x = clamp(c.x - (e.clientX - drag.x) / t.x * 100);
+    c.y = clamp(c.y - (e.clientY - drag.y) / t.y * 100);
+    drag = { x: e.clientX, y: e.clientY };
+    show();
+  };
+  frame.onpointerup = frame.onpointercancel = () => { drag = null; frame.style.cursor = "grab"; };
+  frame.onwheel = e => { e.preventDefault(); c.z = Math.max(1, Math.min(3, c.z - e.deltaY / 500)); show(); };
+  zoom.oninput = () => { c.z = parseFloat(zoom.value); show(); };
+  wrap.querySelectorAll("[data-crop]").forEach(b => {
+    b.onclick = () => {
+      const act = b.dataset.crop;
+      if (act === "reset") { Object.assign(c, DEFAULT_CROP); show(); return; }
+      if (act === "apply") { idc.crop = { x: Math.round(c.x * 10) / 10, y: Math.round(c.y * 10) / 10, z: Math.round(c.z * 100) / 100 }; persistIdc(true); drawIdCard(); }
+      wrap.remove();
+    };
+  });
+  show();
 }
