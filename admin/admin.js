@@ -128,7 +128,8 @@ async function loadPrices() {
 
 async function reloadAll() {
   try {
-    await Promise.all([loadTasks(), loadStaff(), loadPrices()]);
+    await Promise.all([loadTasks(), loadStaff(), loadPrices(),
+      loadIdCards().catch(e => toast("Could not load ID cards: " + (e.code || e.message) + " (publish the Firestore rules?)"))]);
   } catch (e) {
     toast("Could not load data: " + (e.code || e.message) + " (publish the Firestore rules?)");
   }
@@ -692,45 +693,70 @@ async function deleteStaff(id) {
 
 // ================= ID cards =================
 // Printable staff ID card (front + back). Details come from the staff profile and can be edited here.
-// Edits and the photo are remembered in this browser (localStorage), never uploaded anywhere.
+// Edits and the photo are saved in Firestore idCards/{staffId} (owner-only, see firestore.rules), so
+// the card is the same on every device. Like rxUploads, the compressed photo is kept inside the doc
+// because Cloud Storage is no longer free.
 const ID_PREFIX = "SMS-";
-const IDC_STORE_KEY = "srinika.idcards.v1";   // { last: staffId, cards: { staffId|"_custom": { fields, photo } } }
+const IDC_LAST_KEY = "srinika.idcards.last";   // last opened card, per browser
+const IDC_OLD_KEY = "srinika.idcards.v1";      // earlier browser-only drafts, moved to Firestore once
 const idPhotos = {};      // staffId -> photo data URL
+let idCards = {};         // staffId|"_custom" -> { fields, photo } from Firestore
 let idc = null;           // card being edited
+let idcSaveTimer = null;
 
-function readIdcStore() {
-  try { return JSON.parse(localStorage.getItem(IDC_STORE_KEY)) || { cards: {} }; } catch (e) { return { cards: {} }; }
-}
-function persistIdc() {
-  const key = idc.staffId || "_custom";
-  const store = readIdcStore();
-  const { staffId, ...fields } = idc;
-  store.cards = store.cards || {};
-  store.cards[key] = { fields, photo: idPhotos[key] || "" };
-  store.last = idc.staffId;
-  try { localStorage.setItem(IDC_STORE_KEY, JSON.stringify(store)); }
-  catch (e) {
-    store.cards[key].photo = "";
-    try { localStorage.setItem(IDC_STORE_KEY, JSON.stringify(store)); } catch (e2) {}
-    toast("Details remembered, but the photo is too big to keep in this browser.");
+async function loadIdCards() {
+  const snap = await db.collection("idCards").get();
+  idCards = {};
+  snap.docs.forEach(d => { idCards[d.id] = d.data(); });
+  // One-time move of cards that were only kept in this browser before.
+  let old = null;
+  try { old = JSON.parse(localStorage.getItem(IDC_OLD_KEY)); } catch (e) {}
+  if (old && old.cards) {
+    for (const [key, card] of Object.entries(old.cards)) {
+      if (idCards[key]) continue;
+      idCards[key] = card;
+      await writeIdCard(key).catch(() => {});
+    }
+    try { localStorage.removeItem(IDC_OLD_KEY); } catch (e) {}
   }
 }
-function forgetIdc(key) {
-  const store = readIdcStore();
-  if (store.cards) delete store.cards[key];
-  delete idPhotos[key];
-  try { localStorage.setItem(IDC_STORE_KEY, JSON.stringify(store)); } catch (e) {}
+function writeIdCard(key) {
+  const card = idCards[key];
+  return db.collection("idCards").doc(key).set({ fields: card.fields, photo: card.photo || "", updatedAtMs: Date.now() });
 }
-// Shrink the photo (max 600 px tall, JPEG) so many cards fit in localStorage.
+function setIdcStatus(text, bad) {
+  const el = $("idc-status");
+  if (el) { el.textContent = text; el.className = "font-bold " + (bad ? "text-rose-600" : "text-emerald-700"); }
+}
+// Save the card being edited. Typing is batched (0.8 s) so Firestore is not written on every key.
+function persistIdc(now) {
+  const key = idc.staffId || "_custom";
+  const { staffId, ...fields } = idc;
+  idCards[key] = { fields, photo: idPhotos[key] || "" };
+  try { localStorage.setItem(IDC_LAST_KEY, idc.staffId); } catch (e) {}
+  setIdcStatus("Saving...");
+  clearTimeout(idcSaveTimer);
+  idcSaveTimer = setTimeout(() => {
+    writeIdCard(key)
+      .then(() => setIdcStatus("Saved"))
+      .catch(e => setIdcStatus("Not saved: " + (e.code || e.message), true));
+  }, now ? 0 : 800);
+}
+async function forgetIdc(key) {
+  delete idCards[key];
+  delete idPhotos[key];
+  await db.collection("idCards").doc(key).delete();
+}
+// Shrink the photo (max 500 px tall, JPEG, ~50 KB) to stay well under the Firestore 1 MB doc limit.
 function shrinkPhoto(dataUrl) {
   return new Promise(resolve => {
     const img = new Image();
     img.onload = () => {
-      const scale = Math.min(1, 600 / img.height);
+      const scale = Math.min(1, 500 / img.height);
       const c = document.createElement("canvas");
       c.width = Math.round(img.width * scale); c.height = Math.round(img.height * scale);
       c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
-      resolve(c.toDataURL("image/jpeg", 0.85));
+      resolve(c.toDataURL("image/jpeg", 0.82));
     };
     img.onerror = () => resolve(dataUrl);
     img.src = dataUrl;
@@ -749,7 +775,7 @@ function idcFromStaff(s) {
   valid.setFullYear(valid.getFullYear() + 1);
   valid.setDate(valid.getDate() - 1);
   const key = s ? s.id : "_custom";
-  const saved = (readIdcStore().cards || {})[key];
+  const saved = idCards[key];
   if (saved && saved.photo) idPhotos[key] = saved.photo;
   return {
     ...defaultIdc(s, today, valid),
@@ -779,7 +805,8 @@ function openIdCard(staffId) {
 
 function renderIdCard() {
   if (!idc) {
-    const last = readIdcStore().last;
+    let last = null;
+    try { last = localStorage.getItem(IDC_LAST_KEY); } catch (e) {}
     idc = idcFromStaff(last === "" ? null : staff.find(s => s.id === last) || staff.find(s => s.status !== "inactive"));
   }
   const field = (k, label, extra = "") => `<label class="block text-xs font-bold text-slate-600">${label}
@@ -808,24 +835,29 @@ function renderIdCard() {
           <button type="button" id="idc-print-cr80" class="py-2.5 bg-teal-700 hover:bg-teal-800 text-white rounded-xl text-xs font-bold"><i class="fa-solid fa-id-card mr-1"></i>Card size PDF</button>
         </div>
         <p class="text-[11px] text-slate-500">A4 = front and back on one sheet to cut. Card size = 2 pages for a PVC card printer or print shop. In the print window choose <strong>Save as PDF</strong> to get a file.</p>
-        <p class="text-[11px] text-slate-500"><i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i>Changes and the photo are remembered in this browser (not uploaded). <button type="button" id="idc-reset" class="font-bold text-sky-700 underline">Reset to profile details</button></p>
+        <p class="text-[11px] text-slate-500"><i class="fa-solid fa-cloud text-sky-600 mr-1"></i>Changes and the photo are saved to the admin account and show on every device. <span id="idc-status"></span> <button type="button" id="idc-reset" class="font-bold text-sky-700 underline">Reset to profile details</button></p>
       </form>
       <div id="idc-sheet" class="flex flex-wrap gap-6 justify-center flex-1"></div>
     </div>`;
 
-  $("idc-staff").onchange = e => { idc = idcFromStaff(staff.find(s => s.id === e.target.value)); persistIdc(); renderIdCard(); };
+  $("idc-staff").onchange = e => {
+    idc = idcFromStaff(staff.find(s => s.id === e.target.value));
+    try { localStorage.setItem(IDC_LAST_KEY, idc.staffId); } catch (err) {}
+    renderIdCard();
+  };
   $("tab-idcard").querySelectorAll("[data-idc]").forEach(i => { i.oninput = () => { idc[i.dataset.idc] = i.value; persistIdc(); drawIdCard(); }; });
   $("idc-photo").onchange = e => {
     const file = e.target.files[0];
     if (!file) return;
     const key = idc.staffId || "_custom";
     const r = new FileReader();
-    r.onload = async () => { idPhotos[key] = await shrinkPhoto(r.result); persistIdc(); drawIdCard(); };
+    r.onload = async () => { idPhotos[key] = await shrinkPhoto(r.result); persistIdc(true); drawIdCard(); };
     r.readAsDataURL(file);
   };
-  $("idc-reset").onclick = () => {
+  $("idc-reset").onclick = async () => {
     if (!confirm("Clear the photo and card edits for " + (idc.name || "this card") + "?")) return;
-    forgetIdc(idc.staffId || "_custom");
+    clearTimeout(idcSaveTimer);
+    try { await forgetIdc(idc.staffId || "_custom"); } catch (e) { toast("Could not clear: " + (e.code || e.message)); return; }
     idc = idcFromStaff(staff.find(s => s.id === idc.staffId));
     renderIdCard();
   };
