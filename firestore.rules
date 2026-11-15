@@ -40,7 +40,9 @@ service cloud.firestore {
 
       // Owner sees everything; a doctor/nurse only the visits assigned to them
       // (their app must query with where('assignedTo','==', staffId)).
-      allow list: if isOwner() || (isStaff() && resource.data.assignedTo == myStaffId());
+      // A signed-in patient may list only their own bookings (query must filter patientUid == uid).
+      allow list: if isOwner() || (isStaff() && resource.data.assignedTo == myStaffId())
+                    || (signedIn() && resource.data.patientUid == request.auth.uid);
 
       // Public booking creation: always starts pending + unassigned, strict shape.
       allow create: if validPublicBooking(request.resource.data)
@@ -78,7 +80,9 @@ service cloud.firestore {
           'bookingNo','patientName','phone','age','gender','area','address','landmark','gps',
           'serviceId','serviceName','category','preferredDoctor','preferredDate','timeSlot',
           'notes','fee','status','paymentStatus','paymentMode','paymentRef','source',
-          'createdAtMs','requestedAt'])
+          'createdAtMs','requestedAt','patientUid'])
+        // optional: a booking made while signed in is tied to that patient's own uid only
+        && (!('patientUid' in d) || (signedIn() && d.patientUid == request.auth.uid))
         && d.keys().hasAll(['patientName','phone','serviceName','status','source','createdAtMs'])
         && d.status == 'pending'
         && d.paymentStatus in ['unpaid','claimed']
@@ -93,6 +97,25 @@ service cloud.firestore {
         && (!('gps' in d) || str(d.gps, 100))
         && (!('paymentRef' in d) || str(d.paymentRef, 80))
         && (!('fee' in d) || (d.fee is number && d.fee >= 0 && d.fee <= 100000));
+    }
+
+    // ---------- Patient profiles (patient app, optional Google sign-in) ----------
+    // Each patient can read, write and delete ONLY their own profile (doc id = their uid).
+    // Not readable by staff: the visit details staff need are already on the booking itself.
+    match /patients/{uid} {
+      allow read, delete: if signedIn() && request.auth.uid == uid;
+      allow create, update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(
+             ['name','phone','age','area','address','landmark','gps','email','updatedAtMs'])
+        && str(request.resource.data.name, 100)
+        && str(request.resource.data.phone, 15)
+        && str(request.resource.data.age, 3)
+        && str(request.resource.data.area, 200)
+        && str(request.resource.data.address, 300)
+        && str(request.resource.data.landmark, 200)
+        && str(request.resource.data.gps, 100)
+        && str(request.resource.data.email, 200)
+        && request.resource.data.updatedAtMs is number;
     }
 
     // ---------- Team ----------

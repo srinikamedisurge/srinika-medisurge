@@ -25,6 +25,7 @@ const { renderAboutPage } = require('./templates/about_page.js');
 const { renderCareersOverview, renderJobDetailPage, buildJobPostingSchema, CAREERS_POSTER } = require('./templates/careers_pages.js');
 const {
   renderPrivacyPolicy,
+  renderDeleteAccount,
   renderTermsAndConditions,
   renderRefundPolicy,
   renderMedicalDisclaimer,
@@ -501,6 +502,17 @@ const privacyHtml = renderMasterLayout({
 });
 writeHtml("privacy-policy/index.html", privacyHtml);
 registerSitemap("/privacy-policy/", "0.4", "yearly");
+
+const deleteAccountHtml = renderMasterLayout({
+  title: "Delete Your Account | Srinika Medisurge",
+  metaDescription: "How to delete your Srinika Medisurge patient app account and the profile data saved with it.",
+  canonicalUrl: "/delete-account/",
+  currentPath: "/delete-account/",
+  breadcrumbs: [{ name: "Delete Account", url: "/delete-account/" }],
+  content: renderDeleteAccount()
+});
+writeHtml("delete-account/index.html", deleteAccountHtml);
+registerSitemap("/delete-account/", "0.3", "yearly");
 
 const termsHtml = renderMasterLayout({
   title: "Terms and Conditions | Srinika Medisurge Lucknow",
