@@ -20,7 +20,9 @@ function renderPrivacyPolicy() {
             <li><strong>Personal Contact Information:</strong> Patient name, contact phone number, email address, and home residence address in Lucknow.</li>
             <li><strong>Clinical & Medical Data:</strong> Medical prescriptions, clinical history, current symptoms, attending physician notes, and photographs of wounds or diagnostic reports shared for clinical assessment.</li>
             <li><strong>Payment Information:</strong> Transaction reference IDs, UPI payment timestamps, and Razorpay confirmation tokens. <em>We do not store credit/debit card numbers or banking passwords on our servers.</em></li>
+            <li><strong>Mobile App Information:</strong> If you use the Srinika Medisurge app and choose to sign in with Google, we receive your Google account name and email address. The profile you save (name, phone, age, area, address, landmark) is stored against your account. If you tap the GPS button, your approximate location is attached to your booking so the nurse or doctor can reach you. If you photograph a prescription, the photo is sent to us. Location and camera are used only when you choose these features.</li>
           </ul>
+          <p>Signing in is optional: you can book a visit without creating an account.</p>
 
           <h2 class="text-lg font-bold text-slate-900 mt-6">2. How We Use Your Information</h2>
           <ul class="list-disc pl-5 space-y-1">
@@ -35,7 +37,16 @@ function renderPrivacyPolicy() {
             Your clinical information is strictly restricted to attending medical personnel (Dr. Piyush Saxena and assigned certified nurses). We do not sell, rent, or trade patient health records to third-party commercial marketing agencies.
           </p>
 
-          <h2 class="text-lg font-bold text-slate-900 mt-6">4. Contact Information</h2>
+          <p>
+            Data is stored on Google Firebase (Google Cloud) servers and is encrypted in transit. Sign-in is handled by Google; we never see your Google password. Online payments are processed by Razorpay. These providers act on our behalf and are not allowed to use your data for their own marketing. Access to bookings and profiles is restricted by security rules: a patient can read only their own profile, and staff see only the visits assigned to them.
+          </p>
+
+          <h2 class="text-lg font-bold text-slate-900 mt-6">4. Retention & Deleting Your Data</h2>
+          <p>
+            Your app profile is kept until you delete your account. You can delete your account inside the app (Profile tab, "Delete my account") or by following the steps at <a href="/delete-account/" class="text-sky-700 underline">${CONFIG.siteUrl}/delete-account/</a>. This permanently removes your sign-in account and your saved profile. Clinical records of visits already carried out (bookings, prescriptions) are retained as required for medical record-keeping and patient safety, and are deleted when that obligation ends. Our services are not directed at children under 13; bookings for minors are made by a parent or guardian.
+          </p>
+
+          <h2 class="text-lg font-bold text-slate-900 mt-6">5. Contact Information</h2>
           <p>
             If you have questions about your personal data or wish to request data updates, please contact us at:<br>
             <strong>${CONFIG.brandName}</strong><br>
@@ -43,6 +54,43 @@ function renderPrivacyPolicy() {
             Phone: ${CONFIG.phoneFormatted} | WhatsApp: ${CONFIG.whatsappDisplay}<br>
             ${CONFIG.email && !CONFIG.email.includes('[') ? `Email: ${CONFIG.email}<br>` : ''}
           </p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Public "delete your account" page (Google Play requires a web link for apps with accounts).
+function renderDeleteAccount() {
+  return `
+    <div class="py-12 sm:py-16 bg-white">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 font-heading mb-3">
+          Delete Your Account
+        </h1>
+        <p class="text-xs text-slate-500 mb-8">Srinika Medisurge patient app • Last Updated: November 2026</p>
+
+        <div class="prose prose-slate max-w-none text-xs sm:text-sm text-slate-700 leading-relaxed space-y-5">
+          <p>You can delete your Srinika Medisurge account and the data saved with it at any time.</p>
+
+          <h2 class="text-lg font-bold text-slate-900 mt-6">Option 1: Inside the app</h2>
+          <ol class="list-decimal pl-5 space-y-1">
+            <li>Open the Srinika Medisurge app and go to the <strong>Profile</strong> tab.</li>
+            <li>Tap <strong>Delete my account</strong> and confirm.</li>
+          </ol>
+
+          <h2 class="text-lg font-bold text-slate-900 mt-6">Option 2: Request by message</h2>
+          <p>
+            If you no longer have the app, send us your request on WhatsApp at ${CONFIG.whatsappDisplay}, call ${CONFIG.phoneFormatted}${CONFIG.email && !CONFIG.email.includes('[') ? `, or email ${CONFIG.email}` : ''}. Please mention the Google email you signed in with. We delete the account within 7 days.
+          </p>
+
+          <h2 class="text-lg font-bold text-slate-900 mt-6">What is deleted and what is kept</h2>
+          <ul class="list-disc pl-5 space-y-1">
+            <li><strong>Deleted:</strong> your sign-in account, your Google name and email held with it, and the profile saved in the cloud (name, phone, age, area, address, landmark, GPS pin).</li>
+            <li><strong>Kept:</strong> records of home visits and consultations already carried out (booking details, prescriptions, payment references). These are medical records that we must keep for patient safety and legal compliance, and they are deleted once that period ends. They are visible only to the attending doctor and the clinic owner.</li>
+          </ul>
+
+          <p>See also our <a href="/privacy-policy/" class="text-sky-700 underline">Privacy Policy</a>.</p>
         </div>
       </div>
     </div>
@@ -200,6 +248,7 @@ function render404Page() {
 
 module.exports = {
   renderPrivacyPolicy,
+  renderDeleteAccount,
   renderTermsAndConditions,
   renderRefundPolicy,
   renderMedicalDisclaimer,
