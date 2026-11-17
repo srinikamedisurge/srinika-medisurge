@@ -964,4 +964,4 @@ const BLOG_POSTS = [
   }
 ];
 
-module.exports = BLOG_POSTS;
+module.exports = BLOG_POSTS.concat(require('./blog_nov2026.js'));

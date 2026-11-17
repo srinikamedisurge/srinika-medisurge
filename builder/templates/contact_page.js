@@ -208,6 +208,7 @@ function renderContactPage() {
 
         const text = "Namaste Dr. Piyush Saxena,\\n*Inquiry from Srinika Medisurge Contact Page*\\n- Name: " + name + "\\n- Phone: " + phone + "\\n- Area: " + area + "\\n- Service: " + service + "\\n- Requirement: " + msg;
         const waUrl = "https://wa.me/" + "${CONFIG.whatsappNumber}?text=" + encodeURIComponent(text);
+        if (window.srinikaTrack) window.srinikaTrack("generate_lead", { method: "contact_form", service: service });
         window.open(waUrl, "_blank");
       }
     </script>

@@ -418,7 +418,6 @@ document.addEventListener("DOMContentLoaded", () => {
   renderServices("all");
   renderCoverageAreas("");
   setupEventListeners();
-  setupAnalyticsTracking();
 
   // Prices: show cached owner prices immediately, then refresh from Firestore and re-apply.
   SrinikaPrices.applyDom();
@@ -790,18 +789,21 @@ function bookForArea(areaName) {
 function quickWhatsAppService(serviceTitle) {
   const msg = `Namaste Dr. Piyush Saxena,\nI need to book *${serviceTitle}* at my home in Lucknow.\nPlease let me know the earliest time a nursing professional can visit.`;
   const url = `https://wa.me/${CLINIC_INFO.whatsappNumber}?text=${encodeURIComponent(msg)}`;
+  if (window.srinikaTrack) window.srinikaTrack("click_whatsapp", { link_location: "button" });
   window.open(url, "_blank");
 }
 
 function quickWhatsAppPrice(serviceTitle) {
   const msg = `Namaste Srinika Medisurge,\nPlease share the charges for *${serviceTitle}* in Lucknow.`;
   const url = `https://wa.me/${CLINIC_INFO.whatsappNumber}?text=${encodeURIComponent(msg)}`;
+  if (window.srinikaTrack) window.srinikaTrack("click_whatsapp", { link_location: "button" });
   window.open(url, "_blank");
 }
 
 function quickWhatsAppGeneral() {
   const msg = `Namaste Dr. Piyush Saxena,\nI am looking for doorstep medical & nursing services from Srinika Medisurge in Lucknow. Please share details.`;
   const url = `https://wa.me/${CLINIC_INFO.whatsappNumber}?text=${encodeURIComponent(msg)}`;
+  if (window.srinikaTrack) window.srinikaTrack("click_whatsapp", { link_location: "button" });
   window.open(url, "_blank");
 }
 
@@ -933,6 +935,7 @@ function handleBookingSubmit(e) {
   // Save booking to Firestore (Partner app picks it up live); WhatsApp stays as instant alert
   const cloudTask = buildCloudTask({ name, phone, doctor, service, address, date: formattedDate, time: timeSlot, notes });
   SrinikaCloud.submit("tasks", cloudTask);
+  if (window.srinikaTrack) window.srinikaTrack("generate_lead", { method: "booking_form", service: service });
 
   const formContainer = document.getElementById("modal-form-content");
   const successContainer = document.getElementById("modal-success-content");
@@ -954,6 +957,7 @@ function handleBookingSubmit(e) {
 
 // Launch Razorpay Payment Gateway Modal
 function launchRazorpayPayment() {
+  if (window.srinikaTrack) window.srinikaTrack("begin_checkout", { method: "razorpay", service: (typeof activeConsultationData !== "undefined" && activeConsultationData) ? activeConsultationData.service : "" });
   if (!activeConsultationData) {
     alert("Please fill your patient details first.");
     backToBookingForm();
@@ -1015,6 +1019,7 @@ function launchRazorpayPayment() {
 // Unified Payment Success & Real Invoice Population
 function onPaymentVerifiedSuccess(transactionId, paymentMode) {
   if (!activeConsultationData) return;
+  if (window.srinikaTrack) window.srinikaTrack("purchase", { transaction_id: transactionId, method: paymentMode, service: activeConsultationData.service });
 
   const doctorName = activeConsultationData.doctor || "Dr. Piyush Saxena";
 
@@ -1325,43 +1330,4 @@ async function submitPatientFeedback(event) {
       submitBtn.innerHTML = origBtnContent;
     }
   }
-}
-
-// Track GA4 and custom conversion events
-function setupAnalyticsTracking() {
-  // Call clicks
-  document.querySelectorAll('a[href^="tel:"]').forEach(link => {
-    link.addEventListener("click", () => {
-      if (typeof gtag === 'function') {
-        gtag('event', 'call_click', {
-          event_category: 'contact',
-          event_label: link.getAttribute('href')
-        });
-      }
-    });
-  });
-
-  // WhatsApp clicks
-  document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
-    link.addEventListener("click", () => {
-      if (typeof gtag === 'function') {
-        gtag('event', 'whatsapp_click', {
-          event_category: 'contact',
-          event_label: 'whatsapp_lead'
-        });
-      }
-    });
-  });
-
-  // Book Visit CTA clicks
-  document.querySelectorAll('a[href="/book/"]').forEach(link => {
-    link.addEventListener("click", () => {
-      if (typeof gtag === 'function') {
-        gtag('event', 'book_visit_click', {
-          event_category: 'conversion',
-          event_label: 'book_visit_cta'
-        });
-      }
-    });
-  });
 }
