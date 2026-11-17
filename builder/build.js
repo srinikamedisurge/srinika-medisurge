@@ -210,7 +210,7 @@ const doctorsSchema = {
 
 const doctorsHtml = renderMasterLayout({
   title: "Specialist Doctors & Clinicians Lucknow | Dr. Piyush Saxena",
-  metaDescription: "Meet our dedicated doctors & clinicians in Lucknow: Dr. Piyush Saxena, Dr. Harshit Nigam (MD), Dr. Desh Deepak Singh (MPT Neuro), Dr. Akash Shrivastav & Dr. Reshmi R. Call +91 96530 01359.",
+  metaDescription: "Meet our dedicated doctors & clinicians in Lucknow: Dr. Piyush Saxena, Dr. Harshit Nigam (MD), Dr. Desh Deepak Singh (MPT Neuro), Dr. Akash Shrivastav, Dr. Reshmi R, Dr. Varun Kumar Singh & Dr. Gauri Verma. Call +91 96530 01359.",
   canonicalUrl: "/doctors/",
   currentPath: "/doctors/",
   breadcrumbs: [

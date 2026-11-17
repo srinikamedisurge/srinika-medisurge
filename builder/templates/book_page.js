@@ -76,6 +76,8 @@ function renderBookPage() {
                   <option value="Dr. Harshit Nigam">Dr. Harshit Nigam (MBBS, MD • Senior Medical Officer)</option>
                   <option value="Dr. Akash Shrivastav">Dr. Akash Shrivastav (M.B.B.S. • UP Medical Council Reg. • Emergency)</option>
                   <option value="Dr. Reshmi R">Dr. Reshmi R (M.B.B.S. • UP Medical Council Reg. • Physician)</option>
+                  <option value="Dr. Varun Kumar Singh">Dr. Varun Kumar Singh (M.B.B.S. • UP Medical Council Reg. • Physician)</option>
+                  <option value="Dr. Gauri Verma">Dr. Gauri Verma (B.H.M.S., M.D. Repertory • Homoeopathic Physician)</option>
                   <option value="Dr. Desh Deepak Singh">Dr. Desh Deepak Singh (B.P.T., M.P.T. • Neuro Physiotherapist)</option>
                 </select>
               </div>

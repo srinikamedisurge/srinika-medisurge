@@ -779,7 +779,9 @@ const WEBSITE_TEAM = {
   "dr-harshit-nigam": { name: "Dr. Harshit Nigam", photo: "/assets/images/dr-harshit-nigam.jpg", role: "Doctor", qual: "MBBS, MD (Medicine)" },
   "dr-desh-deepak-singh": { name: "Dr. Desh Deepak Singh (P.T.)", photo: "/assets/images/dr-desh-deepak-singh.jpg", role: "Physiotherapist", qual: "B.P.T., M.P.T. (Neuro)" },
   "dr-akash-shrivastav": { name: "Dr. Akash Shrivastav", photo: "/assets/images/dr-akash.jpg", role: "Doctor", qual: "M.B.B.S." },
-  "dr-reshmi-r": { name: "Dr. Reshmi R", photo: "/assets/images/dr-reshmi-r.jpg", role: "Doctor", qual: "M.B.B.S." }
+  "dr-reshmi-r": { name: "Dr. Reshmi R", photo: "/assets/images/dr-reshmi-r.jpg", role: "Doctor", qual: "M.B.B.S." },
+  "dr-varun-kumar-singh": { name: "Dr. Varun Kumar Singh", photo: "/assets/images/dr-varun-kumar-singh.jpg", role: "Doctor", qual: "M.B.B.S." },
+  "dr-gauri-verma": { name: "Dr. Gauri Verma", photo: "/assets/images/dr-gauri-verma.jpg", role: "Doctor", qual: "B.H.M.S., M.D. (Repertory)" }
 };
 const personKey = n => String(n || "").toLowerCase().replace(/\(.*?\)|\bdr\.?\s*|[^a-z]/g, "");
 function websiteInfo(s) {

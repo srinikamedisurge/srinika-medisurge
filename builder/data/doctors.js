@@ -100,6 +100,44 @@ const DOCTORS = [
     }
   },
   {
+    id: "dr-varun-kumar-singh",
+    name: "Dr. Varun Kumar Singh",
+    role: "Physician & General Practitioner",
+    specialty: "General Medicine & Home Clinical Care",
+    degrees: "M.B.B.S. • UP Medical Council Registered",
+    experience: "M.B.B.S., Anhui Medical University (2024) • Registered with Uttar Pradesh Medical Council",
+    image: "assets/images/dr-varun-kumar-singh.jpg",
+    bio: "Registered physician (M.B.B.S.) providing general medical consultations, clinical assessment, vital monitoring, and doorstep and online care for patients across Lucknow.",
+    badges: ["M.B.B.S. • UP Medical Council Reg.", "General Physician", "Online & Doorstep"],
+    pricing: "Online & Doorstep Consultation",
+    schemaSpecialty: "General Practice, General Medicine",
+    actions: {
+      call: true,
+      whatsapp: true,
+      onlineConsult: true,
+      doorstepVisit: true
+    }
+  },
+  {
+    id: "dr-gauri-verma",
+    name: "Dr. Gauri Verma",
+    role: "Consultant Homoeopathic Physician",
+    specialty: "Homoeopathy & General Medical Care",
+    degrees: "B.H.M.S., M.D. (Repertory)",
+    experience: "10+ years • Ex-Medical Officer, Apollomedics Hospital Lucknow • Ex-ICU Medical Officer, Bhailal Amin General Hospital • Ex-Emergency Medical Officer, Mayo Medical Centre",
+    image: "assets/images/dr-gauri-verma.jpg",
+    bio: "B.H.M.S., M.D. (Repertory) with over 10 years of clinical experience across multispeciality hospitals, emergency care, ICU management and homoeopathic practice. Provides personalised treatment plans for acute and chronic conditions through online and doorstep consultations.",
+    badges: ["B.H.M.S., M.D. (Repertory)", "Homoeopathy", "10+ Years Experience"],
+    pricing: "Online & Doorstep Consultation",
+    schemaSpecialty: "Homeopathy, General Practice",
+    actions: {
+      call: true,
+      whatsapp: true,
+      onlineConsult: true,
+      doorstepVisit: true
+    }
+  },
+  {
     id: "certified-nursing-officers",
     name: "Certified Clinical Nursing Officers",
     role: "GNM / B.Sc Certified Nursing Staff",
