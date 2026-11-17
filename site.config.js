@@ -64,7 +64,7 @@ const SITE_CONFIG = {
   googleReviewLink: "[GOOGLE_REVIEW_LINK]", // Placeholder: e.g. https://g.page/r/.../review
   googleSearchConsoleTag: "[GSC_VERIFICATION_TAG]",
   existingGscTag: "ONoqlJnFJdarJCMS-sXYtBwhWBmaCaDP1jOxYsOmnVs",
-  ga4Id: "[GA4_ID]", // Placeholder: e.g. G-XXXXXXXXXX
+  ga4Id: "G-SFPLGFHD1X", // GA4 web stream "Srinika Website"
   metaPixelId: "[META_PIXEL_ID]", // Placeholder: e.g. XXXXXXXXXXXXXXX
 
   // Social Links
