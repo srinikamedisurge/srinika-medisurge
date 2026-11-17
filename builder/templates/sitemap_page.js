@@ -9,6 +9,7 @@ function renderSitemapPage() {
   const mainPages = [
     { title: "Home", url: "/", desc: "Doorstep healthcare, nursing care and specialist doctor consultations across Lucknow." },
     { title: "Services Overview", url: "/services/", desc: "Comprehensive range of medical and surgical doorstep home procedures." },
+    { title: "Care by Condition", url: "/conditions/", desc: "Home care for stroke, post-surgery, bedridden, elderly, dementia and cancer patients." },
     { title: "Our Doctors & Clinicians", url: "/doctors/", desc: "Specialist doctors, neuro physiotherapists, and certified nursing staff." },
     { title: "Medical Equipment Rental", url: "/equipment/", desc: "Hospital-grade BiPAP, oxygen concentrators, and monitoring equipment." },
     { title: "Areas We Serve", url: "/areas/", desc: "Locality coverage and rapid response times across Lucknow." },

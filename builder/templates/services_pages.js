@@ -119,6 +119,15 @@ function renderServicesOverview() {
             </div>
           `).join('')}
         </div>
+
+        <!-- Care by Condition -->
+        <div class="mt-12 p-6 sm:p-8 bg-sky-50 rounded-3xl border border-sky-100">
+          <h2 class="text-xl font-bold text-slate-900 font-heading mb-1">Not sure which service you need?</h2>
+          <p class="text-sm text-slate-600 mb-4">Start from the patient's situation and see the care that fits.</p>
+          <div class="flex flex-wrap gap-2">
+            ${require('../data/conditions.js').map(c => `<a href="/conditions/${c.slug}/" class="px-4 py-2 rounded-xl bg-white hover:bg-sky-100 border border-sky-200 text-xs sm:text-sm font-semibold text-sky-700 transition">${c.name}</a>`).join('')}
+          </div>
+        </div>
       </div>
     </div>
   `;

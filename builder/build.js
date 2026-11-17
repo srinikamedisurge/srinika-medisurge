@@ -9,10 +9,12 @@ const TESTIMONIALS = require('./data/testimonials.js');
 const AREAS = require('./data/areas.js');
 const BLOG_POSTS = require('./data/blog.js');
 const JOBS = require('./data/jobs.js');
+const CONDITIONS = require('./data/conditions.js');
 
 const { renderMasterLayout } = require('./templates/layout.js');
 const { renderHomePage } = require('./templates/homepage.js');
 const { renderServicesOverview, renderServiceDetailPage } = require('./templates/services_pages.js');
+const { renderConditionsOverview, renderConditionPage } = require('./templates/conditions_pages.js');
 const { renderDoctorsPage } = require('./templates/doctors_page.js');
 const { renderEquipmentPage } = require('./templates/equipment_page.js');
 const { renderAreasOverview, renderAreaDetailPage } = require('./templates/areas_pages.js');
@@ -85,7 +87,8 @@ const sitemapEntries = [];
 // Pages whose content last changed on a known date. Google only trusts lastmod when it
 // tracks real changes, so pages keep their own date instead of all moving on every build.
 const DEFAULT_LASTMOD = "2026-10-21";
-const CONTENT_UPDATED = "2026-10-22"; // related-guide and nearby-area links added
+const CONTENT_UPDATED = "2026-10-22";
+const CONDITIONS_DATE = "2026-11-17"; // condition landing pages added // related-guide and nearby-area links added
 
 function registerSitemap(url, priority = "0.8", changefreq = "weekly", lastmod = DEFAULT_LASTMOD) {
   sitemapEntries.push({
@@ -187,6 +190,60 @@ SERVICES.forEach(service => {
 
   writeHtml(`services/${service.slug}/index.html`, servicePageHtml);
   registerSitemap(`/services/${service.slug}/`, "0.9", "weekly", CONTENT_UPDATED);
+});
+
+// 3b. CONDITION LANDING PAGES (/conditions/)
+const conditionsOverviewHtml = renderMasterLayout({
+  title: "Home Care by Patient Condition in Lucknow | Srinika Medisurge",
+  metaDescription: "Home care for stroke, post-surgery, bedridden, elderly, dementia and cancer patients in Lucknow. Nurses, attendants, physiotherapy and doctor visits. Call +91 96530 01359.",
+  canonicalUrl: "/conditions/",
+  currentPath: "/conditions/",
+  breadcrumbs: [
+    { name: "Care by Condition", url: "/conditions/" }
+  ],
+  content: renderConditionsOverview()
+});
+writeHtml("conditions/index.html", conditionsOverviewHtml);
+registerSitemap("/conditions/", "0.9", "weekly", CONDITIONS_DATE);
+
+CONDITIONS.forEach(c => {
+  const conditionSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${CONFIG.siteUrl}/conditions/${c.slug}/#webpage`,
+        "name": c.title,
+        "description": c.metaDescription,
+        "inLanguage": "en-IN",
+        "about": { "@type": "MedicalCondition", "name": c.name },
+        "provider": {
+          "@type": "MedicalBusiness",
+          "name": CONFIG.brandName,
+          "telephone": CONFIG.phoneTel,
+          "url": CONFIG.siteUrl
+        },
+        "areaServed": { "@type": "City", "name": "Lucknow" }
+      },
+      buildFaqSchema(c.faqs)
+    ].filter(Boolean)
+  };
+
+  const conditionHtml = renderMasterLayout({
+    title: c.metaTitle,
+    metaDescription: c.metaDescription,
+    canonicalUrl: `/conditions/${c.slug}/`,
+    currentPath: `/conditions/${c.slug}/`,
+    breadcrumbs: [
+      { name: "Care by Condition", url: "/conditions/" },
+      { name: c.shortTitle, url: `/conditions/${c.slug}/` }
+    ],
+    schema: conditionSchema,
+    content: renderConditionPage(c)
+  });
+
+  writeHtml(`conditions/${c.slug}/index.html`, conditionHtml);
+  registerSitemap(`/conditions/${c.slug}/`, "0.9", "weekly", CONDITIONS_DATE);
 });
 
 // 4. DOCTORS PAGE
