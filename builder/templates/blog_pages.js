@@ -8,7 +8,11 @@ const POSTS_BY_DATE = [...BLOG_POSTS].sort((a, b) => b.date.localeCompare(a.date
 
 // Up to `limit` other posts, same category first, then newest.
 function relatedPosts(post, limit = 3) {
-  const others = POSTS_BY_DATE.filter(p => p.slug !== post.slug);
+  // Same-language posts first, so Hindi readers are sent to Hindi guides and vice versa.
+  const lang = post.lang || 'en-IN';
+  const sameLang = POSTS_BY_DATE.filter(p => p.slug !== post.slug && (p.lang || 'en-IN') === lang);
+  const otherLang = POSTS_BY_DATE.filter(p => p.slug !== post.slug && (p.lang || 'en-IN') !== lang);
+  const others = [...sameLang, ...otherLang];
   const sameCategory = others.filter(p => p.category === post.category);
   const rest = others.filter(p => p.category !== post.category);
   return [...sameCategory, ...rest].slice(0, limit);
@@ -73,7 +77,40 @@ function relatedServicesOf(post) {
     .filter(Boolean);
 }
 
+const HI = {
+  author: 'लेखक', reviewed: 'चिकित्सकीय समीक्षा', updated: 'अपडेट', faq: 'अक्सर पूछे जाने वाले सवाल',
+  relServices: 'लखनऊ में संबंधित होम केयर सेवाएँ', more: 'और होम केयर गाइड',
+  ctaH: 'लखनऊ में घर पर इलाज और नर्सिंग चाहिए?',
+  ctaP: 'हमारी नर्सिंग टीम और डॉक्टर 30-45 मिनट में आपके घर पहुँचते हैं। सौम्य देखभाल, 100% स्टेराइल सामान और अस्पताल जाने की भागदौड़ नहीं।',
+  book: 'डॉक्टर / नर्स बुक करें', wa: 'WhatsApp पर डॉक्टर से बात करें', call: 'कॉल करें'
+};
+const EN = {
+  author: 'Author', reviewed: 'Medically reviewed by', updated: 'Updated', faq: 'Frequently Asked Questions',
+  relServices: 'Related Doorstep Services in Lucknow', more: 'More Home Care Guides',
+  ctaH: 'Need Expert Healthcare at Home in Lucknow?',
+  ctaP: 'Our qualified nursing team and doctors reach your residence within 30-45 minutes. Gentle care, 100% sterile consumables, and zero travel stress.',
+  book: 'Book Doorstep Visit', wa: 'WhatsApp Doctor', call: 'Call'
+};
+
+// English guide <-> Hindi guide on the same topic. Shown as a "read in the other language" box.
+const LANG_PAIRS = [
+  ["bedsore-prevention-bedridden-patient-home", "bistar-par-pade-mareez-ki-dekhbhal-ghar-par"],
+  ["urinary-catheter-care-at-home-dos-donts", "urine-catheter-ghar-par-dekhbhal"],
+  ["post-surgery-wound-dressing-at-home", "ghar-par-ghav-ki-dressing-kaise-karein"],
+  ["how-to-choose-home-nurse-attendant-lucknow", "ghar-par-nurse-lucknow-kaise-book-karein"],
+  ["doorstep-doctor-visit-vs-hospital-opd-elderly", "ghar-par-doctor-kaise-bulayein-lucknow"],
+  ["winter-care-elderly-lucknow-cold-chest-infection", "buzurgon-ki-dekhbhal-ghar-par-lucknow"]
+];
+function otherLanguagePost(post) {
+  for (const [en, hi] of LANG_PAIRS) {
+    if (post.slug === en) return POSTS_BY_DATE.find(p => p.slug === hi) || null;
+    if (post.slug === hi) return POSTS_BY_DATE.find(p => p.slug === en) || null;
+  }
+  return null;
+}
+
 function renderBlogPost(post) {
+  const T = post.lang === 'hi-IN' ? HI : EN;
   return `
     <article class="py-12 sm:py-16 bg-white">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -89,7 +126,7 @@ function renderBlogPost(post) {
             </span>
             ${post.dateModified && post.dateModified !== post.date ? `
               <span class="text-xs text-slate-500">
-                &bull; Updated <time datetime="${post.dateModified}">${post.dateModified}</time>
+                &bull; ${T.updated} <time datetime="${post.dateModified}">${post.dateModified}</time>
               </span>
             ` : ''}
             <span class="text-xs text-slate-500">
@@ -106,11 +143,11 @@ function renderBlogPost(post) {
               SM
             </div>
             <div class="text-xs text-left">
-              <span class="text-slate-400 block uppercase font-bold text-[10px]">Author</span>
+              <span class="text-slate-400 block uppercase font-bold text-[10px]">${T.author}</span>
               <strong class="text-slate-900 text-sm block">${post.author}</strong>
               <span class="text-slate-500">Srinika Medisurge Doorstep Healthcare, Gomti Nagar, Lucknow</span>
               <span class="text-emerald-700 font-semibold block mt-1">
-                <i class="fa-solid fa-user-doctor mr-1"></i> Medically reviewed by <a href="/doctors/" class="underline hover:text-emerald-900">Dr. Piyush Saxena</a>
+                <i class="fa-solid fa-user-doctor mr-1"></i> ${T.reviewed} <a href="/doctors/" class="underline hover:text-emerald-900">Dr. Piyush Saxena</a>
               </span>
             </div>
           </div>
@@ -121,12 +158,22 @@ function renderBlogPost(post) {
           ${post.contentHtml}
         </div>
 
+        ${otherLanguagePost(post) ? `
+          <a href="/blog/${otherLanguagePost(post).slug}/" class="mt-8 p-4 rounded-2xl bg-sky-50 hover:bg-sky-100 border border-sky-200 flex items-center gap-3 transition group">
+            <i class="fa-solid fa-language text-sky-600 text-xl shrink-0"></i>
+            <span class="text-sm">
+              <span class="block text-[11px] font-bold text-sky-700 uppercase">${post.lang === 'hi-IN' ? 'Read in English' : 'हिंदी में पढ़ें'}</span>
+              <span class="font-bold text-slate-900 group-hover:text-sky-700">${otherLanguagePost(post).title}</span>
+            </span>
+          </a>
+        ` : ''}
+
         <!-- FAQs Section for Blog Post -->
         ${post.faqs && post.faqs.length > 0 ? `
           <div class="py-10 border-b border-slate-200 space-y-6">
             <h3 class="text-2xl font-bold text-slate-900 font-heading flex items-center gap-2">
               <i class="fa-solid fa-circle-question text-sky-600"></i>
-              <span>Frequently Asked Questions</span>
+              <span>${T.faq}</span>
             </h3>
             <div class="space-y-4">
               ${post.faqs.map(faq => `
@@ -147,7 +194,7 @@ function renderBlogPost(post) {
         <!-- Related Services -->
         ${relatedServicesOf(post).length > 0 ? `
           <div class="py-10 border-b border-slate-200">
-            <h3 class="text-xl font-bold text-slate-900 font-heading mb-4">Related Doorstep Services in Lucknow</h3>
+            <h3 class="text-xl font-bold text-slate-900 font-heading mb-4">${T.relServices}</h3>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
               ${relatedServicesOf(post).map(s => `
                 <a href="/services/${s.slug}/" class="p-4 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-300 transition block group">
@@ -161,7 +208,7 @@ function renderBlogPost(post) {
 
         <!-- Related Articles -->
         <div class="py-10 border-b border-slate-200">
-          <h3 class="text-xl font-bold text-slate-900 font-heading mb-4">More Home Care Guides</h3>
+          <h3 class="text-xl font-bold text-slate-900 font-heading mb-4">${T.more}</h3>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             ${relatedPosts(post).map(p => `
               <a href="/blog/${p.slug}/" class="p-4 rounded-xl bg-white hover:bg-sky-50 border border-slate-200 hover:border-sky-300 transition block group">
@@ -175,21 +222,21 @@ function renderBlogPost(post) {
         <!-- Post Footer CTA -->
         <div class="mt-10 p-8 bg-gradient-to-r from-medical-navy via-brand-900 to-medical-teal text-white rounded-3xl text-center space-y-4">
           <h3 class="text-2xl font-extrabold font-heading">
-            Need Expert Healthcare at Home in Lucknow?
+            ${T.ctaH}
           </h3>
           <p class="text-slate-200 text-xs sm:text-sm max-w-md mx-auto leading-relaxed">
-            Our qualified nursing team and doctors reach your residence within 30-45 minutes. Gentle care, 100% sterile consumables, and zero travel stress.
+            ${T.ctaP}
           </p>
           <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
             <a href="/book/" class="px-6 py-3 bg-white text-slate-900 font-bold text-xs sm:text-sm rounded-xl hover:bg-slate-100 transition shadow">
-              Book Doorstep Visit
+              ${T.book}
             </a>
-            <a href="${CONFIG.whatsappUrl}?text=${encodeURIComponent('Namaste Dr. Piyush, I read your article on ' + post.shortTitle + ' and need guidance.')}" target="_blank" rel="noopener noreferrer" class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs sm:text-sm rounded-xl transition shadow flex items-center gap-2">
+            <a href="${CONFIG.whatsappUrl}?text=${encodeURIComponent(post.lang === 'hi-IN' ? 'नमस्ते डॉक्टर, मैंने आपका लेख "' + post.shortTitle + '" पढ़ा, मुझे मार्गदर्शन चाहिए।' : 'Namaste Dr. Piyush, I read your article on ' + post.shortTitle + ' and need guidance.')}" target="_blank" rel="noopener noreferrer" class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs sm:text-sm rounded-xl transition shadow flex items-center gap-2">
               <i class="fa-brands fa-whatsapp"></i>
-              <span>WhatsApp Doctor</span>
+              <span>${T.wa}</span>
             </a>
             <a href="tel:${CONFIG.phone}" class="px-5 py-3 bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm rounded-xl border border-white/30 transition">
-              Call ${CONFIG.phoneFormatted}
+              ${T.call} ${CONFIG.phoneFormatted}
             </a>
           </div>
         </div>

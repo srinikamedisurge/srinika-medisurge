@@ -12,8 +12,8 @@ const SERVICES = [
     priceNote: "₹2000 flat within 5 km radius in Lucknow. Minimal distance charge beyond 5 km.",
     duration: "45 - 60 mins",
     responseTime: "30 - 45 Mins across Lucknow (15 - 25 Mins in Gomti Nagar)",
-    metaTitle: "Doctor Home Visit Lucknow | Doorstep Medical Consultation",
-    metaDescription: "Experienced doctor consultation at your doorstep in Lucknow by Dr. Piyush Saxena & team. Clinical physical checkup, diagnosis & prescription at home. Call +91 96530 01359.",
+    metaTitle: "Doctor Home Visit in Lucknow | 24/7, Arrives in 30-45 Min",
+    metaDescription: "Need a doctor at home in Lucknow? Doctors visit in 30-45 min, day or night, for checkup, prescription and follow-up. Call +91 96530 01359.",
     summary: "Comprehensive in-person doctor visit at your residence for physical assessment, examination, diagnosis, vitals check, and customized treatment planning.",
     whoNeedsIt: [
       "Elderly parents or senior citizens who find hospital OPD queues, long waiting times, and staircases physically exhausting.",
@@ -167,8 +167,8 @@ const SERVICES = [
     priceNote: "Total 3 shifts in 24 hours: Morning shift (7h): ₹999, Evening shift (7h): ₹999, Night shift (10h): ₹1,299.",
     duration: "Morning 7h / Evening 7h / Night 10h (24h Total)",
     responseTime: "30 - 45 Mins in Lucknow (15 - 25 Mins in Gomti Nagar)",
-    metaTitle: "Home Nursing Lucknow | Certified Male & Female Nurse At Home",
-    metaDescription: "Professional home nursing care in Gomti Nagar & Lucknow by certified GNM/B.Sc nurses under Dr. Piyush Saxena. 3 shifts (7h/10h) & bedside procedures. Call +91 96530 01359.",
+    metaTitle: "Home Nurse in Lucknow | Male & Female Nurses, 12/24 Hr",
+    metaDescription: "Hire a trained home nurse in Lucknow: male or female GNM/B.Sc nurses, 12 or 24-hour care, injections, drips, dressing. Call +91 96530 01359.",
     summary: "Dedicated, compassionate clinical nursing care for elderly, bedridden, paralyzed, and post-surgery recovering patients in the comfort of home.",
     whoNeedsIt: [
       "Post-operative patients recovering from orthopedic, cardiac, abdominal, or neurological surgeries requiring sterile wound care and vital monitoring.",
@@ -547,8 +547,8 @@ const SERVICES = [
     priceNote: "₹600 flat per targeted 45-60 minute session at your doorstep. Discounted 10-session and monthly rehab plans available.",
     duration: "45 - 60 mins",
     responseTime: "Scheduled at your convenience (Same-day appointments available)",
-    metaTitle: "Physiotherapy at Home Lucknow | Dr. Desh Deepak Singh",
-    metaDescription: "Certified home physiotherapy in Lucknow by Dr. Desh Deepak Singh (BPT, MPT Neuro). Stroke rehab, knee replacement & paralysis mobility. Call +91 96530 01359.",
+    metaTitle: "Physiotherapy at Home in Lucknow | Stroke, Knee & Back Rehab",
+    metaDescription: "Home physiotherapy in Lucknow by Dr. Desh Deepak Singh (MPT Neuro): stroke, paralysis, knee replacement and back pain rehab. Call +91 96530 01359.",
     summary: "Targeted bedside physical therapy by certified physiotherapists (B.P.T., M.P.T. Neuro) for neurological rehabilitation, post-stroke recovery, paralysis mobilization, and orthopedic pain relief.",
     whoNeedsIt: [
       "Stroke survivors experiencing hemiplegia, paralysis, balance loss, or motor coordination deficits.",
@@ -623,8 +623,8 @@ const SERVICES = [
     priceNote: "BiPAP setup & titration from ₹1,200. Daily/Monthly rental plans for BiPAP machines and 5L/10L oxygen concentrators.",
     duration: "As required / Shift",
     responseTime: "Rapid ICU Dispatch (Under 60 mins in Lucknow)",
-    metaTitle: "BiPAP Machine & Oxygen Concentrator at Home Lucknow | Srinika",
-    metaDescription: "BiPAP machine rental, oxygen concentrator & respiratory therapy setup at home in Lucknow under Dr. Piyush Saxena. 24/7 ICU equipment & technician support. Call +91 96530 01359.",
+    metaTitle: "BiPAP & Oxygen Concentrator on Rent in Lucknow | Home Setup",
+    metaDescription: "BiPAP machine and oxygen concentrator on rent in Lucknow, with home setup, mask fitting and 24/7 technician support. Call +91 96530 01359.",
     summary: "Comprehensive hospital-grade BiPAP machine setup, pressure calibration, oxygen concentrator delivery, and continuous respiratory management at home.",
     whoNeedsIt: [
       "COPD (Chronic Obstructive Pulmonary Disease) patients with hypercapnia (high CO2 retention) requiring non-invasive ventilation.",
@@ -666,6 +666,14 @@ const SERVICES = [
     oversight: "Operated under clinical protocols supervised by Dr. Piyush Saxena and certified respiratory care technicians.",
     safetyNote: "Sanitized medical equipment: Every machine undergoes multi-point disinfection and comes with fresh sealed tubing and masks.",
     faqs: [
+      {
+        q: "Does a BiPAP machine need an oxygen cylinder?",
+        a: "No. A BiPAP machine uses room air and runs on electricity. Oxygen is added only if the doctor prescribes it for a low oxygen level, from a concentrator or cylinder at the flow the doctor sets. We advise keeping a backup cylinder for power cuts."
+      },
+      {
+        q: "What is the difference between BiPAP and an oxygen concentrator?",
+        a: "BiPAP gives pressure support that helps the lungs move air and clear carbon dioxide. An oxygen concentrator only raises the oxygen content of the air. Some patients need one and some need both, as decided by the doctor."
+      },
       {
         q: "What is the difference between CPAP and BiPAP?",
         a: "CPAP delivers a single fixed continuous pressure. BiPAP delivers two distinct pressures: higher pressure during inhalation (IPAP) to assist breathing, and lower pressure during exhalation (EPAP) to keep airways open, making it far better suited for COPD and severe lung weakness."
@@ -775,8 +783,8 @@ const SERVICES = [
     priceNote: "12-Hour day/night attendant shift from ₹999. 24-Hour live-in attendant care from ₹1,799.",
     duration: "12h / 24h Shifts",
     responseTime: "Same-Day Deployment (Within 2 - 4 hours)",
-    metaTitle: "Patient Attendant Service Lucknow | 12h/24h Bedside Caregiver",
-    metaDescription: "Reliable patient attendant & elderly caregiver service in Lucknow by Srinika Medisurge under Dr. Piyush Saxena. 12h & 24h compassionate bedside care. Call +91 96530 01359.",
+    metaTitle: "Patient Attendant (GDA) in Lucknow | 12h & 24h Shifts",
+    metaDescription: "Trained patient attendants (GDA) in Lucknow for elderly and bedridden patients: bathing, feeding, turning. 12h and 24h shifts. Call +91 96530 01359.",
     summary: "Dedicated, compassionate bedside caregivers and patient attendants for elderly, paralyzed, post-surgery, and bedridden individuals in Lucknow.",
     whoNeedsIt: [
       "Elderly parents living alone or requiring daily assistance with personal hygiene, walking, and medicine reminders.",

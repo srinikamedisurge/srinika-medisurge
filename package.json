@@ -1,0 +1,13 @@
+{
+  "name": "srinika-website",
+  "private": true,
+  "description": "Static site generator + precompiled Tailwind CSS for srinikamedisurge.in",
+  "scripts": {
+    "build:html": "node builder/build.js",
+    "build:css": "tailwindcss -c tailwind.config.js -i assets/css/tailwind.src.css -o assets/css/tailwind.css --minify",
+    "build": "npm run build:css && npm run build:html"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  }
+}
