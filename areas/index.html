@@ -51,46 +51,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              50: '#f0f9ff',
-              100: '#e0f2fe',
-              200: '#bae6fd',
-              500: '#0ea5e9',
-              600: '#0284c7',
-              700: '#0369a1',
-              800: '#075985',
-              900: '#0c4a6e',
-            },
-            medical: {
-              teal: '#0d9488',
-              emerald: '#059669',
-              mint: '#10b981',
-              lightGreen: '#ecfdf5',
-              navy: '#0f172a'
-            }
-          },
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            heading: ['"Outfit"', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
-
   <!-- Font Awesome 6 Icons (Deferred / Non-blocking) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'" />
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
 
   <!-- Custom Stylesheet (Local Root Relative) -->
   <link rel="stylesheet" href="/assets/css/custom.css">
+
+  <!-- Tailwind CSS, precompiled (npm run build:css, config in tailwind.config.js) -->
+  <link rel="stylesheet" href="/assets/css/tailwind.css?v=da31c0cb">
 
   <!-- Schema: Sitewide MedicalBusiness / LocalBusiness -->
   <script type="application/ld+json">
@@ -873,6 +842,102 @@
                   </span>
                 </div>
                 <h2 class="text-xl font-bold text-slate-900 font-heading mb-1">
+                  <a href="/areas/home-nursing-kaiserbagh-lalbagh/" class="hover:text-sky-600">Kaiserbagh & Lalbagh</a>
+                </h2>
+                <p class="text-xs font-bold text-emerald-600 mb-3 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-ping"></span>
+                  Response Time: 30 - 45 Mins
+                </p>
+                <p class="text-xs text-slate-600 leading-relaxed mb-4 line-clamp-3">
+                  Kaiserbagh and Lalbagh are old, densely built parts of central Lucknow where narrow lanes, heavy traffic and multi-storey family homes make hospital trips tiring for elderly and bedridden patients. Srinika Medisurge brings nurses, doctor visits, wound dressing, catheter care and GDA staff to your door in Kaiserbagh, Lalbagh and the lanes around them.
+                </p>
+              </div>
+
+              <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                <a href="/areas/home-nursing-kaiserbagh-lalbagh/" class="text-xs font-bold text-sky-600 hover:text-sky-800 hover:underline">
+                  Area details & services →
+                </a>
+                <a href="/book/?area=Kaiserbagh%20%26%20Lalbagh" class="text-xs bg-sky-600 hover:bg-sky-700 text-white font-bold py-1.5 px-3 rounded-lg shadow-sm transition">
+                  Book Here
+                </a>
+              </div>
+            </div>
+          
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:border-sky-300 transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-location-dot"></i>
+                  </div>
+                  <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
+                    Available
+                  </span>
+                </div>
+                <h2 class="text-xl font-bold text-slate-900 font-heading mb-1">
+                  <a href="/areas/home-nursing-faizullaganj-triveni-nagar/" class="hover:text-sky-600">Faizullaganj & Triveni Nagar</a>
+                </h2>
+                <p class="text-xs font-bold text-emerald-600 mb-3 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-ping"></span>
+                  Response Time: 40 - 55 Mins
+                </p>
+                <p class="text-xs text-slate-600 leading-relaxed mb-4 line-clamp-3">
+                  Faizullaganj and Triveni Nagar lie on the northern side of Lucknow along the Sitapur Road corridor, close to Kapoorthala and Aliganj. Srinika Medisurge provides home nursing, doctor visits, IV drips, catheter and wound care and monthly GDA staff for families here, so patients can recover at home instead of making long trips across the city.
+                </p>
+              </div>
+
+              <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                <a href="/areas/home-nursing-faizullaganj-triveni-nagar/" class="text-xs font-bold text-sky-600 hover:text-sky-800 hover:underline">
+                  Area details & services →
+                </a>
+                <a href="/book/?area=Faizullaganj%20%26%20Triveni%20Nagar" class="text-xs bg-sky-600 hover:bg-sky-700 text-white font-bold py-1.5 px-3 rounded-lg shadow-sm transition">
+                  Book Here
+                </a>
+              </div>
+            </div>
+          
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:border-sky-300 transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-location-dot"></i>
+                  </div>
+                  <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
+                    Available
+                  </span>
+                </div>
+                <h2 class="text-xl font-bold text-slate-900 font-heading mb-1">
+                  <a href="/areas/home-nursing-bakshi-ka-talab-bkt/" class="hover:text-sky-600">Bakshi Ka Talab (BKT)</a>
+                </h2>
+                <p class="text-xs font-bold text-emerald-600 mb-3 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-ping"></span>
+                  Response Time: 60 - 75 Mins
+                </p>
+                <p class="text-xs text-slate-600 leading-relaxed mb-4 line-clamp-3">
+                  Bakshi Ka Talab (BKT) lies on the outer northern edge of Lucknow on the Sitapur Road and Itaunja Road side. Srinika Medisurge serves BKT with pre-booked home nursing visits, doctor visits, long-term GDA staff and oxygen support, so families do not have to travel far into the city for routine care.
+                </p>
+              </div>
+
+              <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                <a href="/areas/home-nursing-bakshi-ka-talab-bkt/" class="text-xs font-bold text-sky-600 hover:text-sky-800 hover:underline">
+                  Area details & services →
+                </a>
+                <a href="/book/?area=Bakshi%20Ka%20Talab%20(BKT)" class="text-xs bg-sky-600 hover:bg-sky-700 text-white font-bold py-1.5 px-3 rounded-lg shadow-sm transition">
+                  Book Here
+                </a>
+              </div>
+            </div>
+          
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:border-sky-300 transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-location-dot"></i>
+                  </div>
+                  <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
+                    Available
+                  </span>
+                </div>
+                <h2 class="text-xl font-bold text-slate-900 font-heading mb-1">
                   <a href="/areas/home-nursing-chowk-thakurganj/" class="hover:text-sky-600">Chowk & Thakurganj</a>
                 </h2>
                 <p class="text-xs font-bold text-emerald-600 mb-3 flex items-center gap-1.5">
@@ -1049,6 +1114,70 @@
                   Area details & services →
                 </a>
                 <a href="/book/?area=Raebareli%20Road%20%26%20PGI" class="text-xs bg-sky-600 hover:bg-sky-700 text-white font-bold py-1.5 px-3 rounded-lg shadow-sm transition">
+                  Book Here
+                </a>
+              </div>
+            </div>
+          
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:border-sky-300 transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-location-dot"></i>
+                  </div>
+                  <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
+                    Available
+                  </span>
+                </div>
+                <h2 class="text-xl font-bold text-slate-900 font-heading mb-1">
+                  <a href="/areas/home-nursing-mohanlalganj/" class="hover:text-sky-600">Mohanlalganj</a>
+                </h2>
+                <p class="text-xs font-bold text-emerald-600 mb-3 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-ping"></span>
+                  Response Time: 60 - 75 Mins
+                </p>
+                <p class="text-xs text-slate-600 leading-relaxed mb-4 line-clamp-3">
+                  Mohanlalganj lies south of Lucknow beyond the Raebareli Road belt. Srinika Medisurge serves homes here with pre-booked nursing visits, doctor consultations, monthly GDA staff and equipment support, so patients recovering after discharge can be cared for at home and families avoid long, tiring journeys.
+                </p>
+              </div>
+
+              <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                <a href="/areas/home-nursing-mohanlalganj/" class="text-xs font-bold text-sky-600 hover:text-sky-800 hover:underline">
+                  Area details & services →
+                </a>
+                <a href="/book/?area=Mohanlalganj" class="text-xs bg-sky-600 hover:bg-sky-700 text-white font-bold py-1.5 px-3 rounded-lg shadow-sm transition">
+                  Book Here
+                </a>
+              </div>
+            </div>
+          
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:border-sky-300 transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-location-dot"></i>
+                  </div>
+                  <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
+                    Available
+                  </span>
+                </div>
+                <h2 class="text-xl font-bold text-slate-900 font-heading mb-1">
+                  <a href="/areas/home-nursing-kakori-malihabad/" class="hover:text-sky-600">Kakori & Malihabad</a>
+                </h2>
+                <p class="text-xs font-bold text-emerald-600 mb-3 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-ping"></span>
+                  Response Time: 60 - 75 Mins
+                </p>
+                <p class="text-xs text-slate-600 leading-relaxed mb-4 line-clamp-3">
+                  Kakori and Malihabad lie on the western side of Lucknow, beyond Kanpur Road and Sarojini Nagar. Srinika Medisurge serves these homes with pre-booked nursing visits, doctor consultations, long-term GDA staff and oxygen or BiPAP setup, so older patients and post-surgery patients can be treated at home.
+                </p>
+              </div>
+
+              <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                <a href="/areas/home-nursing-kakori-malihabad/" class="text-xs font-bold text-sky-600 hover:text-sky-800 hover:underline">
+                  Area details & services →
+                </a>
+                <a href="/book/?area=Kakori%20%26%20Malihabad" class="text-xs bg-sky-600 hover:bg-sky-700 text-white font-bold py-1.5 px-3 rounded-lg shadow-sm transition">
                   Book Here
                 </a>
               </div>

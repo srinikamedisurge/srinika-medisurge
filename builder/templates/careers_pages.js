@@ -340,12 +340,30 @@ function renderCareersOverview() {
 
         ${renderPoster()}
 
+        ${renderFamilyCareBox()}
+
         <p class="text-xs text-slate-500 text-center">
           Srinika Medisurge never charges candidates any fee for a job or joining. Please report anyone asking for money in our name.
         </p>
       </div>
     </div>
   `;
+}
+
+// Many visitors on the careers pages searched for jobs, but some are families looking for care.
+function renderFamilyCareBox() {
+  return `
+    <section class="bg-sky-50 rounded-3xl p-6 sm:p-8 border border-sky-200 text-center">
+      <h2 class="text-xl sm:text-2xl font-bold text-slate-900 font-heading">Looking for a nurse or attendant for your family?</h2>
+      <p class="text-sm text-slate-600 mt-2 max-w-2xl mx-auto leading-relaxed">
+        Srinika Medisurge sends trained nurses, patient attendants (GDA) and doctors to homes across Lucknow, 24/7.
+      </p>
+      <div class="mt-4 flex flex-wrap items-center justify-center gap-3 text-sm font-bold">
+        <a href="/services/home-nursing-lucknow/" class="px-5 py-2.5 bg-white hover:bg-slate-50 text-sky-700 rounded-xl border border-sky-200 transition">Home nursing in Lucknow</a>
+        <a href="/services/patient-attendant-lucknow/" class="px-5 py-2.5 bg-white hover:bg-slate-50 text-sky-700 rounded-xl border border-sky-200 transition">Patient attendant (GDA)</a>
+        <a href="/book/" class="px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white rounded-xl transition">Book care at home</a>
+      </div>
+    </section>`;
 }
 
 function renderJobDetailPage(job) {
@@ -374,6 +392,7 @@ function renderJobDetailPage(job) {
           ${others.map(o => `<a href="/careers/${o.slug}/" class="font-bold text-sky-700 hover:underline">${o.title}</a>`).join(', ')}
           · <a href="/careers/" class="font-bold text-sky-700 hover:underline">All openings</a>
         </div>
+        ${renderFamilyCareBox()}
       </div>
     </div>
   `;

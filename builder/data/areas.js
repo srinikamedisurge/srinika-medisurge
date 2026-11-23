@@ -446,6 +446,36 @@ AREAS.push(...[
     highlight: "Planned daily visits for long-term patients in the northern townships."
   },
   {
+    slug: "home-nursing-kaiserbagh-lalbagh",
+    name: "Kaiserbagh & Lalbagh",
+    responseTime: "30 - 45 Mins", status: "Standard", badge: "Available",
+    intro: "Kaiserbagh and Lalbagh are old, densely built parts of central Lucknow where narrow lanes, heavy traffic and multi-storey family homes make hospital trips tiring for elderly and bedridden patients. Srinika Medisurge brings nurses, doctor visits, wound dressing, catheter care and GDA staff to your door in Kaiserbagh, Lalbagh and the lanes around them.",
+    landmarks: "Kaiserbagh Bus Stand, Kaiserbagh Chauraha, Lalbagh, Kaiserbagh Baradari, Vidhan Sabha Marg",
+    localities: ["Kaiserbagh", "Lalbagh", "Kaiserbagh Colony", "Qaiserbagh Chauraha area", "Vidhan Sabha Marg"],
+    hospitals: "Balrampur Hospital and hospitals in central Lucknow",
+    highlight: "Doorstep nursing for multi-generation homes in the crowded lanes of old Lucknow."
+  },
+  {
+    slug: "home-nursing-faizullaganj-triveni-nagar",
+    name: "Faizullaganj & Triveni Nagar",
+    responseTime: "40 - 55 Mins", status: "Scheduled / Priority", badge: "Available",
+    intro: "Faizullaganj and Triveni Nagar lie on the northern side of Lucknow along the Sitapur Road corridor, close to Kapoorthala and Aliganj. Srinika Medisurge provides home nursing, doctor visits, IV drips, catheter and wound care and monthly GDA staff for families here, so patients can recover at home instead of making long trips across the city.",
+    landmarks: "Faizullaganj, Triveni Nagar, Sitapur Road, Kapoorthala, Aliganj",
+    localities: ["Faizullaganj", "Triveni Nagar", "Kapoorthala", "Sitapur Road", "nearby colonies"],
+    hospitals: "hospitals on Sitapur Road and in Aliganj and Hazratganj",
+    highlight: "Scheduled nursing visits and long-term attendants for the Sitapur Road corridor."
+  },
+  {
+    slug: "home-nursing-bakshi-ka-talab-bkt",
+    name: "Bakshi Ka Talab (BKT)",
+    responseTime: "60 - 75 Mins", status: "Scheduled / Priority", badge: "Available",
+    intro: "Bakshi Ka Talab (BKT) lies on the outer northern edge of Lucknow on the Sitapur Road and Itaunja Road side. Srinika Medisurge serves BKT with pre-booked home nursing visits, doctor visits, long-term GDA staff and oxygen support, so families do not have to travel far into the city for routine care.",
+    landmarks: "Bakshi Ka Talab, Sitapur Road, Itaunja Road, Chandrika Devi Temple area, Air Force Station BKT",
+    localities: ["Bakshi Ka Talab", "BKT", "Itaunja Road", "Chandrika Devi area", "nearby villages and colonies"],
+    hospitals: "hospitals on Sitapur Road and in central Lucknow",
+    highlight: "Pre-booked home nursing and attendants for patients living far from city hospitals."
+  },
+  {
     slug: "home-nursing-chowk-thakurganj",
     name: "Chowk & Thakurganj",
     responseTime: "40 - 50 Mins", status: "Standard", badge: "Available",
@@ -504,6 +534,26 @@ AREAS.push(...[
     localities: ["Vrindavan Yojana", "Telibagh", "Utrethia", "PGI area", "Raebareli Road"],
     hospitals: "SGPGI and hospitals on Raebareli Road",
     highlight: "Follow-up care at home for patients discharged from SGPGI."
+  },
+  {
+    slug: "home-nursing-mohanlalganj",
+    name: "Mohanlalganj",
+    responseTime: "60 - 75 Mins", status: "Scheduled / Priority", badge: "Available",
+    intro: "Mohanlalganj lies south of Lucknow beyond the Raebareli Road belt. Srinika Medisurge serves homes here with pre-booked nursing visits, doctor consultations, monthly GDA staff and equipment support, so patients recovering after discharge can be cared for at home and families avoid long, tiring journeys.",
+    landmarks: "Mohanlalganj, Nagram, Raebareli Road, Mohanlalganj Tehsil area",
+    localities: ["Mohanlalganj", "Nagram", "Raebareli Road (outer)", "nearby villages"],
+    hospitals: "SGPGI, Lohia Institute and hospitals on Raebareli Road",
+    highlight: "Home care for patients discharged from SGPGI and Lohia Institute who live outside the city."
+  },
+  {
+    slug: "home-nursing-kakori-malihabad",
+    name: "Kakori & Malihabad",
+    responseTime: "60 - 75 Mins", status: "Scheduled / Priority", badge: "Available",
+    intro: "Kakori and Malihabad lie on the western side of Lucknow, beyond Kanpur Road and Sarojini Nagar. Srinika Medisurge serves these homes with pre-booked nursing visits, doctor consultations, long-term GDA staff and oxygen or BiPAP setup, so older patients and post-surgery patients can be treated at home.",
+    landmarks: "Kakori, Malihabad, Kakori Railway Station, Hardoi Road, Kanpur Road (outer)",
+    localities: ["Kakori", "Malihabad", "Hardoi Road", "nearby villages and orchards belt"],
+    hospitals: "hospitals on Kanpur Road and in central Lucknow",
+    highlight: "Pre-booked doorstep nursing and attendants for families on the western outskirts."
   },
   {
     slug: "home-nursing-cantt-dilkusha",

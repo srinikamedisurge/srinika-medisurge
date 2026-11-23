@@ -1,4 +1,17 @@
 const CONFIG = require('../../site.config.js');
+const fs = require('fs');
+const path = require('path');
+const crypto = require('crypto');
+
+// Cache-busting hash of the compiled Tailwind file, so a new build is picked up straight away.
+const TAILWIND_VERSION = (() => {
+  try {
+    const css = fs.readFileSync(path.join(__dirname, '../../assets/css/tailwind.css'));
+    return crypto.createHash('md5').update(css).digest('hex').slice(0, 8);
+  } catch (e) {
+    return 'dev';
+  }
+})();
 
 
 function renderBreadcrumbSchema(items) {
@@ -58,7 +71,9 @@ function renderMasterLayout({
   breadcrumbs = null,
   content = '',
   includeRazorpay = false,
-  noindex = false
+  noindex = false,
+  lang = 'en-IN',
+  ogLocale = 'en_IN'
 }) {
   const fullCanonical = `${CONFIG.siteUrl}${canonicalUrl}`;
   const relativeRoot = currentPath.split('/').filter(Boolean).length === 0 ? '.' : currentPath.split('/').filter(Boolean).map(() => '..').join('/');
@@ -130,7 +145,7 @@ function renderMasterLayout({
   ];
 
   return `<!DOCTYPE html>
-<html lang="en-IN" class="scroll-smooth">
+<html lang="${lang}" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -182,7 +197,7 @@ function renderMasterLayout({
   <meta property="article:modified_time" content="${articleMeta.modified}">
   <meta property="article:section" content="${articleMeta.section}">` : ''}
   <meta property="og:site_name" content="${CONFIG.brandName}">
-  <meta property="og:locale" content="en_IN">
+  <meta property="og:locale" content="${ogLocale}">
   <meta property="og:url" content="${fullCanonical}">
   <meta property="og:title" content="${title}">
   <meta property="og:description" content="${metaDescription}">
@@ -210,46 +225,15 @@ function renderMasterLayout({
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              50: '#f0f9ff',
-              100: '#e0f2fe',
-              200: '#bae6fd',
-              500: '#0ea5e9',
-              600: '#0284c7',
-              700: '#0369a1',
-              800: '#075985',
-              900: '#0c4a6e',
-            },
-            medical: {
-              teal: '#0d9488',
-              emerald: '#059669',
-              mint: '#10b981',
-              lightGreen: '#ecfdf5',
-              navy: '#0f172a'
-            }
-          },
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            heading: ['"Outfit"', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
-
   <!-- Font Awesome 6 Icons (Deferred / Non-blocking) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'" />
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
 
   <!-- Custom Stylesheet (Local Root Relative) -->
   <link rel="stylesheet" href="/assets/css/custom.css">
+
+  <!-- Tailwind CSS, precompiled (npm run build:css, config in tailwind.config.js) -->
+  <link rel="stylesheet" href="/assets/css/tailwind.css?v=${TAILWIND_VERSION}">
 
   <!-- Schema: Sitewide MedicalBusiness / LocalBusiness -->
   <script type="application/ld+json">

@@ -116,9 +116,10 @@ const BLOG_POSTS = [
     title: "Bedsore Prevention at Home: A Practical Guide for Families of Bedridden Patients",
     shortTitle: "Bedsore Prevention at Home",
     date: "2026-10-22",
+    dateModified: "2026-11-23",
     author: "Srinika Medisurge Medical Team (Guided by Dr. Piyush Saxena)",
-    metaTitle: "Bedsore Prevention at Home | Care Guide for Bedridden Patients",
-    metaDescription: "How to prevent bedsores (pressure ulcers) in bedridden and elderly patients at home: 2-hourly turning, air mattress, skin care, nutrition and early warning signs. Lucknow.",
+    metaTitle: "Bedsore Care & Dressing at Home | Prevention Guide",
+    metaDescription: "Bedsore care at home: how to prevent pressure sores, what dressing looks like at each stage, what not to apply and when to call a nurse. Lucknow.",
     readTime: "7 min read",
     category: "Wound Care",
     excerpt: "Bedsores can start within a few hours of constant pressure. Simple daily habits like turning, skin checks and good nutrition prevent most of them.",
@@ -180,6 +181,29 @@ const BLOG_POSTS = [
         Open bedsores need proper cleaning and dressing with sterile material. Our nurses provide <a href="/services/wound-dressing-at-home-lucknow/" ${LINK}>sterile wound and bedsore dressing at home</a>; message us on WhatsApp or call for dressing charges.
       </p>
 
+      <h2 ${H2}>Bedsore Dressing at Home: What Care Looks Like at Each Stage</h2>
+      <p ${PARA}>
+        Bedsore care depends on how deep the damage is. A nurse or doctor should look at the wound before any dressing is chosen. In general:
+      </p>
+      <ul ${UL}>
+        <li><strong>Red skin that is still intact:</strong> the first step is to take pressure off the area, keep it clean and dry, and watch it daily. It may fade within a day or two once pressure is relieved. Do not massage it.</li>
+        <li><strong>Blister or shallow open wound:</strong> it needs gentle cleaning and a clean covering chosen by the nurse or doctor. A blister should not be burst at home.</li>
+        <li><strong>Deep wound, yellow or black tissue, or bad smell:</strong> this needs a doctor's assessment and regular sterile dressing by a trained nurse. It may need extra treatment, and infection is a real risk.</li>
+      </ul>
+      <p ${PARA}>
+        Whatever the stage, the pressure must be kept off the wound, because no dressing or cream will heal a sore that the patient keeps lying on. Good protein intake, controlled sugar in diabetic patients and keeping the skin free from urine and stool also decide how fast it heals.
+      </p>
+      <h3 ${H3}>What not to apply or do</h3>
+      <ul ${UL}>
+        <li>Do not put turmeric, powders, toothpaste or old creams on an open bedsore.</li>
+        <li>Do not use a hot water bottle or heater on the area.</li>
+        <li>Do not use ring-shaped "donut" cushions, because they press on the skin around the sore.</li>
+        <li>Do not keep changing creams on your own. Ask the doctor what to use.</li>
+      </ul>
+      <p ${PARA}>
+        Our nurses clean and dress bedsores at home with sealed sterile kits and tell the doctor if the wound is not improving. See <a href="/services/wound-dressing-at-home-lucknow/" ${LINK}>wound dressing at home</a> for how a visit works.
+      </p>
+
       <h2 ${H2}>Getting Help With Daily Care</h2>
       <p ${PARA}>
         Turning a patient every 2 hours, day and night, is exhausting for one family member. A trained <a href="/services/patient-attendant-lucknow/" ${LINK}>patient attendant</a> or a monthly <a href="/services/gda-service-lucknow/" ${LINK}>GDA (General Duty Assistant)</a> can handle turning, hygiene, diaper changes and feeding, while our nurses visit for dressings and procedures. Read our guide on <a href="/blog/gda-vs-nurse-vs-attendant-home-care/" ${LINK}>choosing between a GDA, nurse and attendant</a>.
@@ -187,6 +211,18 @@ const BLOG_POSTS = [
       ${EMERGENCY_NOTE}
     `,
     faqs: [
+      {
+        q: "How do you dress a bedsore at home?",
+        a: "The nurse cleans the wound gently, covers it with a suitable sterile dressing and keeps pressure off the area. The type of dressing and how often it is changed depend on the depth of the wound, so a nurse or doctor should decide this. Do not use powders or home remedies."
+      },
+      {
+        q: "Which cream is best for a bedsore?",
+        a: "There is no single best cream. The right treatment depends on the stage of the sore, and some creams can make a wound worse. Ask the doctor or nurse what to apply, and focus on relieving pressure, keeping the skin clean and dry and good nutrition."
+      },
+      {
+        q: "How long does a bedsore take to heal?",
+        a: "Early redness may settle in a few days once pressure is removed. Open or deep bedsores can take weeks or longer, and healing depends on pressure relief, nutrition, blood sugar and infection control. A doctor can tell you what to expect for a particular wound."
+      },
       {
         q: "How often should a bedridden patient be turned?",
         a: "At least every 2 hours, day and night, rotating between the back and each side. Patients at very high risk may need more frequent small position changes, as advised by the nurse or doctor."
@@ -211,9 +247,10 @@ const BLOG_POSTS = [
     title: "GDA vs Nurse vs Patient Attendant vs EMT: Who Do You Need for Care at Home?",
     shortTitle: "GDA vs Nurse vs Attendant",
     date: "2026-10-22",
+    dateModified: "2026-11-23",
     author: "Srinika Medisurge Medical Team (Guided by Dr. Piyush Saxena)",
-    metaTitle: "GDA vs Nurse vs Attendant vs EMT | Home Care Staff Guide Lucknow",
-    metaDescription: "Confused between a GDA, nurse, patient attendant and EMT for home care in Lucknow? Compare their roles, what each can and cannot do, and monthly charges.",
+    metaTitle: "GDA vs Nurse vs Attendant: Who Do You Need? | Lucknow",
+    metaDescription: "GDA, nurse, patient attendant or EMT: who should you hire for home care? Simple comparison of what each can and cannot do, with a quick way to choose. Lucknow.",
     readTime: "6 min read",
     category: "Home Nursing",
     excerpt: "A GDA, a nurse, an attendant and an EMT do very different jobs. Here's how to choose the right person for your patient at home.",
@@ -505,9 +542,10 @@ const BLOG_POSTS = [
     title: "Urinary Catheter Care at Home: Essential Do's and Don'ts for Caregivers",
     shortTitle: "Urinary Catheter Care: Do's and Don'ts",
     date: "2026-10-14",
+    dateModified: "2026-11-23",
     author: "Srinika Medisurge Medical Team (Guided by Dr. Piyush Saxena)",
-    metaTitle: "Urinary Catheter Care at Home: Do's & Don'ts | Srinika Medisurge",
-    metaDescription: "Practical guide to Foley urinary catheter care at home for patients and families in Lucknow. How to prevent infections, catheter blockages & leakage. Call +91 96530 01359.",
+    metaTitle: "Foley Catheter Care at Home: Step-by-Step Guide & Do's/Don'ts",
+    metaDescription: "How to care for a Foley catheter at home: daily routine, bag care, bathing, infection signs and when to call a nurse. Lucknow. +91 96530 01359.",
     readTime: "8 min read",
     category: "Catheter Care",
     excerpt: "Learn how to care for an indwelling Foley urinary catheter at home, prevent life-threatening UTIs, and identify when to call a certified nurse for replacement.",
@@ -561,6 +599,26 @@ const BLOG_POSTS = [
         </div>
       </div>
 
+      <h2 class="text-2xl font-bold text-slate-900 mt-8 mb-4">Foley Catheter Care at Home: A Simple Daily Routine</h2>
+      <ol class="list-decimal pl-6 space-y-2 text-slate-600 mb-6">
+        <li><strong>Wash your hands</strong> with soap and water before and after touching the catheter or bag.</li>
+        <li><strong>Check the tube:</strong> make sure it is not kinked or pressed under the patient, and that urine is flowing into the bag.</li>
+        <li><strong>Clean the skin around the catheter</strong> once a day and after a bowel movement, with mild soap and warm water, wiping from the catheter outward and away from the body. Dry gently.</li>
+        <li><strong>Check the bag position:</strong> below bladder level, hanging from the bed frame, never on the floor and never lying on the patient's belly.</li>
+        <li><strong>Empty the bag</strong> when it is about two-thirds full, without letting the tap touch the container, and note the colour and amount of urine.</li>
+        <li><strong>Check the thigh strap or tape</strong> so the tube does not pull when the patient moves.</li>
+      </ol>
+      <h3 class="text-xl font-bold text-slate-800 mt-6 mb-3">Drainage bag, bathing and movement</h3>
+      <ul class="list-disc pl-6 space-y-2 text-slate-600 mb-6">
+        <li>A smaller leg bag is often used during the day and a larger bag overnight. Use the type your nurse recommends, and keep the system closed as far as possible.</li>
+        <li>Drainage bags are usually changed about once a week or as the manufacturer and nurse advise, or sooner if the bag leaks or the urine is cloudy and smelly.</li>
+        <li>A patient with a catheter can usually shower with the bag attached. Avoid soaking in a bathtub unless the doctor allows it.</li>
+        <li>Walking is fine. Keep the bag below the bladder and support it so it does not pull on the tube.</li>
+      </ul>
+      <p class="text-slate-600 leading-relaxed mb-4">
+        If urine stops flowing, leaks around the tube, turns bloody or has a strong smell, or the patient has fever or lower belly pain, call a nurse or doctor the same day. Our nurses perform <a href="/services/urinary-catheterization-at-home-lucknow/" class="text-sky-600 font-semibold hover:underline">catheter insertion and change at home</a>.
+      </p>
+
       <p class="text-slate-600 leading-relaxed mb-4">
         Need professional assistance? Our certified nurses can perform gentle, sterile Foley and silicone catheter replacement at your home in Gomti Nagar and across Lucknow within 20 to 35 minutes. Read more on our <a href="/services/urinary-catheterization-at-home-lucknow/" class="text-sky-600 font-semibold hover:underline">doorstep catheterization service</a>.
       </p>
@@ -573,6 +631,18 @@ const BLOG_POSTS = [
       </div>
     `,
     faqs: [
+      {
+        q: "How do you take care of a Foley catheter at home?",
+        a: "Wash your hands before touching it, keep the bag below the bladder and off the floor, clean the skin around the catheter daily with mild soap and water, empty the bag when it is two-thirds full, secure the tube to the thigh and drink fluids as the doctor allows. Call a nurse if urine stops flowing, leaks, turns bloody or the patient has fever."
+      },
+      {
+        q: "How often should the catheter bag be emptied and changed?",
+        a: "Empty it when it is about two-thirds full. The bag is usually changed about once a week or as the manufacturer and nurse advise, or earlier if it leaks or smells."
+      },
+      {
+        q: "Can a person with a Foley catheter take a bath?",
+        a: "Usually a shower with the bag attached is fine. Keep the catheter system closed and avoid soaking in a bathtub unless the doctor says it is allowed. Dry the area well afterwards."
+      },
       {
         q: "How often should a Foley catheter be replaced at home?",
         a: "Latex Foley catheters should typically be changed every 14 to 21 days. 100% silicone catheters can safely stay for up to 30 to 45 days, as advised by your physician."
@@ -597,9 +667,10 @@ const BLOG_POSTS = [
     title: "When Is BiPAP or Oxygen Support Needed at Home? Indications & Safety",
     shortTitle: "BiPAP & Oxygen Support at Home",
     date: "2026-10-12",
+    dateModified: "2026-11-23",
     author: "Srinika Medisurge Medical Team (Guided by Dr. Piyush Saxena)",
-    metaTitle: "When Is BiPAP or Oxygen Support Needed at Home? | Guide",
-    metaDescription: "Understand clinical indications for home BiPAP machines & oxygen concentrators in Lucknow. COPD, sleep apnea, heart failure & SpO2 monitoring by Dr. Piyush Saxena.",
+    metaTitle: "Does BiPAP Need an Oxygen Cylinder? BiPAP vs Oxygen Guide",
+    metaDescription: "Does a BiPAP machine need an oxygen cylinder? BiPAP vs oxygen concentrator explained in simple words, plus who needs each at home and safety tips. Lucknow.",
     readTime: "8 min read",
     category: "Respiratory Support",
     excerpt: "Learn how non-invasive BiPAP ventilation and continuous oxygen concentrators help COPD, sleep apnea, and post-ICU patients breathe comfortably at home.",
@@ -640,6 +711,22 @@ const BLOG_POSTS = [
         <li><strong>Neuromuscular Weakness (ALS, Myasthenia Gravis):</strong> When diaphragm muscles become too weak to draw sufficient breath unassisted.</li>
       </ul>
 
+      <h2 class="text-2xl font-bold text-slate-900 mt-8 mb-4">Does a BiPAP Machine Need an Oxygen Cylinder?</h2>
+      <p class="text-slate-600 leading-relaxed mb-4">
+        <strong>No.</strong> A BiPAP machine takes in normal room air, filters it and delivers it through the mask at the pressure the doctor has set. It needs only an electric supply to run. A cylinder is not required for the machine to work.
+      </p>
+      <p class="text-slate-600 leading-relaxed mb-4">
+        Oxygen is added <strong>only when the doctor prescribes it</strong>, usually because the patient's oxygen level (SpO2) stays low even with BiPAP. Most BiPAP machines have an oxygen inlet where tubing from an oxygen concentrator or a cylinder can be connected. The doctor decides the flow rate, and the family should not change it.
+      </p>
+      <ul class="list-disc pl-6 space-y-2 text-slate-600 mb-6">
+        <li><strong>BiPAP:</strong> helps the lungs move air in and out and clear carbon dioxide. It needs power.</li>
+        <li><strong>Oxygen concentrator:</strong> raises the oxygen content of the air the patient breathes. It also needs power and gives no breathing pressure support.</li>
+        <li><strong>Oxygen cylinder:</strong> works without electricity, so it is the backup during a power cut, but it runs out and has to be refilled.</li>
+      </ul>
+      <p class="text-slate-600 leading-relaxed mb-4">
+        An oxygen concentrator cannot replace a BiPAP in a patient who needs breathing support, and extra oxygen given without advice can be harmful in some lung conditions such as COPD. If you are unsure which your family member needs, ask the treating doctor. Our team can also guide you through a <a href="/services/doctor-home-visit-lucknow/" class="text-sky-600 font-semibold hover:underline">doctor home visit</a> or an <a href="/services/online-doctor-consultation/" class="text-sky-600 font-semibold hover:underline">online consultation</a>.
+      </p>
+
       <h2 class="text-2xl font-bold text-slate-900 mt-8 mb-4">Home Setup Checklist & Safety Essentials</h2>
       <p class="text-slate-600 leading-relaxed mb-4">
         Operating respiratory equipment at home requires technical precision:
@@ -663,6 +750,18 @@ const BLOG_POSTS = [
       </div>
     `,
     faqs: [
+      {
+        q: "Does a BiPAP machine need an oxygen cylinder?",
+        a: "No. A BiPAP machine uses room air and runs on electricity. Oxygen is added only if the doctor prescribes it for a low oxygen level, through the oxygen inlet from a concentrator or cylinder at the flow the doctor sets. A cylinder is useful as a backup during a power cut."
+      },
+      {
+        q: "What is the difference between BiPAP and an oxygen concentrator?",
+        a: "A BiPAP gives pressure support to help the lungs move air and clear carbon dioxide. An oxygen concentrator only increases the oxygen content of the air. Some patients need one, some need both, and the doctor decides."
+      },
+      {
+        q: "Can an oxygen concentrator be used instead of BiPAP?",
+        a: "Not if the patient needs breathing support. A concentrator gives oxygen but no pressure support. Extra oxygen without advice can also be unsafe in some lung conditions, so follow the doctor's instructions."
+      },
       {
         q: "Can I rent an oxygen concentrator instead of buying oxygen cylinders?",
         a: "Yes. An oxygen concentrator extracts continuous oxygen from ambient room air, eliminating the need to haul heavy cylinders. For patients requiring continuous low-flow oxygen (1-5 Litres/min), a concentrator is far more convenient and cost-effective."
@@ -964,4 +1063,4 @@ const BLOG_POSTS = [
   }
 ];
 
-module.exports = BLOG_POSTS.concat(require('./blog_nov2026.js'));
+module.exports = BLOG_POSTS.concat(require('./blog_nov2026.js'), require('./blog_hindi.js'), require('./blog_seo_nov23.js'));

@@ -126,7 +126,7 @@ const homeFaqs = [
 ];
 
 const homeHtml = renderMasterLayout({
-  title: "Srinika Medisurge | Doorstep Healthcare & Nursing Lucknow",
+  title: "Home Nursing & Doctor at Home in Lucknow | Srinika Medisurge",
   metaDescription: "Doorstep healthcare & home nursing in Gomti Nagar, Lucknow by Dr. Piyush Saxena. Catheterization, IV drips & wound dressing. Call +91 96530 01359.",
   canonicalUrl: "/",
   currentPath: "/",
@@ -266,8 +266,8 @@ const doctorsSchema = {
 };
 
 const doctorsHtml = renderMasterLayout({
-  title: "Specialist Doctors & Clinicians Lucknow | Dr. Piyush Saxena",
-  metaDescription: "Meet our dedicated doctors & clinicians in Lucknow: Dr. Piyush Saxena, Dr. Harshit Nigam (MD), Dr. Desh Deepak Singh (MPT Neuro), Dr. Akash Shrivastav, Dr. Reshmi R, Dr. Varun Kumar Singh & Dr. Gauri Verma. Call +91 96530 01359.",
+  title: "Doctors for Home Visit & Online Consult, Lucknow | Srinika",
+  metaDescription: "Meet the doctors who do home visits and online consults in Lucknow: Dr. Piyush Saxena, Dr. Harshit Nigam (MD) and team. Call +91 96530 01359.",
   canonicalUrl: "/doctors/",
   currentPath: "/doctors/",
   breadcrumbs: [
@@ -397,8 +397,8 @@ registerSitemap("/book/", "0.9", "weekly");
 
 // 11. CONTACT PAGE
 const contactHtml = renderMasterLayout({
-  title: "Contact Srinika Medisurge Lucknow | 24/7 Helpline & Map",
-  metaDescription: "Contact Srinika Medisurge: Kaushal Puri Rd, Khargapur, Gomti Nagar, Lucknow, UP 226010. Call +91 96530 01359 or WhatsApp for 24/7 doorstep healthcare.",
+  title: "Contact Srinika Medisurge Lucknow | Call or WhatsApp 24/7",
+  metaDescription: "Call or WhatsApp Srinika Medisurge, open 24/7, Gomti Nagar, Lucknow. A doctor or nurse reaches you in 30-45 minutes. +91 96530 01359.",
   canonicalUrl: "/contact/",
   currentPath: "/contact/",
   breadcrumbs: [
@@ -441,7 +441,7 @@ BLOG_POSTS.forEach(post => {
         "headline": post.title,
         "description": post.metaDescription,
         "image": `${CONFIG.siteUrl}/assets/images/logo.png`,
-        "inLanguage": "en-IN",
+        "inLanguage": post.lang || "en-IN",
         "articleSection": post.category,
         "datePublished": post.date,
         "dateModified": post.dateModified || post.date,
@@ -491,6 +491,8 @@ BLOG_POSTS.forEach(post => {
     ],
     schema: blogSchema,
     ogType: "article",
+    lang: post.lang || "en-IN",
+    ogLocale: post.lang === "hi-IN" ? "hi_IN" : "en_IN",
     articleMeta: { published: post.date, modified: post.dateModified || post.date, section: post.category },
     content: renderBlogPost(post)
   });

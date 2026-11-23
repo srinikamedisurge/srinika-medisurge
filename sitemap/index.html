@@ -51,46 +51,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              50: '#f0f9ff',
-              100: '#e0f2fe',
-              200: '#bae6fd',
-              500: '#0ea5e9',
-              600: '#0284c7',
-              700: '#0369a1',
-              800: '#075985',
-              900: '#0c4a6e',
-            },
-            medical: {
-              teal: '#0d9488',
-              emerald: '#059669',
-              mint: '#10b981',
-              lightGreen: '#ecfdf5',
-              navy: '#0f172a'
-            }
-          },
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            heading: ['"Outfit"', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
-
   <!-- Font Awesome 6 Icons (Deferred / Non-blocking) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'" />
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
 
   <!-- Custom Stylesheet (Local Root Relative) -->
   <link rel="stylesheet" href="/assets/css/custom.css">
+
+  <!-- Tailwind CSS, precompiled (npm run build:css, config in tailwind.config.js) -->
+  <link rel="stylesheet" href="/assets/css/tailwind.css?v=da31c0cb">
 
   <!-- Schema: Sitewide MedicalBusiness / LocalBusiness -->
   <script type="application/ld+json">
@@ -850,7 +819,7 @@
               <i class="fa-solid fa-location-dot"></i>
             </div>
             <div>
-              <h2 class="text-xl font-bold text-slate-900 font-heading">Lucknow Areas We Serve (21)</h2>
+              <h2 class="text-xl font-bold text-slate-900 font-heading">Lucknow Areas We Serve (26)</h2>
               <p class="text-xs text-slate-500">Locality-specific doorstep healthcare guides with real response times</p>
             </div>
           </div>
@@ -1024,6 +993,42 @@
                 <span class="text-[10px] font-mono text-slate-400 mt-3 block">/areas/home-nursing-sitapur-road-iim-road/</span>
               </a>
             
+              <a href="/areas/home-nursing-kaiserbagh-lalbagh/" class="p-4 rounded-2xl bg-slate-50 hover:bg-amber-50/60 border border-slate-100 hover:border-amber-200 transition group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <span class="text-[10px] font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200/80">⏱ 30 - 45 Mins</span>
+                    <i class="fa-solid fa-arrow-right text-[11px] text-slate-400 group-hover:text-amber-600 transition"></i>
+                  </div>
+                  <h3 class="text-sm font-bold text-slate-900 group-hover:text-amber-700 transition">Kaiserbagh & Lalbagh</h3>
+                  <p class="text-xs text-slate-500 mt-1 line-clamp-2">Kaiserbagh Bus Stand, Kaiserbagh Chauraha, Lalbagh, Kaiserbagh Baradari, Vidhan Sabha Marg</p>
+                </div>
+                <span class="text-[10px] font-mono text-slate-400 mt-3 block">/areas/home-nursing-kaiserbagh-lalbagh/</span>
+              </a>
+            
+              <a href="/areas/home-nursing-faizullaganj-triveni-nagar/" class="p-4 rounded-2xl bg-slate-50 hover:bg-amber-50/60 border border-slate-100 hover:border-amber-200 transition group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <span class="text-[10px] font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200/80">⏱ 40 - 55 Mins</span>
+                    <i class="fa-solid fa-arrow-right text-[11px] text-slate-400 group-hover:text-amber-600 transition"></i>
+                  </div>
+                  <h3 class="text-sm font-bold text-slate-900 group-hover:text-amber-700 transition">Faizullaganj & Triveni Nagar</h3>
+                  <p class="text-xs text-slate-500 mt-1 line-clamp-2">Faizullaganj, Triveni Nagar, Sitapur Road, Kapoorthala, Aliganj</p>
+                </div>
+                <span class="text-[10px] font-mono text-slate-400 mt-3 block">/areas/home-nursing-faizullaganj-triveni-nagar/</span>
+              </a>
+            
+              <a href="/areas/home-nursing-bakshi-ka-talab-bkt/" class="p-4 rounded-2xl bg-slate-50 hover:bg-amber-50/60 border border-slate-100 hover:border-amber-200 transition group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <span class="text-[10px] font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200/80">⏱ 60 - 75 Mins</span>
+                    <i class="fa-solid fa-arrow-right text-[11px] text-slate-400 group-hover:text-amber-600 transition"></i>
+                  </div>
+                  <h3 class="text-sm font-bold text-slate-900 group-hover:text-amber-700 transition">Bakshi Ka Talab (BKT)</h3>
+                  <p class="text-xs text-slate-500 mt-1 line-clamp-2">Bakshi Ka Talab, Sitapur Road, Itaunja Road, Chandrika Devi Temple area, Air Force Station BKT</p>
+                </div>
+                <span class="text-[10px] font-mono text-slate-400 mt-3 block">/areas/home-nursing-bakshi-ka-talab-bkt/</span>
+              </a>
+            
               <a href="/areas/home-nursing-chowk-thakurganj/" class="p-4 rounded-2xl bg-slate-50 hover:bg-amber-50/60 border border-slate-100 hover:border-amber-200 transition group flex flex-col justify-between">
                 <div>
                   <div class="flex items-center justify-between gap-2 mb-1">
@@ -1096,6 +1101,30 @@
                 <span class="text-[10px] font-mono text-slate-400 mt-3 block">/areas/home-nursing-raebareli-road-pgi/</span>
               </a>
             
+              <a href="/areas/home-nursing-mohanlalganj/" class="p-4 rounded-2xl bg-slate-50 hover:bg-amber-50/60 border border-slate-100 hover:border-amber-200 transition group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <span class="text-[10px] font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200/80">⏱ 60 - 75 Mins</span>
+                    <i class="fa-solid fa-arrow-right text-[11px] text-slate-400 group-hover:text-amber-600 transition"></i>
+                  </div>
+                  <h3 class="text-sm font-bold text-slate-900 group-hover:text-amber-700 transition">Mohanlalganj</h3>
+                  <p class="text-xs text-slate-500 mt-1 line-clamp-2">Mohanlalganj, Nagram, Raebareli Road, Mohanlalganj Tehsil area</p>
+                </div>
+                <span class="text-[10px] font-mono text-slate-400 mt-3 block">/areas/home-nursing-mohanlalganj/</span>
+              </a>
+            
+              <a href="/areas/home-nursing-kakori-malihabad/" class="p-4 rounded-2xl bg-slate-50 hover:bg-amber-50/60 border border-slate-100 hover:border-amber-200 transition group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <span class="text-[10px] font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200/80">⏱ 60 - 75 Mins</span>
+                    <i class="fa-solid fa-arrow-right text-[11px] text-slate-400 group-hover:text-amber-600 transition"></i>
+                  </div>
+                  <h3 class="text-sm font-bold text-slate-900 group-hover:text-amber-700 transition">Kakori & Malihabad</h3>
+                  <p class="text-xs text-slate-500 mt-1 line-clamp-2">Kakori, Malihabad, Kakori Railway Station, Hardoi Road, Kanpur Road (outer)</p>
+                </div>
+                <span class="text-[10px] font-mono text-slate-400 mt-3 block">/areas/home-nursing-kakori-malihabad/</span>
+              </a>
+            
               <a href="/areas/home-nursing-cantt-dilkusha/" class="p-4 rounded-2xl bg-slate-50 hover:bg-amber-50/60 border border-slate-100 hover:border-amber-200 transition group flex flex-col justify-between">
                 <div>
                   <div class="flex items-center justify-between gap-2 mb-1">
@@ -1118,7 +1147,7 @@
               <i class="fa-solid fa-newspaper"></i>
             </div>
             <div>
-              <h2 class="text-xl font-bold text-slate-900 font-heading">Clinical Blog Articles (15)</h2>
+              <h2 class="text-xl font-bold text-slate-900 font-heading">Clinical Blog Articles (22)</h2>
               <p class="text-xs text-slate-500">Doctor-verified guides on home nursing, injections, catheterization, and post-op care</p>
             </div>
           </div>
@@ -1302,6 +1331,90 @@
                   <p class="text-xs text-slate-500 mt-1.5 line-clamp-2">In people with diabetes, a small foot injury can turn serious because of poor sensation and slow healing. Daily checks and early, proper dressing prevent most complications.</p>
                 </div>
                 <span class="text-[10px] font-mono text-slate-400 mt-3 block">/blog/diabetic-foot-wound-care-at-home/</span>
+              </a>
+            
+              <a href="/blog/ghar-par-nurse-lucknow-kaise-book-karein/" class="p-4 rounded-2xl bg-slate-50 hover:bg-rose-50/60 border border-slate-100 hover:border-rose-200 transition group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <span class="text-[10px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-100">होम नर्सिंग</span>
+                    <span class="text-[10px] text-slate-400">6 मिनट</span>
+                  </div>
+                  <h3 class="text-sm font-bold text-slate-900 group-hover:text-rose-700 transition line-clamp-2">लखनऊ में घर पर नर्स कैसे बुक करें: पूरी जानकारी हिंदी में</h3>
+                  <p class="text-xs text-slate-500 mt-1.5 line-clamp-2">अस्पताल से छुट्टी के बाद या बुज़ुर्ग की देखभाल के लिए घर पर नर्स चाहिए? जानिए बुकिंग का तरीका, नर्स क्या-क्या कर सकती है और बुक करने से पहले कौन से सवाल पूछने चाहिए।</p>
+                </div>
+                <span class="text-[10px] font-mono text-slate-400 mt-3 block">/blog/ghar-par-nurse-lucknow-kaise-book-karein/</span>
+              </a>
+            
+              <a href="/blog/ghar-par-doctor-kaise-bulayein-lucknow/" class="p-4 rounded-2xl bg-slate-50 hover:bg-rose-50/60 border border-slate-100 hover:border-rose-200 transition group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <span class="text-[10px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-100">डॉक्टर होम विज़िट</span>
+                    <span class="text-[10px] text-slate-400">5 मिनट</span>
+                  </div>
+                  <h3 class="text-sm font-bold text-slate-900 group-hover:text-rose-700 transition line-clamp-2">लखनऊ में घर पर डॉक्टर कैसे बुलाएँ: कब बुलाएँ और क्या तैयारी रखें</h3>
+                  <p class="text-xs text-slate-500 mt-1.5 line-clamp-2">बुज़ुर्ग, बिस्तर पर पड़े या ऑपरेशन के बाद के मरीज़ को अस्पताल ले जाना हमेशा आसान नहीं होता। जानिए घर पर डॉक्टर कब बुलाना ठीक रहता है और विज़िट से पहले क्या तैयार रखें।</p>
+                </div>
+                <span class="text-[10px] font-mono text-slate-400 mt-3 block">/blog/ghar-par-doctor-kaise-bulayein-lucknow/</span>
+              </a>
+            
+              <a href="/blog/bistar-par-pade-mareez-ki-dekhbhal-ghar-par/" class="p-4 rounded-2xl bg-slate-50 hover:bg-rose-50/60 border border-slate-100 hover:border-rose-200 transition group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <span class="text-[10px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-100">पेशेंट केयर</span>
+                    <span class="text-[10px] text-slate-400">7 मिनट</span>
+                  </div>
+                  <h3 class="text-sm font-bold text-slate-900 group-hover:text-rose-700 transition line-clamp-2">बिस्तर पर पड़े मरीज़ की घर पर देखभाल कैसे करें: परिवार के लिए आसान गाइड</h3>
+                  <p class="text-xs text-slate-500 mt-1.5 line-clamp-2">लकवा, फ्रैक्चर या लंबी बीमारी के बाद मरीज़ हफ़्तों बिस्तर पर रहता है। सही करवट, सफ़ाई और खान-पान से बेडसोर और संक्रमण जैसी समस्याएँ काफ़ी हद तक टाली जा सकती हैं।</p>
+                </div>
+                <span class="text-[10px] font-mono text-slate-400 mt-3 block">/blog/bistar-par-pade-mareez-ki-dekhbhal-ghar-par/</span>
+              </a>
+            
+              <a href="/blog/buzurgon-ki-dekhbhal-ghar-par-lucknow/" class="p-4 rounded-2xl bg-slate-50 hover:bg-rose-50/60 border border-slate-100 hover:border-rose-200 transition group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <span class="text-[10px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-100">बुज़ुर्ग देखभाल</span>
+                    <span class="text-[10px] text-slate-400">6 मिनट</span>
+                  </div>
+                  <h3 class="text-sm font-bold text-slate-900 group-hover:text-rose-700 transition line-clamp-2">बुज़ुर्गों की घर पर देखभाल: लखनऊ के परिवारों के लिए 10 ज़रूरी बातें</h3>
+                  <p class="text-xs text-slate-500 mt-1.5 line-clamp-2">उम्र बढ़ने के साथ दवाइयाँ, गिरने का ख़तरा और मौसम की मार बढ़ जाती है। ये 10 बातें अपनाने से घर पर बुज़ुर्गों की देखभाल आसान और सुरक्षित होती है।</p>
+                </div>
+                <span class="text-[10px] font-mono text-slate-400 mt-3 block">/blog/buzurgon-ki-dekhbhal-ghar-par-lucknow/</span>
+              </a>
+            
+              <a href="/blog/ghar-par-ghav-ki-dressing-kaise-karein/" class="p-4 rounded-2xl bg-slate-50 hover:bg-rose-50/60 border border-slate-100 hover:border-rose-200 transition group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <span class="text-[10px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-100">घाव की देखभाल</span>
+                    <span class="text-[10px] text-slate-400">6 मिनट</span>
+                  </div>
+                  <h3 class="text-sm font-bold text-slate-900 group-hover:text-rose-700 transition line-clamp-2">घर पर घाव की ड्रेसिंग: क्या करें, क्या न करें और कब डॉक्टर को दिखाएँ</h3>
+                  <p class="text-xs text-slate-500 mt-1.5 line-clamp-2">घाव गंदा हो जाए तो संक्रमण और देर से भरने का ख़तरा रहता है। जानिए घाव की देखभाल में क्या करना चाहिए, कौन सी गलतियाँ नहीं करनी चाहिए और संक्रमण के लक्षण क्या हैं।</p>
+                </div>
+                <span class="text-[10px] font-mono text-slate-400 mt-3 block">/blog/ghar-par-ghav-ki-dressing-kaise-karein/</span>
+              </a>
+            
+              <a href="/blog/urine-catheter-ghar-par-dekhbhal/" class="p-4 rounded-2xl bg-slate-50 hover:bg-rose-50/60 border border-slate-100 hover:border-rose-200 transition group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <span class="text-[10px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-100">प्रक्रिया देखभाल</span>
+                    <span class="text-[10px] text-slate-400">5 मिनट</span>
+                  </div>
+                  <h3 class="text-sm font-bold text-slate-900 group-hover:text-rose-700 transition line-clamp-2">पेशाब की नली (कैथेटर) की घर पर देखभाल: ज़रूरी सावधानियाँ</h3>
+                  <p class="text-xs text-slate-500 mt-1.5 line-clamp-2">फ़ोली कैथेटर वाले मरीज़ में संक्रमण सबसे बड़ी चिंता है। हाथ धोना, बैग को नीचे रखना और सफ़ाई जैसी छोटी आदतें इसे काफ़ी कम कर देती हैं।</p>
+                </div>
+                <span class="text-[10px] font-mono text-slate-400 mt-3 block">/blog/urine-catheter-ghar-par-dekhbhal/</span>
+              </a>
+            
+              <a href="/blog/physiotherapy-at-home-lucknow-who-needs-it-what-to-expect/" class="p-4 rounded-2xl bg-slate-50 hover:bg-rose-50/60 border border-slate-100 hover:border-rose-200 transition group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <span class="text-[10px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-100">Physiotherapy</span>
+                    <span class="text-[10px] text-slate-400">7 min read</span>
+                  </div>
+                  <h3 class="text-sm font-bold text-slate-900 group-hover:text-rose-700 transition line-clamp-2">Physiotherapy at Home in Lucknow: Who Needs It, What a Session Includes and How to Choose</h3>
+                  <p class="text-xs text-slate-500 mt-1.5 line-clamp-2">Home physiotherapy helps stroke, surgery and elderly patients who find it hard to travel. See who benefits, what happens in a session and what to ask before you book.</p>
+                </div>
+                <span class="text-[10px] font-mono text-slate-400 mt-3 block">/blog/physiotherapy-at-home-lucknow-who-needs-it-what-to-expect/</span>
               </a>
             
           </div>
