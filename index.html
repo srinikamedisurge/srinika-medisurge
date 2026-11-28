@@ -209,6 +209,9 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+    // Consent Mode: analytics on by default, switched off if the visitor chose "Essential only".
+    var __c = 'granted'; try { if (localStorage.getItem('srinika_consent') === 'essential') __c = 'denied'; } catch (e) {}
+    gtag('consent', 'default', { analytics_storage: __c, ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
     gtag('js', new Date());
     gtag('config', 'G-SFPLGFHD1X');
   </script>
@@ -542,7 +545,7 @@
           <div class="lg:col-span-5 relative">
             <div class="relative mx-auto max-w-md lg:max-w-none">
               <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-900 group">
-                <img src="/assets/images/dr-piyush-saxena.jpg" alt="Dr. Piyush Saxena - Founder Srinika Medisurge Lucknow" width="500" height="580" class="w-full h-[380px] sm:h-[460px] object-cover object-top transition duration-500 group-hover:scale-105">
+                <img src="/assets/images/dr-piyush-saxena.jpg" alt="Dr. Piyush Saxena - Founder Srinika Medisurge Lucknow" width="500" height="580" fetchpriority="high" decoding="async" class="w-full h-[380px] sm:h-[460px] object-cover object-top transition duration-500 group-hover:scale-105">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
                 <div class="absolute bottom-0 left-0 right-0 p-5 sm:p-6 text-white space-y-1 z-10">
                   <div class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 uppercase tracking-wider mb-1">
@@ -1038,7 +1041,7 @@
             <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
               <div>
                 <div class="w-full aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-slate-100">
-                  <img src="/assets/images/dr-piyush-saxena.jpg" alt="Dr. Piyush Saxena - General & Surgical Care Lead" width="340" height="260" class="w-full h-full object-cover object-top transition duration-500 group-hover:scale-105" loading="lazy">
+                  <img src="/assets/images/dr-piyush-saxena-card.jpg" alt="Dr. Piyush Saxena - General & Surgical Care Lead" width="340" height="260" class="w-full h-full object-cover object-top transition duration-500 group-hover:scale-105" loading="lazy">
                 </div>
                 <div class="flex flex-wrap gap-1 mb-2">
                   
@@ -1063,7 +1066,7 @@
             <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
               <div>
                 <div class="w-full aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-slate-100">
-                  <img src="/assets/images/dr-harshit-nigam.jpg" alt="Dr. Harshit Nigam - Internal Medicine & General Practice" width="340" height="260" class="w-full h-full object-cover object-top transition duration-500 group-hover:scale-105" loading="lazy">
+                  <img src="/assets/images/dr-harshit-nigam-card.jpg" alt="Dr. Harshit Nigam - Internal Medicine & General Practice" width="340" height="260" class="w-full h-full object-cover object-top transition duration-500 group-hover:scale-105" loading="lazy">
                 </div>
                 <div class="flex flex-wrap gap-1 mb-2">
                   
@@ -1088,7 +1091,7 @@
             <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
               <div>
                 <div class="w-full aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-slate-100">
-                  <img src="/assets/images/dr-desh-deepak-singh.jpg" alt="Dr. Desh Deepak Singh (P.T.) - Neurological & Orthopedic Rehabilitation" width="340" height="260" class="w-full h-full object-cover object-top transition duration-500 group-hover:scale-105" loading="lazy">
+                  <img src="/assets/images/dr-desh-deepak-singh-card.jpg" alt="Dr. Desh Deepak Singh (P.T.) - Neurological & Orthopedic Rehabilitation" width="340" height="260" class="w-full h-full object-cover object-top transition duration-500 group-hover:scale-105" loading="lazy">
                 </div>
                 <div class="flex flex-wrap gap-1 mb-2">
                   
@@ -1118,7 +1121,7 @@
             <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
               <div>
                 <div class="w-full aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-slate-100">
-                  <img src="/assets/images/dr-akash.jpg" alt="Dr. Akash Shrivastav - Emergency Triage & Acute Care" width="340" height="260" class="w-full h-full object-cover object-top transition duration-500 group-hover:scale-105" loading="lazy">
+                  <img src="/assets/images/dr-akash-card.jpg" alt="Dr. Akash Shrivastav - Emergency Triage & Acute Care" width="340" height="260" class="w-full h-full object-cover object-top transition duration-500 group-hover:scale-105" loading="lazy">
                 </div>
                 <div class="flex flex-wrap gap-1 mb-2">
                   
@@ -1141,7 +1144,7 @@
             <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
               <div>
                 <div class="w-full aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-slate-100">
-                  <img src="/assets/images/dr-reshmi-r.jpg" alt="Dr. Reshmi R - Women's Wellness & Surgical Recovery" width="340" height="260" class="w-full h-full object-cover object-top transition duration-500 group-hover:scale-105" loading="lazy">
+                  <img src="/assets/images/dr-reshmi-r-card.jpg" alt="Dr. Reshmi R - Women's Wellness & Surgical Recovery" width="340" height="260" class="w-full h-full object-cover object-top transition duration-500 group-hover:scale-105" loading="lazy">
                 </div>
                 <div class="flex flex-wrap gap-1 mb-2">
                   
@@ -1672,6 +1675,39 @@
       <span class="text-[11px] font-extrabold uppercase">Book Visit</span>
     </a>
   </div>
+
+  <!-- Cookie notice (analytics only; choice stored in localStorage) -->
+  <style>
+    #cookie-notice{position:fixed;left:12px;right:12px;bottom:84px;z-index:60;max-width:460px;background:#fff;border:1px solid #e2e8f0;border-radius:16px;box-shadow:0 10px 30px rgba(15,23,42,.18);padding:14px 16px;font-size:12.5px;line-height:1.5;color:#334155}
+    #cookie-notice[hidden]{display:none}
+    #cookie-notice .cn-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+    #cookie-notice button{font-weight:700;font-size:12.5px;border-radius:10px;padding:8px 14px;cursor:pointer;border:1px solid #cbd5e1;background:#fff;color:#334155}
+    #cookie-notice button.cn-ok{background:#0369a1;border-color:#0369a1;color:#fff}
+    #cookie-notice a{color:#0369a1;text-decoration:underline}
+    @media (min-width:640px){#cookie-notice{left:16px;bottom:16px}}
+  </style>
+  <div id="cookie-notice" role="dialog" aria-label="Cookie notice" hidden>
+    We use cookies for analytics to understand how this site is used and to improve it. We do not collect your health information through them. <a href="/privacy-policy/">Privacy Policy</a>
+    <div class="cn-row">
+      <button type="button" class="cn-ok" data-consent="accepted">Accept</button>
+      <button type="button" data-consent="essential">Essential only</button>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var el = document.getElementById('cookie-notice'); if (!el) return;
+      var v = null; try { v = localStorage.getItem('srinika_consent'); } catch (e) {}
+      if (v) return;
+      el.hidden = false;
+      el.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-consent]'); if (!b) return;
+        var choice = b.getAttribute('data-consent');
+        try { localStorage.setItem('srinika_consent', choice); } catch (err) {}
+        if (window.gtag) gtag('consent', 'update', { analytics_storage: choice === 'accepted' ? 'granted' : 'denied' });
+        el.hidden = true;
+      });
+    })();
+  </script>
 
   <!-- Core JavaScript -->
   <script src="/assets/js/site-prices.js" defer></script>

@@ -57,6 +57,31 @@ function renderBreadcrumbsHtml(items) {
   `;
 }
 
+
+// SEO snippet fitters: keep <title> within ~60 chars and meta description within ~158 chars
+// so Google does not truncate them in results (truncation lowers CTR).
+function fitTitle(t, max = 60) {
+  if (!t || t.length <= max) return t;
+  const parts = t.split(" | ");
+  while (parts.length > 1 && parts.join(" | ").length > max) parts.pop();
+  let out = parts.join(" | ");
+  if (out.length > max) {
+    const cut = out.slice(0, max - 1);
+    out = cut.slice(0, cut.lastIndexOf(" ")).replace(/[ ,:&|-]+$/, "") + "…";
+  }
+  return out;
+}
+
+function fitDesc(d, max = 158) {
+  if (!d || d.length <= max) return d;
+  let out = d.replace(/\s*Call \+91[^.]*\.?\s*$/, "").trim();
+  if (out.length <= max) return out;
+  const cut = out.slice(0, max - 1);
+  const stop = cut.lastIndexOf(". ");
+  if (stop > 90) return cut.slice(0, stop + 1);
+  return cut.slice(0, cut.lastIndexOf(" ")).replace(/[ ,:;&|-]+$/, "") + "…";
+}
+
 function renderMasterLayout({
   title,
   metaDescription,
@@ -75,6 +100,8 @@ function renderMasterLayout({
   lang = 'en-IN',
   ogLocale = 'en_IN'
 }) {
+  title = fitTitle(title);
+  metaDescription = fitDesc(metaDescription);
   const fullCanonical = `${CONFIG.siteUrl}${canonicalUrl}`;
   const relativeRoot = currentPath.split('/').filter(Boolean).length === 0 ? '.' : currentPath.split('/').filter(Boolean).map(() => '..').join('/');
 
@@ -260,6 +287,9 @@ function renderMasterLayout({
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+    // Consent Mode: analytics on by default, switched off if the visitor chose "Essential only".
+    var __c = 'granted'; try { if (localStorage.getItem('srinika_consent') === 'essential') __c = 'denied'; } catch (e) {}
+    gtag('consent', 'default', { analytics_storage: __c, ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
     gtag('js', new Date());
     gtag('config', '${CONFIG.ga4Id}');
   </script>
@@ -641,6 +671,39 @@ function renderMasterLayout({
       <span class="text-[11px] font-extrabold uppercase">Book Visit</span>
     </a>
   </div>
+
+  <!-- Cookie notice (analytics only; choice stored in localStorage) -->
+  <style>
+    #cookie-notice{position:fixed;left:12px;right:12px;bottom:84px;z-index:60;max-width:460px;background:#fff;border:1px solid #e2e8f0;border-radius:16px;box-shadow:0 10px 30px rgba(15,23,42,.18);padding:14px 16px;font-size:12.5px;line-height:1.5;color:#334155}
+    #cookie-notice[hidden]{display:none}
+    #cookie-notice .cn-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+    #cookie-notice button{font-weight:700;font-size:12.5px;border-radius:10px;padding:8px 14px;cursor:pointer;border:1px solid #cbd5e1;background:#fff;color:#334155}
+    #cookie-notice button.cn-ok{background:#0369a1;border-color:#0369a1;color:#fff}
+    #cookie-notice a{color:#0369a1;text-decoration:underline}
+    @media (min-width:640px){#cookie-notice{left:16px;bottom:16px}}
+  </style>
+  <div id="cookie-notice" role="dialog" aria-label="Cookie notice" hidden>
+    We use cookies for analytics to understand how this site is used and to improve it. We do not collect your health information through them. <a href="/privacy-policy/">Privacy Policy</a>
+    <div class="cn-row">
+      <button type="button" class="cn-ok" data-consent="accepted">Accept</button>
+      <button type="button" data-consent="essential">Essential only</button>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var el = document.getElementById('cookie-notice'); if (!el) return;
+      var v = null; try { v = localStorage.getItem('srinika_consent'); } catch (e) {}
+      if (v) return;
+      el.hidden = false;
+      el.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-consent]'); if (!b) return;
+        var choice = b.getAttribute('data-consent');
+        try { localStorage.setItem('srinika_consent', choice); } catch (err) {}
+        if (window.gtag) gtag('consent', 'update', { analytics_storage: choice === 'accepted' ? 'granted' : 'denied' });
+        el.hidden = true;
+      });
+    })();
+  </script>
 
   <!-- Core JavaScript -->
   <script src="/assets/js/site-prices.js" defer></script>

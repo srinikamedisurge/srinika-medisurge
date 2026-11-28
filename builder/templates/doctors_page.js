@@ -28,7 +28,7 @@ function renderDoctorsPage() {
               <div>
                 <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5 mb-5 text-center sm:text-left">
                   <div class="w-32 h-32 rounded-2xl overflow-hidden shrink-0 bg-slate-100 border-2 border-slate-100 shadow-inner">
-                    <img src="/${doc.image}" alt="${doc.name} - ${doc.specialty}" width="160" height="160" class="w-full h-full object-cover object-top" loading="lazy">
+                    <img src="/${doc.image.replace(/(dr-[^/]+)\.jpg$/, '$1-card.jpg')}" alt="${doc.name} - ${doc.specialty}" width="160" height="160" class="w-full h-full object-cover object-top" loading="lazy">
                   </div>
                   <div>
                     <div class="flex flex-wrap gap-1 justify-center sm:justify-start mb-2">

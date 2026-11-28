@@ -141,7 +141,7 @@ function renderHomePage() {
           <div class="lg:col-span-5 relative">
             <div class="relative mx-auto max-w-md lg:max-w-none">
               <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-900 group">
-                <img src="/assets/images/dr-piyush-saxena.jpg" alt="Dr. Piyush Saxena - Founder Srinika Medisurge Lucknow" width="500" height="580" class="w-full h-[380px] sm:h-[460px] object-cover object-top transition duration-500 group-hover:scale-105">
+                <img src="/assets/images/dr-piyush-saxena.jpg" alt="Dr. Piyush Saxena - Founder Srinika Medisurge Lucknow" width="500" height="580" fetchpriority="high" decoding="async" class="w-full h-[380px] sm:h-[460px] object-cover object-top transition duration-500 group-hover:scale-105">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
                 <div class="absolute bottom-0 left-0 right-0 p-5 sm:p-6 text-white space-y-1 z-10">
                   <div class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 uppercase tracking-wider mb-1">
@@ -347,7 +347,7 @@ function renderHomePage() {
             <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
               <div>
                 <div class="w-full aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-slate-100">
-                  <img src="/${doc.image}" alt="${doc.name} - ${doc.specialty}" width="340" height="260" class="w-full h-full object-cover object-top transition duration-500 group-hover:scale-105" loading="lazy">
+                  <img src="/${doc.image.replace(/(dr-[^/]+)\.jpg$/, '$1-card.jpg')}" alt="${doc.name} - ${doc.specialty}" width="340" height="260" class="w-full h-full object-cover object-top transition duration-500 group-hover:scale-105" loading="lazy">
                 </div>
                 <div class="flex flex-wrap gap-1 mb-2">
                   ${doc.badges.slice(0, 2).map(b => `
@@ -377,7 +377,7 @@ function renderHomePage() {
             <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
               <div>
                 <div class="w-full aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-slate-100">
-                  <img src="/${doc.image}" alt="${doc.name} - ${doc.specialty}" width="340" height="260" class="w-full h-full object-cover object-top transition duration-500 group-hover:scale-105" loading="lazy">
+                  <img src="/${doc.image.replace(/(dr-[^/]+)\.jpg$/, '$1-card.jpg')}" alt="${doc.name} - ${doc.specialty}" width="340" height="260" class="w-full h-full object-cover object-top transition duration-500 group-hover:scale-105" loading="lazy">
                 </div>
                 <div class="flex flex-wrap gap-1 mb-2">
                   ${doc.badges.slice(0, 2).map(b => `
